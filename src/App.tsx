@@ -72,11 +72,7 @@ function useScrolled(threshold: number) {
 function PrototypeBar({ site, go }: { site: Site; go: (s: Site) => void }) {
   return (
     <div className="bg-ink text-white">
-      <Container className="flex h-11 items-center justify-between gap-4">
-        <span className="hidden text-[13px] text-white/60 sm:block">
-          프로토타입 · 총 지급액·시청자 수 등 일부 수치는 예시입니다
-        </span>
-        <span className="text-[13px] text-white/60 sm:hidden">프로토타입</span>
+      <Container className="flex h-11 items-center justify-end gap-4">
         <nav aria-label="프로토타입 화면 전환" className="flex gap-1">
           {SITES.map((s) => (
             <button
