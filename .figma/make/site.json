@@ -1,0 +1,15 @@
+{
+  "description": "광고 보고 소득 받는 앱 보면소득, 끝까지 본 사람에게만 과금하는 광고해요.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  },
+  "title": "보면소득 · 광고해요",
+  "language": "ko",
+  "icons": {
+    "icon": "favicon.png"
+  }
+}

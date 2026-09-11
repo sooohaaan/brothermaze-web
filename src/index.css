@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import 'tailwindcss';
+
+/*
+ * 디자인 토큰 — UX 설계안 07(비주얼 디렉션) · 09(스페이싱) 기준
+ * 스페이싱은 Tailwind 기본 4px 스케일을 그대로 씁니다.
+ *   px-5 = 20 · gap-6 = 24 · mt-8 = 32 · mt-10 = 40 · py-20 = 80 · py-30 = 120
+ */
+@theme {
+  --font-sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-num: Montserrat, 'Pretendard Variable', Pretendard, sans-serif;
+
+  /* 브랜드 블루 #0D82FF — 로고와 같은 색으로 통일 */
+  --color-brand-50: #ebf5ff;
+  --color-brand-100: #d4e9ff;
+  --color-brand-600: #0d82ff; /* 로고 블루 — 버튼·배경·아이콘·큰 제목 */
+  --color-brand-700: #0967ce; /* 같은 색상, 작은 글자용 (흰 배경 대비 5.5:1) */
+  --color-brand-800: #0854a8;
+
+  /* 골드 코인 — 금액·리워드에만 */
+  --color-gold-50: #fdf6e6;
+  --color-gold-100: #faebc4;
+  --color-gold-400: #f5b32d;
+  --color-gold-600: #d99a14;
+  --color-gold-800: #7a5200;
+
+  /* 그라운드 · 텍스트 (보조 텍스트도 흰 배경 대비 4.5:1 이상) */
+  --color-ground: #eef2f7;
+  --color-surface: #ffffff;
+  --color-ink: #191f28;
+  --color-ink-2: #4e5968;
+  --color-ink-3: #6b7684;
+  --color-line: #e3e8ef;
+  --color-navy: #2b3a5c;
+  --color-navy-900: #172036;
+
+  --radius-card: 24px;
+
+  /* 그림자 3단계 — 평면은 그림자 없이 선만 */
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 4px 16px rgb(9 103 206 / 0.07);
+  --shadow-float: 0 2px 6px rgb(16 24 40 / 0.06), 0 16px 40px rgb(9 103 206 / 0.14);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+  }
+
+  body {
+    background: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  /* 금액·통계 숫자 — 자릿수 정렬 */
+  .num {
+    font-family: var(--font-num);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  /* 슬라이더 — 채워진 구간은 --fill 로 제어 */
+  .range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 28px;
+    background: transparent;
+    cursor: pointer;
+  }
+  .range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(to right, var(--color-brand-600) var(--fill, 0%), var(--color-line) var(--fill, 0%));
+  }
+  .range::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-line);
+  }
+  .range::-moz-range-progress {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-brand-600);
+  }
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    margin-top: -9px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--color-brand-600);
+    box-shadow: 0 2px 8px rgb(13 130 255 / 0.3);
+    transition: transform 0.15s;
+  }
+  .range::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--color-brand-600);
+    box-shadow: 0 2px 8px rgb(13 130 255 / 0.3);
+  }
+  .range:active::-webkit-slider-thumb {
+    transform: scale(1.12);
+  }
+  .range:focus-visible {
+    outline-offset: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
