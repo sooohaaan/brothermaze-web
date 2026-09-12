@@ -147,12 +147,13 @@ function Referral() {
         no="02"
         title={
           <>
-            친구가 번 소득의 10%를
+            친구가 번 소득의{" "}
+            <span className="text-brand-600">10%</span>가
             <br />
-            매일 추가로 드려요
+            <span className="text-brand-600">매일, 자동으로</span> 쌓여요
           </>
         }
-        sub="친구를 더 많이 모으세요. 먼저 시작할수록 유리해요. 친구가 보면소득을 쓰는 동안 매일 자동으로 쌓입니다."
+        sub="한 번 초대해 두면 끝. 친구가 보면소득을 쓰는 동안 내가 아무것도 하지 않아도 소득이 자동으로 늘어나는 구조예요. 친구를 더 많이 모으세요. 먼저 시작할수록 유리해요."
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
         <div className="mx-auto w-full max-w-[420px]">
@@ -214,7 +215,7 @@ function CashLike() {
             소득 1원 = 현금 1원
           </>
         }
-        sub="알고 있는 그 가격 그대로 상품을 살 수 있어요. 포인트처럼 가치가 깎이지 않고, 할인율도 전환 수수료도 없어요."
+        sub="알고 있는 그 가격 그대로 상품을 살 수 있어요. 포인트처럼 가치가 깎이지 않고, 할인율도 전환 수수료도 없어요. 그리고 모으면 내 계좌로 현금출금까지 됩니다."
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
         <div>
@@ -253,8 +254,13 @@ function CashLike() {
 
       <div className="mx-auto mt-12 max-w-[680px]">
         <h3 className="text-center text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[26px]">
-          모은 소득은 내 계좌로 출금해요
+          모은 소득은 내 계좌로{" "}
+          <span className="text-brand-600">현금출금</span>
         </h3>
+        <p className="mt-3 text-center text-base leading-[1.7] text-ink-2 md:text-[17px]">
+          상품으로만 바꿀 수 있는 포인트가 아니에요. 진짜 현금으로
+          돌려받습니다.
+        </p>
         <dl className="mt-6 overflow-hidden rounded-card bg-surface shadow-card ring-1 ring-line">
           {rows.map(([k, v]) => (
             <div
@@ -381,12 +387,12 @@ function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
         no="05"
         title={
           <>
-            기업이든 개인이든
+            <span className="text-brand-600">개인도</span> 광고할 수 있어요
             <br />
-            누구나 쉽게 광고할 수 있어요
+            재미있게 나를 알려 보세요
           </>
         }
-        sub="전단지, 블로그, 동영상, 핸드폰 영상까지. 원하는 이미지나 영상으로 나를, 내 가게를, 내 친구를 직접 광고해 보세요. 사업자등록증 없이도 15초 광고 한 편에 15원부터예요."
+        sub="광고는 기업만 하는 게 아니에요. 전단지, 블로그, 동영상, 핸드폰 영상까지. 원하는 이미지나 영상으로 나를, 내 가게를, 내 친구를 직접 광고해 보세요. 사업자등록증 없이도 15초 광고 한 편에 15원부터예요."
       />
       <ul className="mt-10 grid gap-4 md:mt-14 md:grid-cols-3 md:gap-6">
         {cases.map((c) => (
