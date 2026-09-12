@@ -133,18 +133,17 @@ function Logo({ site, onDark }: { site: Site; onDark?: boolean }) {
 
 function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
   const scrolled = useScrolled(8)
-  const dark = site === "adhaeyo"
   const links =
     site === "adhaeyo"
       ? [
-          ["#simulator", "예산 계산"],
-          ["#products", "광고 상품"],
-          ["#pricing", "요금"],
+          ["#usecases", "누구나 쉽게"],
+          ["#value", "왜 합리적인가요"],
+          ["#products", "상품·요금"],
         ]
       : [
-          ["#calculator", "소득 계산"],
-          ["#how", "이용 방법"],
-          ["#referral", "친구 초대"],
+          ["#why", "왜 소득을 주나요"],
+          ["#referral", "얻은소득 10%"],
+          ["#cash", "현금출금"],
           ["#faq", "자주 묻는 질문"],
         ]
 
@@ -161,12 +160,8 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
   return (
     <header
       className={cx(
-        "sticky top-0 z-40 backdrop-blur-md transition-[box-shadow,background-color] duration-200",
-        dark ? "bg-navy-900/90" : "bg-ground/85",
-        scrolled &&
-          (dark
-            ? "shadow-[0_1px_0_rgb(255_255_255/0.08)]"
-            : "shadow-[0_1px_0_var(--color-line)]"),
+        "sticky top-0 z-40 bg-ground/85 backdrop-blur-md transition-[box-shadow] duration-200",
+        scrolled && "shadow-[0_1px_0_var(--color-line)]",
       )}
     >
       <Container className="flex h-16 items-center justify-between gap-6">
@@ -177,7 +172,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
             site === "adhaeyo" ? "광고해요" : "보면소득"
           } 처음으로`}
         >
-          <Logo site={site} onDark={dark} />
+          <Logo site={site} />
         </a>
         <nav
           aria-label="페이지 안 이동"
@@ -187,12 +182,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
             <a
               key={href}
               href={href}
-              className={cx(
-                "text-[15px] font-semibold transition-colors",
-                dark
-                  ? "text-white/70 hover:text-white"
-                  : "text-ink-2 hover:text-ink",
-              )}
+              className="text-[15px] font-semibold text-ink-2 transition-colors hover:text-ink"
             >
               {label}
             </a>
@@ -203,7 +193,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
             <>
               <a
                 href={LINKS.console}
-                className="hidden text-[15px] font-semibold text-white/70 hover:text-white sm:block"
+                className="hidden text-[15px] font-semibold text-ink-2 hover:text-ink sm:block"
               >
                 로그인
               </a>
@@ -261,7 +251,7 @@ function MobileCTA({ site }: { site: Site }) {
     >
       {site === "adhaeyo" ? (
         <Button href="#signup" className="w-full">
-          무료로 시작하기 · 체험 크레딧 3,000원
+          무료로 시작하기
         </Button>
       ) : (
         <Button href={storeLink()} external className="w-full">
@@ -330,12 +320,7 @@ export default function App() {
     <div id="top">
       {!CAPTURE && <PrototypeBar site={site} go={go} />}
       <Header site={site} go={go} />
-      {site === "bomyeon" && (
-        <BomeonPage
-          onSwitchToAd={() => go("adhaeyo")}
-          onInvitePreview={() => go("invite")}
-        />
-      )}
+      {site === "bomyeon" && <BomeonPage onSwitchToAd={() => go("adhaeyo")} />}
       {site === "adhaeyo" && (
         <GwanggoPage onSwitchToBomeon={() => go("bomyeon")} />
       )}

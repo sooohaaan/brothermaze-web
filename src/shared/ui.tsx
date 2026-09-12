@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type ReactNode } from "react"
+import type { ReactNode } from "react"
 import { LINKS } from "../content"
 import badgeAppStore from "../assets/badge-appstore.png"
 import badgeGooglePlay from "../assets/badge-googleplay.webp"
@@ -86,11 +86,10 @@ export function Container({
   )
 }
 
+/* 토스처럼 기본은 순백. gray는 아주 옅게만 씁니다. */
 const sectionTone = {
   ground: "bg-ground",
-  surface: "bg-surface",
-  navy: "bg-navy text-white",
-  dark: "bg-navy-900 text-white",
+  gray: "bg-fill-2",
 }
 export function Section({
   id,
@@ -110,6 +109,86 @@ export function Section({
     >
       <Container>{children}</Container>
     </section>
+  )
+}
+
+/* ── 토스식 번호 챕터 헤드 — 큰 숫자 + 제목, 가운데 정렬 ─── */
+export function ChapterHead({
+  no,
+  title,
+  sub,
+  center = true,
+}: {
+  no: string
+  title: ReactNode
+  sub?: ReactNode
+  center?: boolean
+}) {
+  return (
+    <header
+      className={cx("max-w-[680px]", center && "mx-auto text-center")}
+    >
+      <p className="num text-[26px] font-extrabold text-brand-600 md:text-[32px]">
+        {no}
+      </p>
+      <h2 className="mt-4 text-[28px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
+        {title}
+      </h2>
+      {sub && (
+        <p className="mt-4 text-base leading-[1.75] text-ink-2 md:text-[17px]">
+          {sub}
+        </p>
+      )}
+    </header>
+  )
+}
+
+/* ── 토스식 거대 숫자 — 라벨 위 · 숫자 아래 ──────────────── */
+export function StatBig({ value, label }: { value: ReactNode; label: string }) {
+  return (
+    <div className="text-center">
+      <p className="text-[15px] font-semibold text-ink-3">{label}</p>
+      <p className="num mt-2 text-[34px] font-extrabold tracking-[-0.02em] text-ink md:text-[44px]">
+        {value}
+      </p>
+    </div>
+  )
+}
+
+/* ── 토스식 '더 읽어보기' 카드 ───────────────────────────── */
+export function ReadMoreCard({
+  title,
+  desc,
+  tags,
+  onClick,
+}: {
+  title: string
+  desc: string
+  tags: string[]
+  onClick: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="group flex w-full flex-col rounded-card bg-fill-2 p-6 text-left ring-1 ring-line transition-shadow hover:shadow-card md:p-8"
+    >
+      <span className="text-[15px] font-semibold text-ink-3">{title}</span>
+      <span className="mt-2 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[22px]">
+        {desc}
+      </span>
+      <span className="mt-5 flex flex-wrap items-center gap-2">
+        {tags.map((t) => (
+          <span
+            key={t}
+            className="rounded-full bg-surface px-3 py-1.5 text-[13px] font-semibold text-ink-2 ring-1 ring-line"
+          >
+            {t}
+          </span>
+        ))}
+        <Arrow className="ml-auto text-ink-3 transition-transform group-hover:translate-x-1" />
+      </span>
+    </button>
   )
 }
 
@@ -149,7 +228,7 @@ export function SectionHead({
       )}
       <h2
         className={cx(
-          "text-[26px] leading-[1.3] font-extrabold tracking-[-0.025em] md:text-[36px]",
+          "text-[26px] leading-[1.35] font-bold tracking-[-0.01em] md:text-[36px]",
           eyebrow && "mt-3",
           onDark ? "text-white" : "text-ink",
         )}
@@ -347,102 +426,6 @@ export function PhoneScreen({
   )
 }
 
-/* ── 슬라이더 ───────────────────────────────────────── */
-export function Slider({
-  label,
-  value,
-  min,
-  max,
-  step = 1,
-  onChange,
-  format,
-  hint,
-}: {
-  label: string
-  value: number
-  min: number
-  max: number
-  step?: number
-  onChange: (v: number) => void
-  format: (v: number) => string
-  hint?: [string, string]
-}) {
-  const id = useId()
-  const fill = ((value - min) / (max - min)) * 100
-  return (
-    <div>
-      <div className="flex items-baseline justify-between gap-4">
-        <label htmlFor={id} className="text-[15px] font-semibold text-ink-2">
-          {label}
-        </label>
-        <output htmlFor={id} className="num text-xl font-bold text-brand-700">
-          {format(value)}
-        </output>
-      </div>
-      <input
-        id={id}
-        type="range"
-        className="range mt-3"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        aria-valuetext={format(value)}
-        onChange={(e) => onChange(Number(e.target.value))}
-        style={{ ["--fill" as string]: `${fill}%` }}
-      />
-      {hint && (
-        <div className="mt-1 flex justify-between text-[13px] text-ink-3">
-          <span>{hint[0]}</span>
-          <span>{hint[1]}</span>
-        </div>
-      )}
-    </div>
-  )
-}
-
-/* ── 세그먼트 선택 ──────────────────────────────────── */
-export function Segmented<T extends string | number>({
-  options,
-  value,
-  onChange,
-  label,
-}: {
-  options: { value: T; label: ReactNode }[]
-  value: T
-  onChange: (v: T) => void
-  label: string
-}) {
-  return (
-    <div
-      role="radiogroup"
-      aria-label={label}
-      className="grid auto-cols-fr grid-flow-col gap-1 rounded-2xl bg-ground p-1"
-    >
-      {options.map((o) => {
-        const on = o.value === value
-        return (
-          <button
-            key={String(o.value)}
-            type="button"
-            role="radio"
-            aria-checked={on}
-            onClick={() => onChange(o.value)}
-            className={cx(
-              "h-12 rounded-xl text-[15px] font-semibold transition-all duration-150",
-              on
-                ? "bg-surface text-brand-700 shadow-card"
-                : "text-ink-3 hover:text-ink-2",
-            )}
-          >
-            {o.label}
-          </button>
-        )
-      })}
-    </div>
-  )
-}
-
 /* ── 통계 ───────────────────────────────────────────── */
 export function Stat({
   value,
@@ -472,80 +455,23 @@ export function Stat({
   )
 }
 
-/* ── FAQ ────────────────────────────────────────────── */
+/* ── Q&A — 토스처럼 전부 펼쳐서 보여줍니다. 누를 것 없음 ──── */
 export function FAQ({ items }: { items: { q: string; a: string }[] }) {
-  const [open, setOpen] = useState<number | null>(0)
   return (
-    <div className="divide-y divide-line border-y border-line">
-      {items.map((it, i) => {
-        const on = open === i
-        return (
-          <div key={it.q}>
-            <h3>
-              <button
-                type="button"
-                aria-expanded={on}
-                onClick={() => setOpen(on ? null : i)}
-                className="flex w-full items-center justify-between gap-6 py-5 text-left text-[17px] font-semibold text-ink"
-              >
-                {it.q}
-                <span
-                  aria-hidden
-                  className={cx(
-                    "grid size-8 shrink-0 place-items-center rounded-full bg-ground text-ink-2 transition-transform duration-200",
-                    on && "rotate-45 bg-brand-50 text-brand-700",
-                  )}
-                >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path
-                      d="M7 1v12M1 7h12"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </span>
-              </button>
-            </h3>
-            {on && (
-              <p className="-mt-1 pr-14 pb-6 text-base leading-[1.7] text-ink-2">
-                {it.a}
-              </p>
-            )}
-          </div>
-        )
-      })}
-    </div>
+    <dl className="grid gap-4 md:gap-5">
+      {items.map((it) => (
+        <div key={it.q} className="rounded-card bg-fill-2 p-6 md:p-7">
+          <dt className="text-[17px] leading-[1.5] font-bold text-ink">
+            <span className="num mr-2 text-brand-600">Q.</span>
+            {it.q}
+          </dt>
+          <dd className="mt-2 text-[15px] leading-[1.75] text-ink-2">
+            {it.a}
+          </dd>
+        </div>
+      ))}
+    </dl>
   )
-}
-
-/* ── 숫자 카운트업 — 앱의 적립 모션을 웹으로 ─────────────── */
-export function useCountup(target: number, ms = 520) {
-  const [val, setVal] = useState(target)
-  const from = useRef(target)
-  const frame = useRef(0)
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (reduce) {
-      setVal(target)
-      from.current = target
-      return
-    }
-    const start = performance.now()
-    const begin = from.current
-    cancelAnimationFrame(frame.current)
-    const tick = (now: number) => {
-      const t = Math.min((now - start) / ms, 1)
-      const ease = 1 - Math.pow(1 - t, 3)
-      const v = Math.round(begin + (target - begin) * ease)
-      setVal(v)
-      from.current = v
-      if (t < 1) frame.current = requestAnimationFrame(tick)
-    }
-    frame.current = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame.current)
-  }, [target, ms])
-  return val
 }
 
 /* ── 체크 아이콘 ────────────────────────────────────── */
