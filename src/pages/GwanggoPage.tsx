@@ -38,7 +38,7 @@ function Hero() {
           <h1 className="mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink md:text-[48px]">
             전국민 <span className="text-brand-600">누구나</span>
             <br />
-            보면소득에서 광고해요
+            보면소득에서 <span className="text-brand-600">광고해요</span>
           </h1>
           <p className="mt-5 max-w-[460px] text-[17px] leading-[1.75] text-ink-2 md:text-lg">
             광고해요는 모바일앱 보면소득에 쉽게 광고할 수 있는 광고 관리
