@@ -1,13 +1,26 @@
-import { ADHAEYO_FAQ, AD_PRICE, COMPANY, LINKS, REWARD, STATS } from "../content"
+import {
+  ADHAEYO_FAQ,
+  AD_PRICE,
+  COMPANY,
+  LINKS,
+  REWARD,
+  STATS,
+  type AdLength,
+} from "../content"
 import {
   Arrow,
   Button,
   ChapterHead,
+  Check,
   Coin,
   Container,
   FAQ,
   Section,
 } from "../shared/ui"
+
+const won = (n: number) => `${n.toLocaleString("ko-KR")}원`
+const viewsFor = (budget: number, len: AdLength) =>
+  Math.floor(budget / AD_PRICE[len])
 
 /*
  * 현행 adhaeyo.com 의 화면 구성을 그대로 토스 형식으로 옮겼습니다.
@@ -88,22 +101,55 @@ function Hero() {
   )
 }
 
-/* ── 01 15원이면 누구나 쉽게 하는 광고 ───────────────────── */
-const useCases = [
+/* ── 01 15원이면 누구나 쉽게 하는 광고 — 예산 예시 포함 ──── */
+const useCases: {
+  group: string
+  items: { title: string; note: string; budget: number; len: AdLength }[]
+}[] = [
   {
     group: "가게·브랜드",
     items: [
-      { title: "동네 손님만 골라서 가게 홍보", note: "가게 근처 지역만 골라 노출" },
-      { title: "유튜브·인스타 SNS 친구 늘리기", note: "쇼츠 하이라이트를 그대로" },
-      { title: "신메뉴·오픈 소식 알리기", note: "사진 몇 장으로 영상 광고 완성" },
+      {
+        title: "동네 손님만 골라서 가게 홍보",
+        note: "가게 근처 지역만 골라 노출",
+        budget: 50000,
+        len: 15,
+      },
+      {
+        title: "유튜브·인스타 SNS 친구 늘리기",
+        note: "쇼츠 하이라이트를 그대로",
+        budget: 30000,
+        len: 60,
+      },
+      {
+        title: "신메뉴·오픈 소식 알리기",
+        note: "사진 몇 장으로 영상 광고 완성",
+        budget: 100000,
+        len: 30,
+      },
     ],
   },
   {
     group: "개인 · 마음 전하기",
     items: [
-      { title: "내가 만든 쇼츠 자랑하기", note: "처음 만든 영상을 끝까지 봐 줄 사람들" },
-      { title: "연인에게 영상편지", note: "세상에서 가장 저렴한 전광판" },
-      { title: "우리 오빠 생일 축하", note: "낯선 사람들과 함께 축하하는 경험" },
+      {
+        title: "내가 만든 쇼츠 자랑하기",
+        note: "처음 만든 영상을 끝까지 봐 줄 사람들",
+        budget: 20000,
+        len: 60,
+      },
+      {
+        title: "연인에게 영상편지",
+        note: "세상에서 가장 저렴한 전광판",
+        budget: 10000,
+        len: 30,
+      },
+      {
+        title: "우리 오빠 생일 축하",
+        note: "낯선 사람들과 함께 축하하는 경험",
+        budget: 5000,
+        len: 15,
+      },
     ],
   },
 ]
@@ -139,9 +185,81 @@ function UseCases() {
                 >
                   <p className="text-[17px] font-bold text-ink">{c.title}</p>
                   <p className="mt-1 text-[14px] text-ink-2">{c.note}</p>
+                  <div className="mt-4 flex items-end justify-between gap-4 border-t border-line pt-4">
+                    <span>
+                      <span className="block text-[13px] text-ink-3">
+                        예산 · {c.len}초 광고
+                      </span>
+                      <span className="num text-[17px] font-bold text-ink">
+                        {won(c.budget)}
+                      </span>
+                    </span>
+                    <span className="text-right">
+                      <span className="block text-[13px] text-ink-3">
+                        끝까지 볼 사람
+                      </span>
+                      <span className="num text-[17px] font-extrabold text-brand-700">
+                        {viewsFor(c.budget, c.len).toLocaleString("ko-KR")}명
+                      </span>
+                    </span>
+                  </div>
                 </li>
               ))}
             </ul>
+          </div>
+        ))}
+      </div>
+      <p className="mt-6 text-center text-[13px] leading-[1.6] text-ink-3">
+        영상 길이별 최소 단가(15초 {AD_PRICE[15]}원 · 30초 {AD_PRICE[30]}원 ·
+        60초 {AD_PRICE[60]}원) 기준 예시예요.
+      </p>
+    </Section>
+  )
+}
+
+/* ── 03 무엇이 다른가요 — 합리적인 과금 구조 ─────────────── */
+const differences = [
+  {
+    title: "노출은 무료예요",
+    desc: "광고가 보이는 것만으로는 한 푼도 내지 않아요. 소재가 아무리 많이 노출돼도 0원입니다.",
+  },
+  {
+    title: "끝까지 본 1건에만 냅니다",
+    desc: "영상광고는 완전시청 1건마다 과금돼요. 15초 광고 기준 딱 15원입니다.",
+  },
+  {
+    title: "중간에 넘기면 0원이에요",
+    desc: "스킵하거나 끝까지 보지 않은 시청에는 과금하지 않아요. 예산이 새는 곳이 없습니다.",
+  },
+]
+
+function Why() {
+  return (
+    <Section id="value">
+      <ChapterHead
+        no="03"
+        title={
+          <>
+            본 만큼만 내는
+            <br />
+            합리적인 광고예요
+          </>
+        }
+        sub="예산이 어디에 쓰였는지 설명할 수 없는 광고는 그만. 광고해요는 돈이 나가는 조건이 단 하나, 끝까지 본 시청뿐입니다."
+      />
+      <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-3 md:gap-6">
+        {differences.map((d) => (
+          <div
+            key={d.title}
+            className="rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8"
+          >
+            <Check className="size-7 text-brand-600" />
+            <h3 className="mt-5 text-[19px] leading-[1.4] font-bold tracking-[-0.01em] text-ink">
+              {d.title}
+            </h3>
+            <p className="mt-2 text-[15px] leading-[1.7] text-ink-2">
+              {d.desc}
+            </p>
           </div>
         ))}
       </div>
@@ -324,6 +442,7 @@ export default function GwanggoPage() {
       <Hero />
       <UseCases />
       <EasySteps />
+      <Why />
       <AdFAQ />
       <SignupCTA />
       <Contact />
