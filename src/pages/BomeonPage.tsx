@@ -31,8 +31,7 @@ function Hero() {
           <h1 className="mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink md:text-[48px]">
             원하는 콘텐츠를 보기만 해도
             <br />
-            소득이 쌓이는{" "}
-            <span className="text-brand-600">전국민 보면소득</span>
+            소득받는 <span className="text-brand-600">전국민 보면소득</span>
           </h1>
           <p className="mt-5 max-w-[440px] text-[17px] leading-[1.75] text-ink-2 md:text-lg">
             15초 광고 하나에 7원. 지하철에서, 자기 전에, 보기만 하면 소득이
@@ -556,7 +555,7 @@ function FinalCTA({ onSwitchToAd }: { onSwitchToAd: () => void }) {
           <div className="mt-6">
             <ReadMoreCard
               title="광고해요"
-              desc="전국민이 보는 보면소득에 누구나 쉽게 광고해요"
+              desc="전국민 누구나 보면소득에서 광고해요"
               tags={["완전시청 15원", "노출 무료", "개인도 가능"]}
               onClick={onSwitchToAd}
             />
