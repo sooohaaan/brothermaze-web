@@ -4,9 +4,8 @@ import { Button, Container, cx, storeLink } from "./shared/ui"
 import logoBomyeon from "./assets/logo-bomyeon.png"
 import BomeonPage from "./pages/BomeonPage"
 import GwanggoPage from "./pages/GwanggoPage"
-import InvitePage from "./pages/InvitePage"
 
-type Site = "bomyeon" | "adhaeyo" | "invite"
+type Site = "bomyeon" | "adhaeyo"
 
 const SITES: { id: Site; label: string; title: string }[] = [
   {
@@ -19,11 +18,6 @@ const SITES: { id: Site; label: string; title: string }[] = [
     label: "광고해요",
     title: "광고해요 — 끝까지 본 사람에게만 15원",
   },
-  {
-    id: "invite",
-    label: "초대 링크",
-    title: "김브라더님이 보면소득에 초대했어요",
-  },
 ]
 
 /* ?site= 로 화면을 고릅니다. #앵커는 페이지 안 이동에 그대로 씁니다. */
@@ -32,7 +26,7 @@ const CAPTURE = new URLSearchParams(window.location.search).has("capture")
 
 function readSite(): Site {
   const s = new URLSearchParams(window.location.search).get("site")
-  return s === "adhaeyo" || s === "invite" ? s : "bomyeon"
+  return s === "adhaeyo" ? s : "bomyeon"
 }
 
 function useSite() {
@@ -147,16 +141,6 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
           ["#faq", "자주 묻는 질문"],
         ]
 
-  if (site === "invite") {
-    return (
-      <header className="bg-ground">
-        <Container className="flex h-16 items-center justify-center">
-          <Logo site="bomyeon" />
-        </Container>
-      </header>
-    )
-  }
-
   return (
     <header
       className={cx(
@@ -237,7 +221,6 @@ function MobileCTA({ site }: { site: Site }) {
     return () => io.disconnect()
   }, [targetId, site])
 
-  if (site === "invite") return null
   const show = pastHero && !atEnd
 
   return (
@@ -324,8 +307,7 @@ export default function App() {
       {site === "adhaeyo" && (
         <GwanggoPage onSwitchToBomeon={() => go("bomyeon")} />
       )}
-      {site === "invite" && <InvitePage />}
-      {site !== "invite" && <Footer site={site} />}
+      <Footer site={site} />
       {!CAPTURE && <MobileCTA site={site} />}
     </div>
   )
