@@ -11,5 +11,8 @@
   "language": "ko",
   "icons": {
     "icon": "favicon.png"
+  },
+  "openGraph": {
+    "image": "https://sooohaaan.github.io/brothermaze-web/og-image.png"
   }
 }
