@@ -36,14 +36,14 @@ function Hero() {
         <div>
           <p className="text-[15px] font-semibold text-ink-3">광고해요</p>
           <h1 className="mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink md:text-[48px]">
-            광고비의 절반이
+            전국민이 보는 보면소득에
             <br />
-            <span className="text-brand-600">고객 주머니로</span> 들어갑니다
+            <span className="text-brand-600">누구나 쉽게</span> 광고해요
           </h1>
           <p className="mt-5 max-w-[460px] text-[17px] leading-[1.75] text-ink-2 md:text-lg">
             광고해요는 모바일앱 &lsquo;보면소득&rsquo;에 광고를 올리는 광고
-            관리 서비스예요. 노출은 무료, 끝까지 본 사람에게만 15원. 그중
-            7원은 광고를 본 그 사람에게 돌아갑니다.
+            관리 서비스예요. 노출은 무료, 끝까지 본 사람에게만 15원. 광고비의
+            절반은 광고를 본 그 사람의 주머니로 돌아갑니다.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button href="#signup">무료로 시작하기</Button>
@@ -564,7 +564,7 @@ function SignupCTA({ onSwitchToBomeon }: { onSwitchToBomeon: () => void }) {
           <div className="mt-6">
             <ReadMoreCard
               title="보면소득"
-              desc="남는 시간이 돈이 되는 보면소득에서"
+              desc="보기만 해도 소득이 쌓이는 전국민 보면소득"
               tags={["15초에 7원", "친구 소득의 10%", "현금출금"]}
               onClick={onSwitchToBomeon}
             />

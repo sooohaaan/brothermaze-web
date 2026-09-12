@@ -11,12 +11,12 @@ const SITES: { id: Site; label: string; title: string }[] = [
   {
     id: "bomyeon",
     label: "보면소득",
-    title: "보면소득 — 남는 시간이 돈이 됩니다",
+    title: "보면소득 — 보기만 해도 소득이 쌓이는 전국민 보면소득",
   },
   {
     id: "adhaeyo",
     label: "광고해요",
-    title: "광고해요 — 끝까지 본 사람에게만 15원",
+    title: "광고해요 — 보면소득에 누구나 쉽게 광고해요",
   },
 ]
 
