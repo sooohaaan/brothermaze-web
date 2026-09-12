@@ -145,16 +145,6 @@ function UseCases() {
           </div>
         ))}
       </div>
-      <p className="mt-6 flex items-start gap-2 rounded-2xl bg-gold-50 px-5 py-4 text-[15px] leading-[1.6] text-gold-800">
-        <span
-          aria-hidden
-          className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-gold-100 text-[12px] font-bold"
-        >
-          !
-        </span>
-        영상에 다른 사람이 나온다면 미리 동의를 받아 주세요. 동의 없이 얼굴이나
-        이름이 드러나면 심사에서 반려됩니다.
-      </p>
     </Section>
   )
 }
