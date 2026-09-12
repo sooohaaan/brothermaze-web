@@ -137,7 +137,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
       : [
           ["#why", "왜 소득을 주나요"],
           ["#referral", "얻은소득 10%"],
-          ["#cash", "현금출금"],
+          ["#cash", "현금처럼 사용"],
           ["#faq", "자주 묻는 질문"],
         ]
 

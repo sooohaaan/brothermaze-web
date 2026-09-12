@@ -1,4 +1,4 @@
-import { AD_LENGTHS, BOMYEON_FAQ, REVIEWS, REWARD, STATS, STORE } from "../content"
+import { AD_LENGTHS, BOMYEON_FAQ, COMPANY, REWARD, STATS, STORE } from "../content"
 import {
   Button,
   ChapterHead,
@@ -8,9 +8,7 @@ import {
   FAQ,
   Money,
   PhoneScreen,
-  ReadMoreCard,
   Section,
-  StatBig,
   StoreBadges,
   cx,
 } from "../shared/ui"
@@ -21,7 +19,13 @@ import appReward from "../assets/app-reward.webp"
 import appGiftshop from "../assets/app-giftshop-v2.webp"
 import appInvite from "../assets/app-invite.webp"
 
-/* ── 히어로 — 토스처럼 카테고리 라벨 + 감성 헤드라인 + 한 문단 ── */
+/*
+ * 현행 brothermaze.com 의 화면 구성을 그대로 토스 형식으로 옮겼습니다.
+ * 히어로 → 01 꼭 필요했던 소득(단가) → 02 얻은소득 10% → 03 현금처럼(1:1+출금)
+ * → 04 남는 시간 언제든지 → 05 누구나 광고 → FAQ → 시작 CTA → CONTACT US
+ */
+
+/* ── 히어로 ─────────────────────────────────────────────── */
 function Hero() {
   return (
     <section className="bg-ground pt-12 pb-20 md:pt-20 md:pb-30">
@@ -74,8 +78,7 @@ function Hero() {
   )
 }
 
-/* ── 01 내가 보는 만큼 내가 버는 — 왜 주는지 + 단가 ────────
- * 현행 홈페이지 두 번째 화면(꼭 필요했던 소득)의 순서를 그대로 따릅니다. */
+/* ── 01 내가 보는 만큼 내가 버는, 꼭 필요했던 소득 ────────── */
 function WhyAndRates() {
   return (
     <Section id="why">
@@ -131,109 +134,25 @@ function WhyAndRates() {
   )
 }
 
-/* ── 05 남는 시간에는 언제든지 — 세 단계 ─────────────────── */
-const steps = [
-  {
-    title: "본다",
-    desc: "앱을 열고 원하는 광고를 고릅니다. 끝까지 보면 바로 적립돼요.",
-    img: appHome,
-    alt: "보면소득 앱의 광고 목록. 총 누적소득 13,497원, 높은 소득 탭, 영상 15초 + 방문 7원 광고 카드",
-    phone: true,
-    screenBg: "#ffffff",
-  },
-  {
-    title: "쌓인다",
-    desc: "보는 즉시 소득이 쌓입니다. 매일 확인하는 재미가 있어요.",
-    img: appReward,
-    alt: "소득 적립 팝업. 5 소득, 참여소득 받기 성공",
-  },
-  {
-    title: "쓴다",
-    desc: "기프트샵에서 정가 그대로 사거나, 현금으로 출금합니다.",
-    img: appGiftshop,
-    alt: "보면소득 소득사용 기프트샵. 현금출금 메뉴와 CU 모바일 금액권 5,000원",
-    phone: true,
-  },
-]
-
-function EasyAnytime() {
-  return (
-    <Section id="how">
-      <ChapterHead
-        no="05"
-        title={
-          <>
-            단 몇 초라도
-            <br />
-            남는 시간에는 언제든지
-          </>
-        }
-        sub="지하철 탈 때, 혼밥할 때, 자기 전에. 그냥 보기만 해도 되는 가장 쉬운 소득이에요. 세 단계면 충분합니다."
-      />
-      <ol className="mt-10 grid gap-6 md:mt-14 md:grid-cols-3">
-        {steps.map((s, i) => (
-          <li
-            key={s.title}
-            className="flex flex-col overflow-hidden rounded-card bg-fill-2 ring-1 ring-line"
-          >
-            <div className="p-6 pb-0 md:p-8 md:pb-0">
-              <span className="num text-sm font-bold text-brand-700">
-                STEP {i + 1}
-              </span>
-              <h3 className="mt-2 text-[22px] font-bold tracking-[-0.01em] text-ink">
-                {s.title}
-              </h3>
-              <p className="mt-2 text-[15px] leading-[1.7] text-ink-2">
-                {s.desc}
-              </p>
-            </div>
-            <div className="mt-6 flex flex-1 items-end justify-center px-6">
-              {"phone" in s ? (
-                <PhoneScreen
-                  src={s.img}
-                  alt={s.alt}
-                  ratio="1 / 1"
-                  screenBg={"screenBg" in s ? s.screenBg : undefined}
-                  bleed
-                  className="w-full max-w-[240px]"
-                />
-              ) : (
-                <img
-                  src={s.img}
-                  alt={s.alt}
-                  loading="lazy"
-                  className="w-full max-w-[300px]"
-                  width={900}
-                  height={900}
-                />
-              )}
-            </div>
-          </li>
-        ))}
-      </ol>
-    </Section>
-  )
-}
-
-/* ── 02 얻은소득 10% — 매일, 자동으로 버는 구조 ──────────── */
+/* ── 02 친구가 번 소득의 10%를 매일 추가로 ───────────────── */
 function Referral() {
   const points = [
     "친구가 번 소득의 10%를 매일 얻은소득으로 드려요",
     "친구 소득에서 빼는 게 아니라 보면소득이 추가로 드려요",
-    "한 번 초대해 두면 친구가 보면소득을 쓰는 동안 자동으로 계속 쌓여요",
+    "함께 보는 친구가 많을수록 내 소득이 계속 늘어나요",
   ]
   return (
-    <Section id="referral">
+    <Section id="referral" tone="gray">
       <ChapterHead
         no="02"
         title={
           <>
-            내가 안 봐도
+            친구가 번 소득의 10%를
             <br />
-            매일, 자동으로 쌓여요
+            매일 추가로 드려요
           </>
         }
-        sub="친구를 초대해 보세요. 친구가 번 소득의 10%가 매일 내 소득에 자동으로 더해집니다."
+        sub="친구를 더 많이 모으세요. 먼저 시작할수록 유리해요. 친구가 보면소득을 쓰는 동안 매일 자동으로 쌓입니다."
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
         <div className="mx-auto w-full max-w-[420px]">
@@ -275,21 +194,27 @@ function Referral() {
   )
 }
 
-/* ── 03 소득 1원 = 현금 1원 ─────────────────────────────── */
-function OneToOne() {
+/* ── 03 소득을 현금처럼 사용하세요 — 1:1 + 현금출금 ───────── */
+function CashLike() {
   const brands = ["스타벅스", "이디야커피", "이마트", "도미노피자", "CU"]
+  const rows: [string, string][] = [
+    ["출금 시작 금액", `${STATS.minPayout}부터`],
+    ["입금까지", `신청 후 ${STATS.payoutDays} 이내`],
+    ["받는 계좌", "본인 명의 계좌"],
+    ["수수료", "없음"],
+  ]
   return (
-    <Section>
+    <Section id="cash">
       <ChapterHead
         no="03"
         title={
           <>
-            소득 1원은
+            소득을 현금처럼 사용하세요
             <br />
-            현금 1원이에요
+            소득 1원 = 현금 1원
           </>
         }
-        sub="포인트처럼 가치가 깎이지 않아요. 1,000소득이면 1,000원짜리를 삽니다. 할인율도, 전환 수수료도 없어요."
+        sub="알고 있는 그 가격 그대로 상품을 살 수 있어요. 포인트처럼 가치가 깎이지 않고, 할인율도 전환 수수료도 없어요."
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
         <div>
@@ -299,17 +224,11 @@ function OneToOne() {
               <span className="num text-[28px] font-extrabold text-ink">1</span>
             </div>
             <span className="text-[22px] font-bold text-ink-3">=</span>
-            <span className="num text-[28px] font-extrabold text-ink">
-              ₩1
-            </span>
+            <span className="num text-[28px] font-extrabold text-ink">₩1</span>
             <span className="ml-auto text-[15px] font-semibold text-ink-2">
               언제나 1:1
             </span>
           </div>
-          <p className="mt-6 text-base leading-[1.75] text-ink-2">
-            기프트샵에서 알고 있는 가격 그대로 삽니다. 커피, 편의점, 마트,
-            외식 상품까지요.
-          </p>
           <ul className="mt-6 flex flex-wrap gap-2">
             {brands.map((b) => (
               <li
@@ -331,32 +250,12 @@ function OneToOne() {
           className="mx-auto w-full max-w-[340px]"
         />
       </div>
-    </Section>
-  )
-}
 
-/* ── 04 현금출금 ────────────────────────────────────────── */
-function CashOut() {
-  const rows: [string, string][] = [
-    ["출금 시작 금액", `${STATS.minPayout}부터`],
-    ["입금까지", `신청 후 ${STATS.payoutDays} 이내`],
-    ["받는 계좌", "본인 명의 계좌"],
-    ["수수료", "없음"],
-  ]
-  return (
-    <Section id="cash" tone="gray">
-      <ChapterHead
-        no="04"
-        title={
-          <>
-            모은 소득은
-            <br />내 계좌로 출금해요
-          </>
-        }
-        sub="상품으로만 쓰는 포인트가 아니에요. 출금 가능 소득이 모이면 내 은행 계좌로 진짜 현금을 받습니다."
-      />
-      <div className="mx-auto mt-10 max-w-[680px] md:mt-14">
-        <dl className="overflow-hidden rounded-card bg-surface shadow-card">
+      <div className="mx-auto mt-12 max-w-[680px]">
+        <h3 className="text-center text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[26px]">
+          모은 소득은 내 계좌로 출금해요
+        </h3>
+        <dl className="mt-6 overflow-hidden rounded-card bg-surface shadow-card ring-1 ring-line">
           {rows.map(([k, v]) => (
             <div
               key={k}
@@ -368,15 +267,99 @@ function CashOut() {
           ))}
         </dl>
         <p className="mt-4 text-center text-[13px] leading-[1.6] text-ink-3">
-          주 5일 금융 거래일 기준이며, 시스템 점검이나 금융기관 사정으로 늦어질
-          수 있어요.
+          주 5일 금융 거래일 기준이며, 시스템 점검이나 금융기관 사정으로
+          늦어질 수 있어요.
         </p>
       </div>
     </Section>
   )
 }
 
-/* ── 05 개인도 광고할 수 있어요 ──────────────────────────── */
+/* ── 04 단 몇 초라도, 남는 시간에는 언제든지 ──────────────── */
+const steps = [
+  {
+    title: "본다",
+    desc: "앱을 열고 원하는 광고를 고릅니다. 끝까지 보면 바로 적립돼요.",
+    img: appHome,
+    alt: "보면소득 앱의 광고 목록. 총 누적소득 13,497원, 높은 소득 탭, 영상 15초 + 방문 7원 광고 카드",
+    phone: true,
+    screenBg: "#ffffff",
+  },
+  {
+    title: "쌓인다",
+    desc: "보는 즉시 소득이 쌓입니다. 매일 확인하는 재미가 있어요.",
+    img: appReward,
+    alt: "소득 적립 팝업. 5 소득, 참여소득 받기 성공",
+  },
+  {
+    title: "쓴다",
+    desc: "기프트샵에서 정가 그대로 사거나, 현금으로 출금합니다.",
+    img: appGiftshop,
+    alt: "보면소득 소득사용 기프트샵. 현금출금 메뉴와 CU 모바일 금액권 5,000원",
+    phone: true,
+  },
+]
+
+function EasyAnytime() {
+  return (
+    <Section id="how" tone="gray">
+      <ChapterHead
+        no="04"
+        title={
+          <>
+            단 몇 초라도
+            <br />
+            남는 시간에는 언제든지
+          </>
+        }
+        sub="지하철 탈 때, 혼밥할 때, 알바할 때, 자기 전에. 그냥 보기만 해도 돈 버는 가장 쉬운 보편소득이에요. 세 단계면 충분합니다."
+      />
+      <ol className="mt-10 grid gap-6 md:mt-14 md:grid-cols-3">
+        {steps.map((s, i) => (
+          <li
+            key={s.title}
+            className="flex flex-col overflow-hidden rounded-card bg-surface ring-1 ring-line"
+          >
+            <div className="p-6 pb-0 md:p-8 md:pb-0">
+              <span className="num text-sm font-bold text-brand-700">
+                STEP {i + 1}
+              </span>
+              <h3 className="mt-2 text-[22px] font-bold tracking-[-0.01em] text-ink">
+                {s.title}
+              </h3>
+              <p className="mt-2 text-[15px] leading-[1.7] text-ink-2">
+                {s.desc}
+              </p>
+            </div>
+            <div className="mt-6 flex flex-1 items-end justify-center px-6">
+              {"phone" in s ? (
+                <PhoneScreen
+                  src={s.img}
+                  alt={s.alt}
+                  ratio="1 / 1"
+                  screenBg={"screenBg" in s ? s.screenBg : undefined}
+                  bleed
+                  className="w-full max-w-[240px]"
+                />
+              ) : (
+                <img
+                  src={s.img}
+                  alt={s.alt}
+                  loading="lazy"
+                  className="w-full max-w-[300px]"
+                  width={900}
+                  height={900}
+                />
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </Section>
+  )
+}
+
+/* ── 05 기업이든 개인이든 누구나 쉽게 광고 ────────────────── */
 function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
   const cases = [
     {
@@ -395,12 +378,12 @@ function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
   return (
     <Section>
       <ChapterHead
-        no="06"
+        no="05"
         title={
           <>
             기업이든 개인이든
             <br />
-            누구나 쉽게 광고해요
+            누구나 쉽게 광고할 수 있어요
           </>
         }
         sub="전단지, 블로그, 동영상, 핸드폰 영상까지. 원하는 이미지나 영상으로 나를, 내 가게를, 내 친구를 직접 광고해 보세요. 사업자등록증 없이도 15초 광고 한 편에 15원부터예요."
@@ -422,74 +405,17 @@ function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
       </ul>
       <div className="mt-8 text-center">
         <Button variant="secondary" onClick={onSwitchToAd}>
-          광고해요에서 시작하기
+          보면소득에 광고해보세요
         </Button>
       </div>
     </Section>
   )
 }
 
-/* ── 숫자로 보는 보면소득 — 토스식 거대 숫자 + 기준일 각주 ── */
-function Numbers() {
-  return (
-    <Section tone="gray">
-      <h2 className="text-center text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
-        말이 아니라
-        <br />
-        지급으로 증명합니다
-      </h2>
-      <div className="mx-auto mt-10 grid max-w-[880px] grid-cols-2 gap-x-6 gap-y-10 md:mt-14 md:grid-cols-4">
-        <StatBig value={STORE.playStore.downloads} label="Google Play 다운로드" />
-        <StatBig value={STATS.paidTotal} label="총 지급액" />
-        <StatBig
-          value={
-            <>
-              <span className="text-gold-600">★</span> {STORE.appStore.rating}
-            </>
-          }
-          label="App Store 평점"
-        />
-        <StatBig
-          value={
-            <>
-              <span className="text-gold-600">★</span> {STORE.playStore.rating}
-            </>
-          }
-          label="Google Play 평점"
-        />
-      </div>
-      <div className="mx-auto mt-12 grid max-w-[880px] gap-4 md:grid-cols-3">
-        {REVIEWS.map((r) => (
-          <figure
-            key={r.name}
-            className="rounded-card bg-surface p-6 ring-1 ring-line"
-          >
-            <p
-              className="text-[14px] tracking-[0.1em] text-gold-600"
-              aria-label={`별 5개 중 ${r.stars}개`}
-            >
-              {"★".repeat(r.stars)}
-            </p>
-            <blockquote className="mt-2 text-[15px] leading-[1.6] font-medium text-ink">
-              “{r.text}”
-            </blockquote>
-            <figcaption className="mt-4 text-[13px] text-ink-3">
-              {r.name} · {r.store} · {r.date}
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-      <p className="mt-8 text-center text-[13px] text-ink-3">
-        * {STORE.asOf} 스토어 기준
-      </p>
-    </Section>
-  )
-}
-
-/* ── Q&A — 의심을 정면으로 받는 질문들 ────────────────────── */
+/* ── FAQ ────────────────────────────────────────────────── */
 function BomyeonFAQ() {
   return (
-    <Section id="faq">
+    <Section id="faq" tone="gray">
       <div className="grid gap-10 md:grid-cols-[1fr_1.6fr] md:gap-16">
         <header className="max-w-[640px]">
           <h2 className="text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
@@ -500,10 +426,10 @@ function BomyeonFAQ() {
           <p className="mt-3 text-base leading-[1.7] text-ink-2 md:text-[17px]">
             더 궁금한 점은{" "}
             <a
-              href="mailto:qna@brothermaze.com"
+              href={`mailto:${COMPANY.email}`}
               className="font-semibold text-brand-700 underline underline-offset-4"
             >
-              qna@brothermaze.com
+              {COMPANY.email}
             </a>
             으로 물어보세요.
           </p>
@@ -514,10 +440,10 @@ function BomyeonFAQ() {
   )
 }
 
-/* ── 마지막 CTA + 더 읽어보기 ────────────────────────────── */
-function FinalCTA({ onSwitchToAd }: { onSwitchToAd: () => void }) {
+/* ── 시작 CTA — 현행 사이트의 마지막 문구 ─────────────────── */
+function FinalCTA() {
   return (
-    <section id="download" className="bg-ground pt-20 pb-20 md:pt-30 md:pb-30">
+    <section id="download" className="bg-ground pt-20 pb-10 md:pt-30 md:pb-14">
       <Container>
         <div className="relative overflow-hidden rounded-[32px] bg-brand-600 px-6 py-14 text-center md:px-16 md:py-20">
           <div
@@ -537,32 +463,55 @@ function FinalCTA({ onSwitchToAd }: { onSwitchToAd: () => void }) {
               className="mx-auto size-16 rounded-[14px] shadow-[0_8px_24px_rgb(0_40_110/0.35)] ring-2 ring-white/70"
             />
             <h2 className="mt-6 text-[28px] leading-[1.3] font-bold tracking-[-0.01em] text-white md:text-[40px]">
-              오늘 남는 시간부터
+              전국민 보편소득 보면소득을
               <br />
-              소득으로 바꿔 보세요
+              지금 바로 시작해 보세요
             </h2>
             <p className="mt-3 text-base font-medium text-white md:text-[17px]">
-              설치하고 첫 광고를 보면 바로 적립됩니다.
+              원하는 콘텐츠 보면서 소득 버는 쉬운 방법.
             </p>
             <StoreBadges className="mt-8 justify-center" />
           </div>
         </div>
-
-        <div className="mt-16 md:mt-20">
-          <h2 className="text-[22px] font-bold tracking-[-0.01em] text-ink md:text-[26px]">
-            더 읽어보기
-          </h2>
-          <div className="mt-6">
-            <ReadMoreCard
-              title="광고해요"
-              desc="전국민 누구나 보면소득에서 광고해요"
-              tags={["완전시청 15원", "노출 무료", "개인도 가능"]}
-              onClick={onSwitchToAd}
-            />
-          </div>
-        </div>
       </Container>
     </section>
+  )
+}
+
+/* ── CONTACT US — 현행 사이트의 문의 섹션 ─────────────────── */
+function Contact() {
+  const contacts = [
+    {
+      label: "보면소득 제휴 및 광고 문의",
+      email: COMPANY.partnerEmail,
+    },
+    {
+      label: "보면소득 서비스 관련 문의",
+      email: COMPANY.email,
+    },
+  ]
+  return (
+    <Section id="contact" className="pt-10 md:pt-14">
+      <h2 className="text-center text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
+        궁금한 점이 있다면
+        <br />
+        언제든 물어보세요
+      </h2>
+      <div className="mx-auto mt-10 grid max-w-[720px] gap-4 md:grid-cols-2">
+        {contacts.map((c) => (
+          <a
+            key={c.email}
+            href={`mailto:${c.email}`}
+            className="rounded-card bg-fill-2 p-6 ring-1 ring-line transition-shadow hover:shadow-card md:p-8"
+          >
+            <p className="text-[15px] font-semibold text-ink-3">{c.label}</p>
+            <p className="mt-2 text-[17px] font-bold break-all text-brand-700">
+              {c.email}
+            </p>
+          </a>
+        ))}
+      </div>
+    </Section>
   )
 }
 
@@ -571,21 +520,17 @@ export default function BomeonPage({
 }: {
   onSwitchToAd: () => void
 }) {
-  /* 현행 홈페이지 진행 순서 그대로:
-   * 히어로 → 보는 만큼 버는(단가) → 얻은소득 10% → 소득 1원=현금 1원(+출금)
-   * → 남는 시간 언제든지 → 누구나 광고 → CTA */
   return (
     <main>
       <Hero />
       <WhyAndRates />
       <Referral />
-      <OneToOne />
-      <CashOut />
+      <CashLike />
       <EasyAnytime />
       <PersonalAd onSwitchToAd={onSwitchToAd} />
-      <Numbers />
       <BomyeonFAQ />
-      <FinalCTA onSwitchToAd={onSwitchToAd} />
+      <FinalCTA />
+      <Contact />
     </main>
   )
 }
