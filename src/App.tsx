@@ -131,8 +131,8 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
     site === "adhaeyo"
       ? [
           ["#usecases", "누구나 쉽게"],
-          ["#value", "왜 합리적인가요"],
-          ["#products", "상품·요금"],
+          ["#how", "광고하는 법"],
+          ["#faq", "자주 묻는 질문"],
         ]
       : [
           ["#why", "왜 소득을 주나요"],
@@ -175,6 +175,13 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
         <div className="flex items-center gap-4">
           {site === "adhaeyo" ? (
             <>
+              <button
+                type="button"
+                onClick={() => go("bomyeon")}
+                className="hidden text-[15px] font-semibold text-ink-2 hover:text-ink lg:block"
+              >
+                보면소득 둘러보기
+              </button>
               <a
                 href={LINKS.console}
                 className="hidden text-[15px] font-semibold text-ink-2 hover:text-ink sm:block"
@@ -304,9 +311,7 @@ export default function App() {
       {!CAPTURE && <PrototypeBar site={site} go={go} />}
       <Header site={site} go={go} />
       {site === "bomyeon" && <BomeonPage onSwitchToAd={() => go("adhaeyo")} />}
-      {site === "adhaeyo" && (
-        <GwanggoPage onSwitchToBomeon={() => go("bomyeon")} />
-      )}
+      {site === "adhaeyo" && <GwanggoPage />}
       <Footer site={site} />
       {!CAPTURE && <MobileCTA site={site} />}
     </div>
