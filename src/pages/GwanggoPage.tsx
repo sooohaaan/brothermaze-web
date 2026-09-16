@@ -92,8 +92,8 @@ function Hero() {
             </div>
           </dl>
           <p className="mt-6 border-t border-line pt-5 text-[15px] leading-[1.6] text-ink-2">
-            중간에 넘기거나 끝까지 보지 않으면{" "}
-            <b className="text-ink">0원</b>입니다.
+            중간에 넘기거나 끝까지 보지 않으면 <b className="text-ink">0원</b>
+            입니다.
           </p>
         </div>
       </Container>
@@ -235,14 +235,14 @@ const differences = [
 
 function Why() {
   return (
-    <Section id="value">
+    <Section id="value" tone="gray">
       <ChapterHead
-        no="03"
+        no="02"
         title={
           <>
             본 만큼만 내는
             <br />
-            합리적인 광고예요
+            합리적인 진짜 광고
           </>
         }
         sub="예산이 어디에 쓰였는지 설명할 수 없는 광고는 그만. 광고해요는 돈이 나가는 조건이 단 하나, 끝까지 본 시청뿐입니다."
@@ -267,7 +267,110 @@ function Why() {
   )
 }
 
-/* ── 02 광고하기 정말 쉬워요 ─────────────────────────────── */
+/* ── 03 한번 보면 잊지 못하는 광고 ───────────────────────── */
+const memories = [
+  {
+    title: "광고비를 고객에게 직접 나눠줘요",
+    desc: `완전시청 1건 ${AD_PRICE[15]}원 중 ${REWARD[15]}원이 광고를 본 그 사람의 주머니로 들어갑니다.`,
+  },
+  {
+    title: "인지도와 호감도가 함께 올라요",
+    desc: "광고가 불편한 방해가 아니라 반가운 선물이 됩니다. 브랜드를 좋은 기억으로 만나게 되죠.",
+  },
+  {
+    title: "끝까지 본 사람만 남아요",
+    desc: "과금 조건이 완전시청이라, 내 광고를 본 사람은 전부 처음부터 끝까지 본 사람입니다.",
+  },
+]
+
+function Memory() {
+  return (
+    <Section id="memory">
+      <ChapterHead
+        no="03"
+        title={
+          <>
+            한번 보면
+            <br />
+            잊지 못하는 광고
+          </>
+        }
+        sub="내 광고를 본 고객에게 직접 내 광고비를 나눠주니 브랜드 인지도와 호감도가 함께 올라갑니다."
+      />
+      <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-3 md:gap-6">
+        {memories.map((d) => (
+          <div
+            key={d.title}
+            className="rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8"
+          >
+            <Check className="size-7 text-brand-600" />
+            <h3 className="mt-5 text-[19px] leading-[1.4] font-bold tracking-[-0.01em] text-ink">
+              {d.title}
+            </h3>
+            <p className="mt-2 text-[15px] leading-[1.7] text-ink-2">
+              {d.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+      <p className="mx-auto mt-6 max-w-[680px] rounded-2xl bg-brand-50 px-6 py-5 text-center text-[17px] leading-[1.6] font-bold text-brand-700 md:text-[19px]">
+        돈 주는 브랜드를 어떻게 잊어요!
+      </p>
+    </Section>
+  )
+}
+
+/* ── 04 먼저 보려고 난리나는 광고 ────────────────────────── */
+const rushes = [
+  {
+    title: "리워드가 있으니 서로 먼저 봐요",
+    desc: "시청자는 소득을 받으려고 스스로 앱을 엽니다. 건너뛰기 버튼을 찾지 않아요.",
+  },
+  {
+    title: "먼저 찾아보게 만들어요",
+    desc: "유튜브·블로그·인스타·홈페이지로 연결해 두면, 광고가 끝난 뒤 스스로 찾아옵니다.",
+  },
+  {
+    title: "기다리는 시청자가 있어요",
+    desc: `볼 광고가 열리기를 기다리는 시청자가 ${STATS.activeViewers}. 노출을 사정할 필요가 없어요.`,
+  },
+]
+
+function Rush() {
+  return (
+    <Section id="rush" tone="gray">
+      <ChapterHead
+        no="04"
+        title={
+          <>
+            먼저 보려고
+            <br />
+            난리나는 광고
+          </>
+        }
+        sub="광고를 보면 리워드를 받으니 서로 먼저 보려 해요. 밀어 넣지 않아도 알아서 찾아오는 광고입니다."
+      />
+      <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-3 md:gap-6">
+        {rushes.map((d) => (
+          <div
+            key={d.title}
+            className="rounded-card bg-surface p-6 shadow-card md:p-8"
+          >
+            <Check className="size-7 text-brand-600" />
+            <h3 className="mt-5 text-[19px] leading-[1.4] font-bold tracking-[-0.01em] text-ink">
+              {d.title}
+            </h3>
+            <p className="mt-2 text-[15px] leading-[1.7] text-ink-2">
+              {d.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+    </Section>
+  )
+}
+
+/* ── 05 광고하기 정말 쉬워요 ─────────────────────────────── */
 function EasySteps() {
   const steps = [
     {
@@ -288,9 +391,9 @@ function EasySteps() {
     },
   ]
   return (
-    <Section id="how" tone="gray">
+    <Section id="how">
       <ChapterHead
-        no="02"
+        no="05"
         title={
           <>
             광고하기
@@ -298,7 +401,7 @@ function EasySteps() {
             정말 쉬워요
           </>
         }
-        sub="전단지, 블로그, 동영상, 핸드폰으로 찍은 영상까지. 가지고 있는 이미지나 영상만 있으면 가입부터 노출까지 네 단계면 끝나요."
+        sub="개인이든 기업이든 전국민 누구나 쉽게. 전단지, 블로그, 동영상, 핸드폰으로 찍은 영상까지, 가지고 있는 이미지나 영상만 있으면 가입부터 노출까지 네 단계면 끝나요."
       />
       <ol className="mx-auto mt-10 grid max-w-[680px] gap-6 md:mt-14">
         {steps.map((s, i) => (
@@ -332,7 +435,7 @@ function EasySteps() {
 /* ── FAQ ────────────────────────────────────────────────── */
 function AdFAQ() {
   return (
-    <Section id="faq">
+    <Section id="faq" tone="gray">
       <div className="grid gap-10 md:grid-cols-[1fr_1.6fr] md:gap-16">
         <header className="max-w-[640px]">
           <h2 className="text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
@@ -378,8 +481,7 @@ function SignupCTA() {
               올려 보세요
             </h2>
             <p className="mt-3 text-base text-white/85 md:text-[17px]">
-              가입은 무료예요. 노출도 무료, 광고비는 끝까지 본 만큼만
-              나갑니다.
+              가입은 무료예요. 노출도 무료, 광고비는 끝까지 본 만큼만 나갑니다.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
               <Button variant="white" href={LINKS.console} external>
@@ -441,8 +543,10 @@ export default function GwanggoPage() {
     <main>
       <Hero />
       <UseCases />
-      <EasySteps />
       <Why />
+      <Memory />
+      <Rush />
+      <EasySteps />
       <AdFAQ />
       <SignupCTA />
       <Contact />

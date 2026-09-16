@@ -131,8 +131,8 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
     site === "adhaeyo"
       ? [
           ["#usecases", "누구나 쉽게"],
+          ["#value", "합리적인 광고"],
           ["#how", "광고하는 법"],
-          ["#value", "무엇이 다른가요"],
           ["#faq", "자주 묻는 질문"],
         ]
       : [
