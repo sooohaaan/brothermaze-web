@@ -7,7 +7,6 @@ import {
   Container,
   FAQ,
   Money,
-  PhoneScreen,
   Section,
   StoreBadges,
   cx,
@@ -17,7 +16,7 @@ import hero3d from "../assets/3d/hero-dollar-3d.webp"
 import how1Watch from "../assets/3d/how-1-watch.webp"
 import how2Earn from "../assets/3d/how-2-earn.webp"
 import how3Spend from "../assets/3d/how-3-spend.webp"
-import appGiftshop from "../assets/app-giftshop-v2.webp"
+import cashGiftshop from "../assets/3d/cash-giftshop.webp"
 import referral3d from "../assets/3d/referral-3d-alpha.webp"
 
 /*
@@ -245,11 +244,13 @@ function CashLike() {
             </li>
           </ul>
         </div>
-        <PhoneScreen
-          src={appGiftshop}
-          alt="보면소득 소득사용 기프트샵. 소득사용내역·쿠폰구매내역·현금출금 메뉴와 인기상품 CU 모바일 금액권 5,000원"
-          ratio="900 / 1145"
-          className="mx-auto w-full max-w-[340px]"
+        <img
+          src={cashGiftshop}
+          alt="보면소득 소득사용 기프트샵을 띄운 스마트폰. 소득사용내역·쿠폰구매내역·현금출금 메뉴와 인기상품 CU 모바일 금액권 5,000원"
+          loading="lazy"
+          className="mx-auto w-full max-w-[300px]"
+          width={800}
+          height={1444}
         />
       </div>
 
