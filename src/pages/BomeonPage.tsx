@@ -14,8 +14,9 @@ import {
 } from "../shared/ui"
 import logoBomyeon from "../assets/logo-bomyeon.png"
 import hero3d from "../assets/3d/hero-dollar-3d.webp"
-import appHome from "../assets/app-home-v2.webp"
-import appReward from "../assets/app-reward.webp"
+import how1Watch from "../assets/3d/how-1-watch.webp"
+import how2Earn from "../assets/3d/how-2-earn.webp"
+import how3Spend from "../assets/3d/how-3-spend.webp"
 import appGiftshop from "../assets/app-giftshop-v2.webp"
 import referral3d from "../assets/3d/referral-3d-alpha.webp"
 
@@ -286,23 +287,20 @@ const steps = [
   {
     title: "본다",
     desc: "앱을 열고 원하는 광고를 고릅니다. 끝까지 보면 바로 적립돼요.",
-    img: appHome,
-    alt: "보면소득 앱의 광고 목록. 총 누적소득 13,497원, 높은 소득 탭, 영상 15초 + 방문 7원 광고 카드",
-    phone: true,
-    screenBg: "#ffffff",
+    img: how1Watch,
+    alt: "보면소득 앱의 광고 목록 화면. 총 누적소득 13,571원, 높은 소득 탭, 영상 15초 + 방문 7원 광고 카드",
   },
   {
     title: "쌓인다",
     desc: "보는 즉시 소득이 쌓입니다. 매일 확인하는 재미가 있어요.",
-    img: appReward,
-    alt: "소득 적립 팝업. 5 소득, 참여소득 받기 성공",
+    img: how2Earn,
+    alt: "소득 적립 완료 팝업. 참여소득 받기 성공",
   },
   {
     title: "쓴다",
     desc: "기프트샵에서 정가 그대로 사거나, 현금으로 출금합니다.",
-    img: appGiftshop,
-    alt: "보면소득 소득사용 기프트샵. 현금출금 메뉴와 CU 모바일 금액권 5,000원",
-    phone: true,
+    img: how3Spend,
+    alt: "보면소득 소득 출금 화면. 12,500원 출금 신청을 완료하였습니다",
   },
 ]
 
@@ -337,26 +335,15 @@ function EasyAnytime() {
                 {s.desc}
               </p>
             </div>
-            <div className="mt-6 flex flex-1 items-end justify-center px-6">
-              {"phone" in s ? (
-                <PhoneScreen
-                  src={s.img}
-                  alt={s.alt}
-                  ratio="1 / 1"
-                  screenBg={"screenBg" in s ? s.screenBg : undefined}
-                  bleed
-                  className="w-full max-w-[240px]"
-                />
-              ) : (
-                <img
-                  src={s.img}
-                  alt={s.alt}
-                  loading="lazy"
-                  className="w-full max-w-[300px]"
-                  width={900}
-                  height={900}
-                />
-              )}
+            <div className="mt-4 flex flex-1 items-end justify-center px-4">
+              <img
+                src={s.img}
+                alt={s.alt}
+                loading="lazy"
+                className="w-full max-w-[250px]"
+                width={640}
+                height={1156}
+              />
             </div>
           </li>
         ))}
