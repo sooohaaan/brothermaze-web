@@ -1,4 +1,11 @@
-import { AD_LENGTHS, BOMYEON_FAQ, COMPANY, REWARD, STATS, STORE } from "../content"
+import {
+  AD_LENGTHS,
+  BOMYEON_FAQ,
+  COMPANY,
+  REWARD,
+  STATS,
+  STORE,
+} from "../content"
 import {
   Button,
   ChapterHead,
@@ -105,7 +112,9 @@ function WhyAndRates() {
                 key={len}
                 className={cx(
                   "grid grid-cols-[4rem_1fr_auto] items-center gap-4 rounded-2xl px-5 py-4",
-                  best ? "bg-surface shadow-card" : "bg-surface ring-1 ring-line",
+                  best
+                    ? "bg-surface shadow-card"
+                    : "bg-surface ring-1 ring-line",
                 )}
               >
                 <span className="num text-[15px] font-semibold text-ink-3">
@@ -147,8 +156,7 @@ function Referral() {
         no="02"
         title={
           <>
-            친구가 번 소득의{" "}
-            <span className="text-brand-600">10%</span>가
+            친구가 번 소득의 <span className="text-brand-600">10%</span>가
             <br />
             <span className="text-brand-600">매일, 자동으로</span> 쌓여요
           </>
@@ -251,30 +259,40 @@ function CashLike() {
         />
       </div>
 
-      <div className="mx-auto mt-12 max-w-[680px]">
-        <h3 className="text-center text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[26px]">
-          모은 소득은 내 계좌로{" "}
-          <span className="text-brand-600">현금출금</span>
-        </h3>
-        <p className="mt-3 text-center text-base leading-[1.7] text-ink-2 md:text-[17px]">
-          상품으로만 바꿀 수 있는 포인트가 아니에요. 진짜 현금으로
-          돌려받습니다.
-        </p>
-        <dl className="mt-6 overflow-hidden rounded-card bg-surface shadow-card ring-1 ring-line">
-          {rows.map(([k, v]) => (
-            <div
-              key={k}
-              className="grid grid-cols-[8rem_1fr] gap-4 border-b border-line px-6 py-5 last:border-0 md:px-8"
-            >
-              <dt className="text-[15px] text-ink-3">{k}</dt>
-              <dd className="text-[17px] font-bold text-ink">{v}</dd>
-            </div>
-          ))}
-        </dl>
-        <p className="mt-4 text-center text-[13px] leading-[1.6] text-ink-3">
-          주 5일 금융 거래일 기준이며, 시스템 점검이나 금융기관 사정으로
-          늦어질 수 있어요.
-        </p>
+      <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
+        <img
+          src={how3Spend}
+          alt="보면소득 앱의 소득 출금 화면을 띄운 스마트폰. 125,500원 출금 신청을 완료했다는 안내와 입금 계좌"
+          loading="lazy"
+          className="order-2 mx-auto w-full max-w-[300px] md:order-1"
+          width={640}
+          height={1156}
+        />
+        <div className="order-1 md:order-2">
+          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[26px]">
+            모은 소득은 내 계좌로{" "}
+            <span className="text-brand-600">현금출금</span>
+          </h3>
+          <p className="mt-3 text-base leading-[1.7] text-ink-2 md:text-[17px]">
+            상품으로만 바꿀 수 있는 포인트가 아니에요. 진짜 현금으로
+            돌려받습니다.
+          </p>
+          <dl className="mt-6 overflow-hidden rounded-card bg-surface shadow-card ring-1 ring-line">
+            {rows.map(([k, v]) => (
+              <div
+                key={k}
+                className="grid grid-cols-[8rem_1fr] gap-4 border-b border-line px-6 py-5 last:border-0 md:px-8"
+              >
+                <dt className="text-[15px] text-ink-3">{k}</dt>
+                <dd className="text-[17px] font-bold text-ink">{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-4 text-[13px] leading-[1.6] text-ink-3">
+            주 5일 금융 거래일 기준이며, 시스템 점검이나 금융기관 사정으로
+            늦어질 수 있어요.
+          </p>
+        </div>
       </div>
     </Section>
   )
