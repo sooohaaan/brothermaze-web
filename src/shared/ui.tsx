@@ -107,7 +107,7 @@ export function Section({
       id={id}
       className={cx("py-20 md:py-30", sectionTone[tone], className)}
     >
-      <Container>{children}</Container>
+      <Container className="reveal-children">{children}</Container>
     </section>
   )
 }

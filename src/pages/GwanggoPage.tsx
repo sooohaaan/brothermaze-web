@@ -423,7 +423,7 @@ function EasySteps() {
           href={LINKS.adGuide}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1 text-[15px] font-semibold text-brand-700 hover:text-brand-800"
+          className="inline-flex min-h-11 items-center gap-1 text-[15px] font-semibold text-brand-700 hover:text-brand-800"
         >
           광고 등록 가이드 자세히 보기 <Arrow className="size-4" />
         </a>
@@ -489,7 +489,7 @@ function SignupCTA() {
               </Button>
               <a
                 href={LINKS.console}
-                className="text-[15px] font-semibold text-white/80 underline underline-offset-4 hover:text-white"
+                className="inline-flex min-h-11 items-center text-[15px] font-semibold text-white/80 underline underline-offset-4 hover:text-white"
               >
                 이미 계정이 있어요 · 로그인
               </a>

@@ -156,6 +156,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
           aria-label={`${
             site === "adhaeyo" ? "광고해요" : "보면소득"
           } 처음으로`}
+          className="inline-flex min-h-11 items-center"
         >
           <Logo site={site} />
         </a>
@@ -167,7 +168,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
             <a
               key={href}
               href={href}
-              className="text-[15px] font-semibold text-ink-2 transition-colors hover:text-ink"
+              className="inline-flex min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-ink"
             >
               {label}
             </a>
@@ -287,7 +288,7 @@ function Footer({ site }: { site: Site }) {
             href={LINKS.terms}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-ink"
+            className="inline-flex min-h-11 items-center hover:text-ink"
           >
             이용약관
           </a>
@@ -295,7 +296,7 @@ function Footer({ site }: { site: Site }) {
             href={LINKS.privacy}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-ink"
+            className="inline-flex min-h-11 items-center hover:text-ink"
           >
             개인정보 처리방침
           </a>
