@@ -210,7 +210,7 @@ function CashLike() {
     ["출금 시작 금액", `${STATS.minPayout}부터`],
     ["입금까지", `신청 후 ${STATS.payoutDays} 이내`],
     ["받는 계좌", "본인 명의 계좌"],
-    ["수수료", "없음"],
+    ["수수료", "단 500원"],
   ]
   return (
     <Section id="cash">
