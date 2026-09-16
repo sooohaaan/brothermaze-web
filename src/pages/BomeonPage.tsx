@@ -23,7 +23,6 @@ import hero3d from "../assets/3d/hero-dollar-3d.webp"
 import how1Watch from "../assets/3d/how-1-watch.webp"
 import how2Earn from "../assets/3d/how-2-earn.webp"
 import how3Spend from "../assets/3d/how-3-spend.webp"
-import cashWithdraw from "../assets/3d/cash-withdraw.webp"
 import cashGiftshop from "../assets/3d/cash-giftshop.webp"
 import referral3d from "../assets/3d/referral-3d-alpha.webp"
 
@@ -262,7 +261,7 @@ function CashLike() {
 
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
         <img
-          src={cashWithdraw}
+          src={how3Spend}
           alt="보면소득 앱의 소득 출금 화면을 띄운 스마트폰. 125,500원 출금 신청을 완료했다는 안내와 입금 계좌"
           loading="lazy"
           className="order-2 mx-auto w-full max-w-[300px] md:order-1"
@@ -306,24 +305,18 @@ const steps = [
     desc: "앱을 열고 원하는 광고를 고릅니다. 끝까지 보면 바로 적립돼요.",
     img: how1Watch,
     alt: "보면소득 앱의 광고 목록 화면. 총 누적소득 13,571원, 높은 소득 탭, 영상 15초 + 방문 7원 광고 카드",
-    w: 640,
-    h: 1156,
   },
   {
     title: "쌓인다",
     desc: "보는 즉시 소득이 쌓입니다. 매일 확인하는 재미가 있어요.",
     img: how2Earn,
     alt: "소득 적립 완료 팝업. 참여소득 받기 성공",
-    w: 640,
-    h: 1156,
   },
   {
     title: "쓴다",
     desc: "기프트샵에서 정가 그대로 사거나, 현금으로 출금합니다.",
     img: how3Spend,
-    alt: "보면소득 소득사용 기프트샵 화면. CU 모바일 금액권 5,000원 등 인기상품과 현금출금 메뉴",
-    w: 1000,
-    h: 1754,
+    alt: "보면소득 소득 출금 화면. 12,500원 출금 신청을 완료하였습니다",
   },
 ]
 
@@ -364,8 +357,8 @@ function EasyAnytime() {
                 alt={s.alt}
                 loading="lazy"
                 className="w-full max-w-[250px]"
-                width={s.w}
-                height={s.h}
+                width={640}
+                height={1156}
               />
             </div>
           </li>
