@@ -13,11 +13,11 @@ import {
   cx,
 } from "../shared/ui"
 import logoBomyeon from "../assets/logo-bomyeon.png"
-import heroIncome from "../assets/hero-income.webp"
+import hero3d from "../assets/3d/hero-dollar-3d.webp"
 import appHome from "../assets/app-home-v2.webp"
 import appReward from "../assets/app-reward.webp"
 import appGiftshop from "../assets/app-giftshop-v2.webp"
-import appInvite from "../assets/app-invite.webp"
+import referral3d from "../assets/3d/referral-3d-alpha.webp"
 
 /*
  * 현행 brothermaze.com 의 화면 구성을 그대로 토스 형식으로 옮겼습니다.
@@ -65,11 +65,11 @@ function Hero() {
 
         <div className="relative mx-auto w-full max-w-[500px] overflow-hidden rounded-[32px] bg-fill shadow-float">
           <img
-            src={heroIncome}
-            alt="보면소득 앱의 소득 화면. 총 소득 150,000원, 내 소득 100,000원, 얻은소득 50,000원"
+            src={hero3d}
+            alt="보면소득 앱 홈 화면을 띄운 스마트폰과 주변에 떠 있는 금화. 총 누적 소득 13,571원, 안 쓴 소득 12,571원"
             className="block w-full"
-            width={539}
-            height={500}
+            width={1200}
+            height={1128}
             fetchPriority="high"
           />
         </div>
@@ -156,14 +156,14 @@ function Referral() {
         sub="한 번 초대해 두면 끝. 친구가 보면소득을 쓰는 동안 내가 아무것도 하지 않아도 소득이 자동으로 늘어나는 구조예요. 친구를 더 많이 모으세요. 먼저 시작할수록 유리해요."
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
-        <div className="mx-auto w-full max-w-[420px]">
+        <div className="mx-auto w-full max-w-[340px]">
           <img
-            src={appInvite}
-            alt="보면소득 친구 초대 화면. 내 초대 코드와 파트너 초대 현황"
+            src={referral3d}
+            alt="보면소득 앱의 친구 초대 화면을 띄운 스마트폰. 내 소득코드와 소득 친구 현황"
             loading="lazy"
             className="w-full"
-            width={891}
-            height={891}
+            width={900}
+            height={1269}
           />
         </div>
         <div>
