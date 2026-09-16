@@ -376,56 +376,6 @@ export function storeLink() {
   return LINKS.playStore
 }
 
-/* ── 폰 화면 — 기기 테두리 없는 앱 캡처에 흰 폰 테두리를 씌움 ──
- * bleed: 카드 아래로 이어지는 것처럼 하단 테두리 없이 잘라 보여줌
- */
-export function PhoneScreen({
-  src,
-  alt,
-  ratio,
-  bleed,
-  screenBg = "#f9fbfc",
-  className,
-}: {
-  src: string
-  alt: string
-  ratio: string
-  bleed?: boolean
-  /* 캡처 상단 배경색과 맞춰 노치 영역에 경계가 생기지 않게 */
-  screenBg?: string
-  className?: string
-}) {
-  return (
-    <div
-      className={cx(
-        "bg-white p-2 shadow-float ring-1 ring-line",
-        bleed ? "rounded-t-[36px] pb-0" : "rounded-[36px]",
-        className,
-      )}
-    >
-      <div
-        className={cx(
-          "overflow-hidden",
-          bleed ? "rounded-t-[28px]" : "rounded-[28px]",
-        )}
-        style={{ backgroundColor: screenBg }}
-      >
-        <div className="flex h-7 items-center justify-center">
-          <span className="h-4 w-16 rounded-full bg-ink/90" />
-        </div>
-        <div style={{ aspectRatio: ratio }}>
-          <img
-            src={src}
-            alt={alt}
-            loading="lazy"
-            className="block size-full object-cover object-top"
-          />
-        </div>
-      </div>
-    </div>
-  )
-}
-
 /* ── 통계 ───────────────────────────────────────────── */
 export function Stat({
   value,
