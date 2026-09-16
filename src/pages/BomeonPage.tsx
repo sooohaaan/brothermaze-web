@@ -226,9 +226,6 @@ function CashLike() {
             </div>
             <span className="text-[22px] font-bold text-ink-3">=</span>
             <span className="num text-[28px] font-extrabold text-ink">₩1</span>
-            <span className="ml-auto text-[15px] font-semibold text-ink-2">
-              언제나 1:1
-            </span>
           </div>
           <ul className="mt-6 flex flex-wrap gap-2">
             {brands.map((b) => (
