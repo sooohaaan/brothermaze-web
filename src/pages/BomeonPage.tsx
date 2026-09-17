@@ -47,9 +47,6 @@ import cashCoin5 from "../assets/3d/cash-coin-5.webp"
 import giftItem0 from "../assets/3d/gift-item-0.webp"
 import giftItem1 from "../assets/3d/gift-item-1.webp"
 import giftItem2 from "../assets/3d/gift-item-2.webp"
-import giftItem3 from "../assets/3d/gift-item-3.webp"
-import giftItem4 from "../assets/3d/gift-item-4.webp"
-import giftItem5 from "../assets/3d/gift-item-5.webp"
 
 /*
  * 현행 brothermaze.com 의 화면 구성을 그대로 토스 형식으로 옮겼습니다.
@@ -96,22 +93,17 @@ const CASH_COINS = [
   { src: cashCoin5, iw: 52, ih: 66, left: 0.924, top: 42.519, w: 8.125, z: 6, bx: "552%", by: "81%", dur: "9.5s", delay: "-2.8s", dx: "-13%", dy: "-26%", rot: "-6deg" },
 ]
 
-/* 기프트샵 컷에 얹는 상품 6종. 금화와 같은 방식으로 폰과 따로 렌더링했고,
- * 폰 화면 한가운데(49.8%, 50%)에서 튀어나옵니다. 물병은 투명해서 흰 배경
- * 위에서는 안 보이므로 폰 화면에 걸치도록 뒀습니다. */
+/* 기프트샵 컷에 얹는 상품 3종. 금화와 같은 방식으로 폰과 따로 렌더링했고,
+ * 폰 화면 한가운데(49.8%, 50%)에서 튀어나옵니다. 화면이 가려지지 않도록
+ * 폰 둘레에 삼각으로 벌려 두었습니다. 물병은 투명해서 흰 배경 위에서는
+ * 보이지 않으므로 폰 테두리에 걸치게 뒀습니다. */
 const GIFT_ITEMS = [
   /* 종이컵 */
-  { src: giftItem0, iw: 205, ih: 279, left: 2.569, top: -2.106, w: 25.625, z: 3, bx: "134%", by: "220%", dur: "11s", delay: "-0.7s", dx: "7%", dy: "-16%", rot: "3deg" },
+  { src: giftItem0, iw: 205, ih: 279, left: 0.624, top: -3.184, w: 25.625, z: 2, bx: "142%", by: "225%", dur: "11s", delay: "-0.7s", dx: "7%", dy: "-16%", rot: "3deg" },
   /* 물병 */
-  { src: giftItem1, iw: 156, ih: 330, left: 10.145, top: 42.248, w: 19.5, z: 1, bx: "153%", by: "-16%", dur: "12.5s", delay: "-2.4s", dx: "-6%", dy: "17%", rot: "-3deg" },
+  { src: giftItem1, iw: 156, ih: 331, left: 75.77, top: 25.686, w: 19.5, z: 1, bx: "-183%", by: "56%", dur: "12.5s", delay: "-2.4s", dx: "-6%", dy: "17%", rot: "-3deg" },
   /* 빵 */
-  { src: giftItem2, iw: 244, ih: 125, left: -1.526, top: 74.748, w: 30.5, z: 4, bx: "118%", by: "-336%", dur: "10.5s", delay: "-3.6s", dx: "8%", dy: "-15%", rot: "4deg" },
-  /* 캔 */
-  { src: giftItem3, iw: 211, ih: 355, left: 85.905, top: 28.976, w: 26.375, z: 5, bx: "-187%", by: "35%", dur: "13s", delay: "-1.5s", dx: "-7%", dy: "-18%", rot: "-3deg" },
-  /* 컵라면 */
-  { src: giftItem4, iw: 280, ih: 343, left: 70.139, top: -3.354, w: 35.0, z: 2, bx: "-108%", by: "174%", dur: "11.5s", delay: "-4.2s", dx: "6%", dy: "16%", rot: "3deg" },
-  /* 아이스크림 */
-  { src: giftItem5, iw: 153, ih: 364, left: 79.558, top: 59.888, w: 19.125, z: 6, bx: "-206%", by: "-89%", dur: "10s", delay: "-3s", dx: "-8%", dy: "-17%", rot: "-4deg" },
+  { src: giftItem2, iw: 206, ih: 134, left: 1.648, top: 78.662, w: 25.75, z: 3, bx: "137%", by: "-359%", dur: "10.5s", delay: "-3.6s", dx: "8%", dy: "-15%", rot: "4deg" },
 ]
 
 type FloatCoin =
