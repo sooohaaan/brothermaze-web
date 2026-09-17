@@ -252,6 +252,36 @@
       animation-delay: calc(var(--i, 0) * 90ms);
     }
 
+    /* 금화가 계속 흘러듭니다 — 위에서 내려와 이미 쌓인 자리에서 스며들듯
+     * 사라집니다. 쌓여 있는 금화는 그대로 두어야 합니다. 그것들이 사라졌다
+     * 나타나면 소득이 빠져나가는 것처럼 읽히기 때문입니다. */
+    @keyframes coin-add {
+      0% {
+        transform: translateY(-260%) scale(0.45);
+        opacity: 0;
+      }
+      18% {
+        opacity: 1;
+      }
+      62% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+      }
+    }
+    html.reveal-ready .coin-add {
+      animation: coin-add var(--dur, 2.8s) cubic-bezier(0.45, 0.05, 0.35, 1)
+        var(--delay, 0s) infinite;
+    }
+    /* 화면 밖에서는 세워 둡니다 — 무한 반복이라 그냥 두면 안 보이는 동안에도
+     * 계속 돕니다. 다시 들어오면 멈춘 자리에서 이어집니다. */
+    html.reveal-ready .reveal-children > *:not(.is-in) .coin-add {
+      animation-play-state: paused;
+    }
+
     /* 화면 한가운데서 폰 주변으로 튀어나옵니다. 끝에서 아주 살짝 넘어갔다
      * 돌아오는 곡선이라 "튄다"는 느낌은 남기되 튕기지는 않습니다.
      * 출발점(--bx·--by)은 코인마다 다르므로 각자 style 로 받습니다. */

@@ -93,6 +93,40 @@ const CASH_COINS = [
   { src: cashCoin5, iw: 52, ih: 66, left: 0.924, top: 42.519, w: 8.125, z: 6, bx: "552%", by: "81%", dur: "9.5s", delay: "-2.8s", dx: "-13%", dy: "-26%", rot: "-6deg" },
 ]
 
+/* 계속 흘러드는 금화. 이미 쌓인 여섯 개 중 폰 앞에 있는 네 자리에 그대로
+ * 내려앉아 스며들듯 사라집니다. 폰 뒤에 깔린 두 개(bg1·bg2) 자리는 쓰지
+ * 않습니다 — 앞에서 떨어진 금화가 뒤에 있는 것과 겹치면 어색해서요.
+ * 이미지는 기존 스프라이트를 그대로 재사용하므로 용량은 늘지 않습니다. */
+const REFERRAL_INFLOW = [
+  { src: referralCoinD1, iw: 75, ih: 75, left: 54.683, top: 28.623, w: 8.333, dur: "2.8s", delay: "0s" },
+  { src: referralCoinD2, iw: 86, ih: 87, left: 39.566, top: 79.609, w: 9.556, dur: "2.8s", delay: "-0.7s" },
+  { src: referralCoinFr2, iw: 72, ih: 72, left: 5.222, top: 38.004, w: 8, dur: "2.8s", delay: "-1.4s" },
+  { src: referralCoinFr1, iw: 101, ih: 102, left: 83.604, top: 71.801, w: 11.222, dur: "2.8s", delay: "-2.1s" },
+]
+
+function renderInflowCoin(c: (typeof REFERRAL_INFLOW)[number]) {
+  return (
+    <img
+      key={`in-${c.src}`}
+      src={c.src}
+      alt=""
+      aria-hidden
+      loading="lazy"
+      width={c.iw}
+      height={c.ih}
+      className="coin-add absolute block h-auto"
+      style={{
+        left: `${c.left}%`,
+        top: `${c.top}%`,
+        width: `${c.w}%`,
+        zIndex: 30,
+        ["--dur" as string]: c.dur,
+        ["--delay" as string]: c.delay,
+      }}
+    />
+  )
+}
+
 /* 기프트샵 컷에 얹는 상품 3종. 금화와 같은 방식으로 폰과 따로 렌더링했고,
  * 폰 화면 한가운데(49.8%, 50%)에서 튀어나옵니다. 화면이 가려지지 않도록
  * 폰 둘레에 삼각으로 벌려 두었습니다. 물병은 투명해서 흰 배경 위에서는
@@ -343,6 +377,8 @@ function Referral() {
             height={1269}
           />
           {REFERRAL_COINS.filter((c) => c.z > 10).map(renderFloatCoin)}
+          {/* 계속 흘러드는 금화 — 쌓인 것 위로 내려앉습니다 */}
+          {REFERRAL_INFLOW.map(renderInflowCoin)}
         </div>
         <div>
           <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
