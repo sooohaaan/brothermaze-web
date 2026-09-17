@@ -414,7 +414,7 @@ function EasyAnytime() {
         {steps.map((s, i) => (
           <li
             key={s.title}
-            className="overflow-hidden rounded-card bg-surface ring-1 ring-line md:grid md:grid-cols-[1fr_320px] md:items-center md:gap-8"
+            className="overflow-hidden rounded-card bg-surface ring-1 ring-line md:grid md:grid-cols-[1fr_280px] md:items-center md:gap-8"
           >
             <div className="p-6 pb-0 md:p-8">
               <span className="num text-sm font-bold text-brand-700">
@@ -427,13 +427,13 @@ function EasyAnytime() {
                 {s.desc}
               </p>
             </div>
-            {/* 데스크톱에서는 카드 아래 모서리에서 잘리게 해 높이를 잡습니다. */}
-            <div className="mt-4 flex justify-center px-4 md:mt-0 md:h-[320px] md:items-start md:overflow-hidden md:px-0 md:pr-8">
+            {/* 폰 화면은 잘리지 않게 두고 높이만 제한합니다. */}
+            <div className="mt-4 flex justify-center px-4 md:mt-0 md:px-0 md:pr-8">
               <img
                 src={s.img}
                 alt={s.alt}
                 loading="lazy"
-                className="w-full max-w-[250px] md:h-full md:w-full md:max-w-none md:object-cover md:object-top"
+                className="w-full max-w-[250px] md:h-[420px] md:w-auto md:max-w-none"
                 width={640}
                 height={1156}
               />
