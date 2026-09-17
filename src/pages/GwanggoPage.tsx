@@ -34,14 +34,14 @@ function Hero() {
       <Container className="grid items-center gap-12 md:grid-cols-[1.1fr_1fr] md:gap-16">
         <div>
           <p className="text-[15px] font-semibold text-ink-3">광고해요</p>
-          <h1 className="reveal-words mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px] 2xl:text-[56px]">
+          <h1 className="reveal-words mt-4 text-[32px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px] 2xl:text-[56px]">
             <SplitWords>
               전국민 <span className="text-brand-600">누구나</span>
               <br />
               보면소득에서 <span className="text-brand-600">광고해요</span>
             </SplitWords>
           </h1>
-          <p className="mt-5 max-w-[460px] text-[17px] leading-[1.6] text-ink-2 md:text-lg">
+          <p className="mt-5 max-w-[460px] text-base leading-[1.6] text-ink-2 md:text-lg">
             광고해요는 모바일앱 보면소득에 쉽게 광고할 수 있는 광고 관리
             서비스입니다. 노출은 무료, 끝까지 본 사람에게만 15원. 광고비의
             절반은 광고를 본 그 사람의 주머니로 돌아갑니다.
@@ -153,7 +153,7 @@ function Why() {
             <h3 className="mt-5 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
               {d.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
+            <p className="mt-2 text-base leading-[1.6] text-ink-2">
               {d.desc}
             </p>
           </div>
@@ -209,7 +209,7 @@ function Memory() {
             <h3 className="mt-5 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
               {d.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
+            <p className="mt-2 text-base leading-[1.6] text-ink-2">
               {d.desc}
             </p>
 
@@ -370,7 +370,7 @@ function Rush() {
             <h3 className="mt-5 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
               {d.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
+            <p className="mt-2 text-base leading-[1.6] text-ink-2">
               {d.desc}
             </p>
           </div>
@@ -421,7 +421,7 @@ function EasySteps() {
             </span>
             <div className="pt-1.5">
               <h3 className="text-[20px] font-bold text-ink">{s.title}</h3>
-              <p className="mt-1 text-[15px] leading-[1.6] text-ink-2">
+              <p className="mt-1 text-base leading-[1.6] text-ink-2">
                 {s.desc}
               </p>
             </div>

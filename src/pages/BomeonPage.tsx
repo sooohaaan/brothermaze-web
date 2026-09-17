@@ -160,14 +160,14 @@ function Hero() {
       <Container className="grid items-center gap-12 md:grid-cols-[1.05fr_1fr] md:gap-10">
         <div>
           <p className="text-[15px] font-semibold text-ink-3">보면소득</p>
-          <h1 className="reveal-words mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px] 2xl:text-[56px]">
+          <h1 className="reveal-words mt-4 text-[32px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px] 2xl:text-[56px]">
             <SplitWords>
               원하는 콘텐츠를 보기만 해도
               <br />
               소득받는 <span className="text-brand-600">전국민 보면소득</span>
             </SplitWords>
           </h1>
-          <p className="mt-5 max-w-[440px] text-[17px] leading-[1.6] text-ink-2 md:text-lg">
+          <p className="mt-5 max-w-[440px] text-base leading-[1.6] text-ink-2 md:text-lg">
             15초 광고 하나에 7원. 지하철에서, 자기 전에, 보기만 하면 소득이
             쌓여요. 쌓인 소득은 현금 1원과 똑같이 쓰거나 내 계좌로 출금할 수
             있죠.
@@ -347,7 +347,7 @@ function Referral() {
           {REFERRAL_COINS.filter((c) => c.z > 10).map(renderFloatCoin)}
         </div>
         <div>
-          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
+          <h3 className="text-[24px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
             자는 동안에도 더해지는
             <br />
             &lsquo;얻은소득&rsquo;
@@ -364,7 +364,7 @@ function Referral() {
             ))}
           </ul>
           <div className="mt-8 rounded-2xl bg-brand-50 px-5 py-4">
-            <p className="text-[15px] leading-[1.6] font-semibold text-brand-700">
+            <p className="text-base leading-[1.6] font-semibold text-brand-700">
               친구 10명이 하루 5분씩만 봐도, 나는 아무것도 하지 않고 매일
               얻은소득이 들어와요.
             </p>
@@ -429,7 +429,7 @@ function CashLike() {
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
         <div>
-          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
+          <h3 className="text-[24px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
             기프트샵에서 <span className="text-brand-600">정가 그대로</span>
           </h3>
           <p className="mt-3 text-base leading-[1.6] text-ink-2 2xl:text-[18px]">
@@ -510,7 +510,7 @@ function CashLike() {
           {CASH_COINS.map(renderFloatCoin)}
         </div>
         <div className="order-1 md:order-2">
-          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
+          <h3 className="text-[24px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
             모은 소득은 내 계좌로{" "}
             <span className="text-brand-600">현금출금</span>
           </h3>
@@ -600,10 +600,10 @@ function EasyAnytime() {
               <h3 className="mt-2 text-[20px] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
                 {s.title}
               </h3>
-              <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
+              <p className="mt-2 text-base leading-[1.6] text-ink-2">
                 {s.desc}
               </p>
-              <p className="mt-3 border-t border-line pt-3 text-[15px] leading-[1.6] text-ink-3">
+              <p className="mt-3 border-t border-line pt-3 text-base leading-[1.6] text-ink-3">
                 {s.more}
               </p>
             </div>
@@ -668,7 +668,7 @@ function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
             <h3 className="text-[20px] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
               {c.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
+            <p className="mt-2 text-base leading-[1.6] text-ink-2">
               {c.desc}
             </p>
           </li>
