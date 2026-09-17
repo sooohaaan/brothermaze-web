@@ -151,15 +151,15 @@
       }
     }
 
-    /* 히어로의 금화 — 폰과 따로 렌더링해 각자 다른 주기로 떠다닙니다.
+    /* 떠다니는 금화 — 폰과 따로 렌더링해 각자 다른 주기로 떠다닙니다.
      * 네 구간으로 나눠 위아래·좌우 위상을 어긋나게 두면 기계적으로 보이지
      * 않습니다. 이동 폭(--dx·--dy)은 transform 퍼센트라 코인 자신의 크기를
      * 기준으로 하므로, 화면이 줄면 이동 폭도 같이 줄어듭니다. */
-    .hero-coin {
-      animation: hero-float var(--dur, 9s) ease-in-out var(--delay, 0s) infinite;
+    .float-coin {
+      animation: coin-float var(--dur, 9s) ease-in-out var(--delay, 0s) infinite;
       will-change: transform;
     }
-    @keyframes hero-float {
+    @keyframes coin-float {
       0%,
       100% {
         transform: translate3d(0, 0, 0) rotate(0deg);
@@ -193,7 +193,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .coin-stream > *,
-    .hero-coin {
+    .float-coin {
       animation: none;
     }
   }

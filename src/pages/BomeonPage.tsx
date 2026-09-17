@@ -31,7 +31,13 @@ import how1Watch from "../assets/3d/how-1-watch.webp"
 import how2Earn from "../assets/3d/how-2-earn.webp"
 import how3Spend from "../assets/3d/how-3-spend.webp"
 import cashGiftshop from "../assets/3d/cash-giftshop.webp"
-import referral3d from "../assets/3d/referral-3d-alpha.webp"
+import referralPhone from "../assets/3d/referral-phone.webp"
+import referralCoinBg1 from "../assets/3d/referral-coin-bg1.webp"
+import referralCoinBg2 from "../assets/3d/referral-coin-bg2.webp"
+import referralCoinD1 from "../assets/3d/referral-coin-d1.webp"
+import referralCoinD2 from "../assets/3d/referral-coin-d2.webp"
+import referralCoinFr1 from "../assets/3d/referral-coin-fr1.webp"
+import referralCoinFr2 from "../assets/3d/referral-coin-fr2.webp"
 
 /*
  * 현행 brothermaze.com 의 화면 구성을 그대로 토스 형식으로 옮겼습니다.
@@ -46,13 +52,55 @@ import referral3d from "../assets/3d/referral-3d-alpha.webp"
  * dx·dy 는 transform 의 퍼센트라 컨테이너가 아니라 코인 자신의 크기 기준입니다.
  * 작은 코인이 덜 움직여야 자연스러우므로 오히려 이 편이 맞습니다. */
 const HERO_COINS = [
-  { src: heroCoin3, left: 17.333, top: 20.301, w: 9.25, z: 1, dur: "9.5s", delay: "-0.8s", dx: "-12%", dy: "-22%", rot: "-4deg" },
-  { src: heroCoin0, left: 64.917, top: 8.333, w: 20.417, z: 2, dur: "8s", delay: "0s", dx: "8%", dy: "-16%", rot: "3deg" },
-  { src: heroCoin4, left: 7.25, top: 37.943, w: 12.417, z: 3, dur: "10.5s", delay: "-2.4s", dx: "-10%", dy: "18%", rot: "4deg" },
-  { src: heroCoin1, left: 77.083, top: 26.507, w: 16.333, z: 4, dur: "9s", delay: "-1.6s", dx: "11%", dy: "14%", rot: "-3deg" },
-  { src: heroCoin2, left: 63.917, top: 34.752, w: 13.667, z: 5, dur: "7.5s", delay: "-3.2s", dx: "-9%", dy: "-18%", rot: "4deg" },
-  { src: heroCoin5, left: 53.167, top: 69.504, w: 11.917, z: 6, dur: "11s", delay: "-4s", dx: "13%", dy: "-20%", rot: "-5deg" },
+  { src: heroCoin3, iw: 111, ih: 108, eager: true, left: 17.333, top: 20.301, w: 9.25, z: 1, dur: "9.5s", delay: "-0.8s", dx: "-12%", dy: "-22%", rot: "-4deg" },
+  { src: heroCoin0, iw: 245, ih: 242, eager: true, left: 64.917, top: 8.333, w: 20.417, z: 2, dur: "8s", delay: "0s", dx: "8%", dy: "-16%", rot: "3deg" },
+  { src: heroCoin4, iw: 149, ih: 150, eager: true, left: 7.25, top: 37.943, w: 12.417, z: 3, dur: "10.5s", delay: "-2.4s", dx: "-10%", dy: "18%", rot: "4deg" },
+  { src: heroCoin1, iw: 196, ih: 197, eager: true, left: 77.083, top: 26.507, w: 16.333, z: 4, dur: "9s", delay: "-1.6s", dx: "11%", dy: "14%", rot: "-3deg" },
+  { src: heroCoin2, iw: 164, ih: 163, eager: true, left: 63.917, top: 34.752, w: 13.667, z: 5, dur: "7.5s", delay: "-3.2s", dx: "-9%", dy: "-18%", rot: "4deg" },
+  { src: heroCoin5, iw: 143, ih: 145, eager: true, left: 53.167, top: 69.504, w: 11.917, z: 6, dur: "11s", delay: "-4s", dx: "13%", dy: "-20%", rot: "-5deg" },
 ]
+
+/* referral 컷의 금화. 같은 방식으로 따로 렌더링했고, 이 컷은 이미지가 작아
+ * 히어로(14~22%)보다 이동 폭을 키웠습니다(지름의 25~30%).
+ * bg1·bg2 는 원래 폰 뒤에 있던 것이라 z 를 폰(10)보다 낮게 둡니다. */
+const REFERRAL_COINS = [
+  { src: referralCoinBg1, iw: 151, ih: 151, left: 60.434, top: 10.326, w: 16.778, z: 1, dur: "10s", delay: "-1.2s", dx: "9%", dy: "-26%", rot: "4deg" },
+  { src: referralCoinBg2, iw: 129, ih: 129, left: 18.45, top: 69.995, w: 14.333, z: 2, dur: "11.5s", delay: "-3s", dx: "-11%", dy: "25%", rot: "-5deg" },
+  { src: referralCoinD1, iw: 75, ih: 75, left: 54.683, top: 28.623, w: 8.333, z: 20, dur: "8s", delay: "0s", dx: "-14%", dy: "-30%", rot: "5deg" },
+  { src: referralCoinD2, iw: 86, ih: 87, left: 39.566, top: 79.609, w: 9.556, z: 21, dur: "9.5s", delay: "-2s", dx: "12%", dy: "-27%", rot: "-4deg" },
+  { src: referralCoinFr2, iw: 72, ih: 72, left: 5.222, top: 38.004, w: 8, z: 22, dur: "8.5s", delay: "-1.8s", dx: "-12%", dy: "28%", rot: "-5deg" },
+  { src: referralCoinFr1, iw: 101, ih: 102, left: 83.604, top: 71.801, w: 11.222, z: 23, dur: "12s", delay: "-4.5s", dx: "13%", dy: "-25%", rot: "6deg" },
+]
+
+type FloatCoin = (typeof HERO_COINS)[number] | (typeof REFERRAL_COINS)[number]
+
+function renderFloatCoin(c: FloatCoin) {
+  return (
+    <img
+      key={c.src}
+      src={c.src}
+      alt=""
+      aria-hidden
+      loading={"eager" in c && c.eager ? undefined : "lazy"}
+      /* 폭·높이를 적어 두어야 이미지가 오기 전에도 종횡비로 높이가 잡히고,
+       * 세로 이동(퍼센트)이 0 이 되지 않습니다. */
+      width={c.iw}
+      height={c.ih}
+      className="float-coin absolute h-auto"
+      style={{
+        left: `${c.left}%`,
+        top: `${c.top}%`,
+        width: `${c.w}%`,
+        zIndex: c.z,
+        ["--dur" as string]: c.dur,
+        ["--delay" as string]: c.delay,
+        ["--dx" as string]: c.dx,
+        ["--dy" as string]: c.dy,
+        ["--rot" as string]: c.rot,
+      }}
+    />
+  )
+}
 function Hero() {
   return (
     <section aria-label="보면소득 소개" className="bg-ground pt-12 pb-20 md:pt-20 md:pb-30">
@@ -102,26 +150,7 @@ function Hero() {
             fetchPriority="high"
           />
           {/* 금화는 폰과 따로 렌더링해 각자 다른 주기로 떠다닙니다 */}
-          {HERO_COINS.map((c) => (
-            <img
-              key={c.src}
-              src={c.src}
-              alt=""
-              aria-hidden
-              className="hero-coin absolute"
-              style={{
-                left: `${c.left}%`,
-                top: `${c.top}%`,
-                width: `${c.w}%`,
-                zIndex: c.z,
-                ["--dur" as string]: c.dur,
-                ["--delay" as string]: c.delay,
-                ["--dx" as string]: c.dx,
-                ["--dy" as string]: c.dy,
-                ["--rot" as string]: c.rot,
-              }}
-            />
-          ))}
+          {HERO_COINS.map(renderFloatCoin)}
         </div>
       </Container>
     </section>
@@ -232,15 +261,18 @@ function Referral() {
         sub="한 번 초대해 두면 끝. 친구가 보면소득을 쓰는 동안 내가 아무것도 하지 않아도 소득이 자동으로 늘어나는 구조예요. 친구를 더 많이 모으세요. 먼저 시작할수록 유리해요."
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
-        <div className="mx-auto w-full max-w-[340px]">
+        <div className="relative mx-auto w-full max-w-[340px]">
+          {/* bg 두 개는 폰 뒤에 깔려 폰 뒤에서 드나듭니다 */}
+          {REFERRAL_COINS.filter((c) => c.z < 10).map(renderFloatCoin)}
           <img
-            src={referral3d}
+            src={referralPhone}
             alt="보면소득 앱의 친구 초대 화면을 띄운 스마트폰. 내 소득코드와 소득 친구 현황"
             loading="lazy"
-            className="w-full"
+            className="relative z-10 w-full"
             width={900}
             height={1269}
           />
+          {REFERRAL_COINS.filter((c) => c.z > 10).map(renderFloatCoin)}
         </div>
         <div>
           <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
