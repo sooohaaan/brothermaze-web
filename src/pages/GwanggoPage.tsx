@@ -28,7 +28,7 @@ import adInApp from "../assets/3d/how-1-watch.webp"
 /* ── 히어로 ─────────────────────────────────────────────── */
 function Hero() {
   return (
-    <section className="bg-ground pt-12 pb-20 md:pt-20 md:pb-30">
+    <section aria-label="광고해요 소개" className="bg-ground pt-12 pb-20 md:pt-20 md:pb-30">
       <Container className="grid items-center gap-12 md:grid-cols-[1.1fr_1fr] md:gap-16">
         <div>
           <p className="text-[15px] font-semibold text-ink-3">광고해요</p>
@@ -74,7 +74,7 @@ const useCases = [
 
 function UseCases() {
   return (
-    <Section id="usecases">
+    <Section id="usecases" label="15원이면 누구나 쉽게 하는 광고">
       <ChapterHead
         no="01"
         title={
@@ -118,7 +118,7 @@ const differences = [
 
 function Why() {
   return (
-    <Section id="value" tone="gray">
+    <Section id="value" tone="gray" label="본 만큼만 내는 합리적인 광고">
       <ChapterHead
         no="02"
         title={
@@ -168,7 +168,7 @@ const memories = [
 
 function Memory() {
   return (
-    <Section id="memory">
+    <Section id="memory" label="한번 보면 잊지 못하는 광고">
       <ChapterHead
         no="03"
         title={
@@ -221,7 +221,7 @@ const rushes = [
 
 function Rush() {
   return (
-    <Section id="rush" tone="gray">
+    <Section id="rush" tone="gray" label="먼저 보려고 난리나는 광고">
       <ChapterHead
         no="04"
         title={
@@ -274,7 +274,7 @@ function EasySteps() {
     },
   ]
   return (
-    <Section id="how">
+    <Section id="how" label="광고하는 법">
       <ChapterHead
         no="05"
         title={
@@ -318,7 +318,7 @@ function EasySteps() {
 /* ── FAQ ────────────────────────────────────────────────── */
 function AdFAQ() {
   return (
-    <Section id="faq" tone="gray">
+    <Section id="faq" tone="gray" label="자주 묻는 질문">
       <div className="grid gap-10 md:grid-cols-[1fr_1.6fr] md:gap-16">
         <header className="max-w-[640px]">
           <h2 className="text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
@@ -345,7 +345,7 @@ function AdFAQ() {
 /* ── 가입 CTA ───────────────────────────────────────────── */
 function SignupCTA() {
   return (
-    <section id="signup" className="bg-ground pt-20 pb-10 md:pt-30 md:pb-14">
+    <section id="signup" aria-label="무료로 시작하기" className="bg-ground pt-20 pb-10 md:pt-30 md:pb-14">
       <Container>
         <div className="relative overflow-hidden rounded-[40px] bg-brand-700 px-6 py-14 text-center text-white md:px-16 md:py-20">
           <div
@@ -397,7 +397,7 @@ function Contact() {
     },
   ]
   return (
-    <Section id="contact" className="pt-10 md:pt-14">
+    <Section id="contact" label="문의" className="pt-10 md:pt-14">
       <h2 className="text-center text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
         궁금한 점이 있다면
         <br />

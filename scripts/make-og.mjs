@@ -3,9 +3,24 @@
 import puppeteer from "puppeteer-core"
 import path from "node:path"
 
-const OUT = path.resolve(process.cwd(), "public/og-image.png")
+const CARDS = [
+  {
+    out: "public/og-image.png",
+    badge: "광고 보고 소득 받는 앱",
+    head: "원하는 콘텐츠를 보기만 해도<br/>소득받는 <b>전국민 보면소득</b>",
+    foot: "15초 광고 하나에 7원 · 소득 1원 = 현금 1원",
+    chips: [["보면소득", "blue"], ["광고해요", "line"]],
+  },
+  {
+    out: "public/og-adhaeyo.png",
+    badge: "보면소득에 광고하는 광고 관리 서비스",
+    head: "전국민 <b>누구나</b><br/>보면소득에서 <b>광고해요</b>",
+    foot: "노출은 무료 · 끝까지 본 사람에게만 15원",
+    chips: [["광고해요", "blue"], ["보면소득", "line"]],
+  },
+]
 
-const html = `<!doctype html>
+const page = (c) => `<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
@@ -52,13 +67,12 @@ const html = `<!doctype html>
 </head>
 <body>
   <div class="glow"></div>
-  <div class="badge"><div class="coin">W</div><span>광고 보고 소득 받는 앱</span></div>
-  <h1>원하는 콘텐츠를 보기만 해도<br/>소득받는 <b>전국민 보면소득</b></h1>
+  <div class="badge"><div class="coin">W</div><span>${c.badge}</span></div>
+  <h1>${c.head}</h1>
   <div class="foot">
-    <p>15초 광고 하나에 7원 · 소득 1원 = 현금 1원</p>
+    <p>${c.foot}</p>
     <div class="brands">
-      <div class="chip blue">보면소득</div>
-      <div class="chip line">광고해요</div>
+      ${c.chips.map(([t, k]) => `<div class="chip ${k}">${t}</div>`).join("")}
     </div>
   </div>
 </body>
@@ -71,10 +85,15 @@ const browser = await puppeteer.launch({
   headless: true,
   args: ["--hide-scrollbars", "--font-render-hinting=none"],
 })
-const page = await browser.newPage()
-await page.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 })
-await page.setContent(html, { waitUntil: "networkidle0" })
-await page.evaluate(() => document.fonts.ready)
-await page.screenshot({ path: OUT, type: "png" })
+const tab = await browser.newPage()
+await tab.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 })
+for (const card of CARDS) {
+  const out = path.resolve(process.cwd(), card.out)
+  await tab.setContent(page(card), { waitUntil: "domcontentloaded" })
+  await tab.evaluate(() => document.fonts.ready)
+  await new Promise((r) => setTimeout(r, 400))
+  await tab.evaluate(() => document.fonts.ready)
+  await tab.screenshot({ path: out, type: "png" })
+  console.log("saved", out)
+}
 await browser.close()
-console.log("saved", OUT)

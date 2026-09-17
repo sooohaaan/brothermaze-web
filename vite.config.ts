@@ -3,7 +3,9 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
 
+import fs from 'node:fs'
 import siteConfiguration from './.figma/make/site.json'
+import { SITES } from './src/sites'
 
 // Vite config — https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -23,6 +25,7 @@ export default defineConfig(({ mode }) => {
       figmaErrorOverlayReplay(),
       figmaReactRefreshBoundaryFallback(),
       figmaMakeKitPlugin({ storiesGlob: '/src/**/*.stories.{ts,tsx,js,jsx}' }),
+      multiSiteHtml(),
     ],
     resolve: {
       alias: {
@@ -41,6 +44,78 @@ export default defineConfig(({ mode }) => {
     },
   }
 })
+
+/**
+ * 두 사이트를 각자의 정적 HTML 로 내보냅니다.
+ * SPA 한 벌을 그대로 쓰되 /adhaeyo/index.html 의 문서 메타만 바꿔 심어,
+ * JS 를 실행하지 않는 링크 미리보기 크롤러(카카오톡·페이스북 등)도
+ * 화면에 맞는 제목·설명·이미지를 읽을 수 있게 합니다.
+ */
+function multiSiteHtml(): Plugin {
+  const escapeAttr = (v: string) =>
+    v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
+  const rewrite = (html: string, meta: (typeof SITES)[number], base: string) =>
+    html
+      .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(meta.title)}</title>`)
+      .replace(
+        /(<meta name="description" content=")[^"]*(")/,
+        `$1${escapeAttr(meta.description)}$2`,
+      )
+      .replace(
+        /(<meta property="og:title" content=")[^"]*(")/,
+        `$1${escapeAttr(meta.title)}$2`,
+      )
+      .replace(
+        /(<meta property="og:description" content=")[^"]*(")/,
+        `$1${escapeAttr(meta.description)}$2`,
+      )
+      .replace(
+        /(<meta property="og:image" content=")[^"]*(")/,
+        `$1${escapeAttr(base + meta.ogImage)}$2`,
+      )
+      .replace(
+        /(<meta name="twitter:image" content=")[^"]*(")/,
+        `$1${escapeAttr(base + meta.ogImage)}$2`,
+      )
+
+  let outDir = 'dist'
+
+  return {
+    name: 'multi-site-html',
+    configResolved(config) {
+      outDir = path.resolve(config.root, config.build.outDir)
+    },
+    /* 개발 서버에서도 /adhaeyo/ 로 열리도록 */
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        const url = (req.url || '').split('?')[0]
+        if (!/^\/adhaeyo\/?$/.test(url)) return next()
+        try {
+          const shell = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
+          res.setHeader('Content-Type', 'text/html; charset=utf-8')
+          res.end(await server.transformIndexHtml(url, shell))
+        } catch (err) {
+          next(err as Error)
+        }
+      })
+    },
+    /* 빌드가 index.html 을 다 쓴 뒤에 사이트별 사본을 만듭니다. */
+    closeBundle() {
+      const indexPath = path.join(outDir, 'index.html')
+      if (!fs.existsSync(indexPath)) return
+      const html = fs.readFileSync(indexPath, 'utf-8')
+      const origin = (html.match(/<meta property="og:image" content="([^"]*)"/)?.[1] ?? '')
+        .replace(/[^/]*$/, '')
+      for (const meta of SITES) {
+        if (!meta.path) continue
+        const dir = path.join(outDir, meta.path)
+        fs.mkdirSync(dir, { recursive: true })
+        fs.writeFileSync(path.join(dir, 'index.html'), rewrite(html, meta, origin))
+      }
+    },
+  }
+}
 
 type FigmaSiteConfiguration = {
   title?: string

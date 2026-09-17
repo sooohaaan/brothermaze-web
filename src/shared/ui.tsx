@@ -93,11 +93,14 @@ const sectionTone = {
 }
 export function Section({
   id,
+  label,
   tone = "ground",
   children,
   className,
 }: {
   id?: string
+  /* 스크린리더가 섹션 단위로 건너뛸 수 있도록 이름을 붙입니다. */
+  label?: string
   tone?: keyof typeof sectionTone
   children: ReactNode
   className?: string
@@ -105,6 +108,7 @@ export function Section({
   return (
     <section
       id={id}
+      aria-label={label}
       className={cx("py-20 md:py-30", sectionTone[tone], className)}
     >
       <Container className="reveal-children">{children}</Container>

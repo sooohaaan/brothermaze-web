@@ -34,7 +34,7 @@ import referral3d from "../assets/3d/referral-3d-alpha.webp"
 /* ── 히어로 ─────────────────────────────────────────────── */
 function Hero() {
   return (
-    <section className="bg-ground pt-12 pb-20 md:pt-20 md:pb-30">
+    <section aria-label="보면소득 소개" className="bg-ground pt-12 pb-20 md:pt-20 md:pb-30">
       <Container className="grid items-center gap-12 md:grid-cols-[1.05fr_1fr] md:gap-10">
         <div>
           <p className="text-[15px] font-semibold text-ink-3">보면소득</p>
@@ -87,7 +87,7 @@ function Hero() {
 /* ── 01 내가 보는 만큼 내가 버는, 꼭 필요했던 소득 ────────── */
 function WhyAndRates() {
   return (
-    <Section id="why">
+    <Section id="why" label="내가 보는 만큼 내가 버는 소득">
       <ChapterHead
         no="01"
         title={
@@ -160,7 +160,7 @@ function Referral() {
     "함께 보는 친구가 많을수록 내 소득이 계속 늘어나요",
   ]
   return (
-    <Section id="referral" tone="gray">
+    <Section id="referral" tone="gray" label="친구 소득의 10%를 매일 추가로">
       <ChapterHead
         no="02"
         title={
@@ -222,7 +222,7 @@ function CashLike() {
     ["수수료", "단 500원"],
   ]
   return (
-    <Section id="cash">
+    <Section id="cash" label="소득을 현금처럼 사용하기">
       <ChapterHead
         no="03"
         title={
@@ -338,7 +338,7 @@ const steps = [
 
 function EasyAnytime() {
   return (
-    <Section id="how" tone="gray">
+    <Section id="how" tone="gray" label="남는 시간에는 언제든지">
       <ChapterHead
         no="04"
         title={
@@ -401,7 +401,7 @@ function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
     },
   ]
   return (
-    <Section>
+    <Section label="개인도 광고할 수 있어요">
       <ChapterHead
         no="05"
         title={
@@ -440,7 +440,7 @@ function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
 /* ── FAQ ────────────────────────────────────────────────── */
 function BomyeonFAQ() {
   return (
-    <Section id="faq" tone="gray">
+    <Section id="faq" tone="gray" label="자주 묻는 질문">
       <div className="grid gap-10 md:grid-cols-[1fr_1.6fr] md:gap-16">
         <header className="max-w-[640px]">
           <h2 className="text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
@@ -468,7 +468,7 @@ function BomyeonFAQ() {
 /* ── 시작 CTA — 현행 사이트의 마지막 문구 ─────────────────── */
 function FinalCTA() {
   return (
-    <section id="download" className="bg-ground pt-20 pb-10 md:pt-30 md:pb-14">
+    <section id="download" aria-label="앱 다운로드" className="bg-ground pt-20 pb-10 md:pt-30 md:pb-14">
       <Container>
         <div className="relative overflow-hidden rounded-[40px] bg-brand-700 px-6 py-14 text-center md:px-16 md:py-20">
           <div
@@ -516,7 +516,7 @@ function Contact() {
     },
   ]
   return (
-    <Section id="contact" className="pt-10 md:pt-14">
+    <Section id="contact" label="문의" className="pt-10 md:pt-14">
       <h2 className="text-center text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
         궁금한 점이 있다면
         <br />

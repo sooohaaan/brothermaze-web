@@ -2,32 +2,11 @@ import { useCallback, useEffect, useState } from "react"
 import { COMPANY, LINKS } from "./content"
 import { Button, Container, cx, storeLink } from "./shared/ui"
 import logoBomyeon from "./assets/logo-bomyeon.png"
+import { siteMeta, type SiteId } from "./sites"
 import BomeonPage from "./pages/BomeonPage"
 import GwanggoPage from "./pages/GwanggoPage"
 
-type Site = "bomyeon" | "adhaeyo"
-
-const SITES: {
-  id: Site
-  label: string
-  title: string
-  description: string
-}[] = [
-  {
-    id: "bomyeon",
-    label: "보면소득",
-    title: "보면소득 — 원하는 콘텐츠를 보기만 해도 소득받는 전국민 보면소득",
-    description:
-      "15초 광고 하나에 7원. 보기만 하면 소득이 쌓이고, 소득 1원은 현금 1원처럼 쓰거나 내 계좌로 출금할 수 있어요.",
-  },
-  {
-    id: "adhaeyo",
-    label: "광고해요",
-    title: "광고해요 — 전국민 누구나 보면소득에서 광고해요",
-    description:
-      "보면소득에 광고를 올리는 광고 관리 서비스. 노출은 무료, 끝까지 본 사람에게만 15원. 광고비의 절반은 광고를 본 사람에게 돌아갑니다.",
-  },
-]
+type Site = SiteId
 
 /* 화면을 바꿀 때 문서 메타도 함께 갱신합니다. */
 function setMeta(attr: "name" | "property", key: string, value: string) {
@@ -54,9 +33,17 @@ function setCanonical(url: string) {
 /* ?capture=1 — 화면설계서용 캡처 모드: 프로토타입 바와 고정 CTA를 숨김 */
 const CAPTURE = new URLSearchParams(window.location.search).has("capture")
 
+const BASE = import.meta.env.BASE_URL
+
 function readSite(): Site {
-  const s = new URLSearchParams(window.location.search).get("site")
-  return s === "adhaeyo" ? s : "bomyeon"
+  if (/\/adhaeyo\/?$/.test(window.location.pathname)) return "adhaeyo"
+  /* 이전에 공유된 ?site=adhaeyo 링크도 계속 열리도록 */
+  const q = new URLSearchParams(window.location.search).get("site")
+  return q === "adhaeyo" ? "adhaeyo" : "bomyeon"
+}
+
+function siteUrl(id: Site) {
+  return BASE + siteMeta(id).path
 }
 
 function useSite() {
@@ -67,19 +54,15 @@ function useSite() {
     return () => window.removeEventListener("popstate", onPop)
   }, [])
   useEffect(() => {
-    const meta = SITES.find((s) => s.id === site)!
+    const meta = siteMeta(site)
     document.title = meta.title
     setMeta("name", "description", meta.description)
     setMeta("property", "og:title", meta.title)
     setMeta("property", "og:description", meta.description)
-    setCanonical(window.location.origin + window.location.pathname + window.location.search)
+    setCanonical(window.location.origin + siteUrl(site))
   }, [site])
   const go = useCallback((next: Site) => {
-    const url =
-      next === "bomyeon"
-        ? window.location.pathname
-        : `${window.location.pathname}?site=${next}`
-    window.history.pushState(null, "", url)
+    window.history.pushState(null, "", siteUrl(next))
     setSite(next)
     window.scrollTo({ top: 0 })
   }, [])
@@ -95,34 +78,6 @@ function useScrolled(threshold: number) {
     return () => window.removeEventListener("scroll", f)
   }, [threshold])
   return on
-}
-
-/* ── 프로토타입 전환 바 — 제품 화면이 아니라 검토용 도구 ──── */
-function PrototypeBar({ site, go }: { site: Site; go: (s: Site) => void }) {
-  return (
-    <div className="bg-ink text-white">
-      <Container className="flex h-11 items-center justify-end gap-4">
-        <nav aria-label="프로토타입 화면 전환" className="flex gap-1">
-          {SITES.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => go(s.id)}
-              aria-current={site === s.id ? "page" : undefined}
-              className={cx(
-                "h-7 rounded-full px-3 text-[13px] font-semibold transition-colors",
-                site === s.id
-                  ? "bg-white text-ink"
-                  : "text-white/60 hover:text-white",
-              )}
-            >
-              {s.label}
-            </button>
-          ))}
-        </nav>
-      </Container>
-    </div>
-  )
 }
 
 /* ── 사이트 헤더 ────────────────────────────────────── */
@@ -215,7 +170,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
               <button
                 type="button"
                 onClick={() => go("bomyeon")}
-                className="hidden text-[15px] font-semibold text-ink-2 hover:text-ink lg:block"
+                className="hidden text-[15px] font-semibold text-ink-2 hover:text-ink sm:block"
               >
                 보면소득 둘러보기
               </button>
@@ -234,7 +189,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
               <button
                 type="button"
                 onClick={() => go("adhaeyo")}
-                className="hidden text-[15px] font-semibold text-ink-2 hover:text-ink lg:block"
+                className="hidden text-[15px] font-semibold text-ink-2 hover:text-ink sm:block"
               >
                 광고주이신가요?
               </button>
@@ -290,7 +245,7 @@ function MobileCTA({ site }: { site: Site }) {
 }
 
 /* ── 푸터 — 현행 사이트의 사업자 정보 ─────────────────── */
-function Footer({ site }: { site: Site }) {
+function Footer({ site, go }: { site: Site; go: (s: Site) => void }) {
   return (
     <footer className="border-t border-line bg-surface pt-12 pb-28 md:pb-12">
       <Container className="grid gap-8 md:grid-cols-[1fr_auto]">
@@ -316,9 +271,16 @@ function Footer({ site }: { site: Site }) {
           </p>
         </div>
         <nav
-          aria-label="약관"
-          className="flex gap-5 text-[13px] font-semibold text-ink-2 md:flex-col md:items-end md:gap-2"
+          aria-label="서비스 · 약관"
+          className="flex flex-wrap gap-5 text-[13px] font-semibold text-ink-2 md:flex-col md:items-end md:gap-2"
         >
+          <button
+            type="button"
+            onClick={() => go(site === "adhaeyo" ? "bomyeon" : "adhaeyo")}
+            className="inline-flex min-h-11 items-center hover:text-ink"
+          >
+            {site === "adhaeyo" ? "보면소득" : "광고해요"}
+          </button>
           <a
             href={LINKS.terms}
             target="_blank"
@@ -351,11 +313,10 @@ export default function App() {
       >
         본문 바로가기
       </a>
-      {!CAPTURE && <PrototypeBar site={site} go={go} />}
       <Header site={site} go={go} />
       {site === "bomyeon" && <BomeonPage onSwitchToAd={() => go("adhaeyo")} />}
       {site === "adhaeyo" && <GwanggoPage />}
-      <Footer site={site} />
+      <Footer site={site} go={go} />
       {!CAPTURE && <MobileCTA site={site} />}
     </div>
   )

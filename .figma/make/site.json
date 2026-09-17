@@ -1,5 +1,5 @@
 {
-  "description": "광고 보고 소득 받는 앱 보면소득, 끝까지 본 사람에게만 과금하는 광고해요.",
+  "description": "15초 광고 하나에 7원. 보기만 하면 소득이 쌓이고, 소득 1원은 현금 1원처럼 쓰거나 내 계좌로 출금할 수 있어요.",
   "robots": {
     "index": true
   },
@@ -7,7 +7,7 @@
     "addBypassLinks": false,
     "ignoreReducedMotion": false
   },
-  "title": "보면소득 · 광고해요",
+  "title": "보면소득 — 원하는 콘텐츠를 보기만 해도 소득받는 전국민 보면소득",
   "language": "ko",
   "icons": {
     "icon": "favicon.png"
