@@ -214,7 +214,7 @@ function Referral() {
 
 /* ── 03 소득을 현금처럼 사용하세요 — 1:1 + 현금출금 ───────── */
 function CashLike() {
-  const brands = ["스타벅스", "이디야커피", "이마트", "도미노피자", "CU"]
+  const brands = ["네이버페이", "투썸플레이스", "맘스터치", "메가커피", "CU"]
   const rows: [string, string][] = [
     ["출금 시작 금액", `${STATS.minPayout}부터`],
     ["입금까지", `신청 후 ${STATS.payoutDays} 이내`],
