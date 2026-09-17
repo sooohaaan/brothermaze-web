@@ -189,6 +189,44 @@
           rotate(calc(var(--rot, 0deg) * 0.35));
       }
     }
+
+    /* 금화가 아래에서 제자리로 올라옵니다. 부유 애니메이션이 이미 코인
+     * 자신의 transform 을 쓰고 있어(같은 속성은 겹쳐 쓰면 덮어씁니다)
+     * 올라오는 동작은 바깥 래퍼가 맡습니다. */
+    @keyframes coin-rise {
+      from {
+        transform: translateY(150%);
+        opacity: 0;
+      }
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+
+    /* 히어로 — 첫 화면이라 스크롤과 물릴 게 없어 뜨자마자 한 번 올라옵니다. */
+    html.reveal-ready .coin-in {
+      animation: coin-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: calc(var(--i, 0) * 90ms);
+    }
+  }
+
+  /* 스크롤에 맞춰 올라오기 — 타임라인은 이미지 박스에 하나만 두고,
+   * 코인마다 구간 시작점을 어긋나게 해서 순서대로 올라오게 합니다.
+   * 지원하지 않는 브라우저에서는 규칙이 통째로 빠져 코인이 제자리에
+   * 그대로 있습니다. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .coin-stage {
+        view-timeline-name: --coin-stage;
+        view-timeline-axis: block;
+      }
+      .coin-rise {
+        animation: coin-rise linear both;
+        animation-timeline: --coin-stage;
+        animation-range: entry var(--r0, 0%) cover var(--r1, 40%);
+      }
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
