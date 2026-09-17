@@ -5,7 +5,6 @@ import {
   LINKS,
   REWARD,
   STATS,
-  type AdLength,
 } from "../content"
 import {
   Arrow,
@@ -17,10 +16,6 @@ import {
   Section,
 } from "../shared/ui"
 import adInApp from "../assets/3d/how-1-watch.webp"
-
-const won = (n: number) => `${n.toLocaleString("ko-KR")}원`
-const viewsFor = (budget: number, len: AdLength) =>
-  Math.floor(budget / AD_PRICE[len])
 
 /*
  * 현행 adhaeyo.com 의 화면 구성을 그대로 토스 형식으로 옮겼습니다.
@@ -68,57 +63,13 @@ function Hero() {
   )
 }
 
-/* ── 01 15원이면 누구나 쉽게 하는 광고 — 예산 예시 포함 ──── */
-const useCases: {
-  group: string
-  items: { title: string; note: string; budget: number; len: AdLength }[]
-}[] = [
-  {
-    group: "가게·브랜드",
-    items: [
-      {
-        title: "동네 손님만 골라서 가게 홍보",
-        note: "가게 근처 지역만 골라 노출",
-        budget: 50000,
-        len: 15,
-      },
-      {
-        title: "유튜브·인스타 SNS 친구 늘리기",
-        note: "쇼츠 하이라이트를 그대로",
-        budget: 30000,
-        len: 60,
-      },
-      {
-        title: "신메뉴·오픈 소식 알리기",
-        note: "사진 몇 장으로 영상 광고 완성",
-        budget: 100000,
-        len: 30,
-      },
-    ],
-  },
-  {
-    group: "개인 · 마음 전하기",
-    items: [
-      {
-        title: "내가 만든 쇼츠 자랑하기",
-        note: "처음 만든 영상을 끝까지 봐 줄 사람들",
-        budget: 20000,
-        len: 60,
-      },
-      {
-        title: "연인에게 영상편지",
-        note: "세상에서 가장 저렴한 전광판",
-        budget: 10000,
-        len: 30,
-      },
-      {
-        title: "우리 오빠 생일 축하",
-        note: "낯선 사람들과 함께 축하하는 경험",
-        budget: 5000,
-        len: 15,
-      },
-    ],
-  },
+/* ── 01 15원이면 누구나 쉽게 하는 광고 — 현행 웹의 5가지 용도 ──── */
+const useCases = [
+  "동네 손님만 골라서 가게 홍보하고",
+  "유튜브·인스타 SNS 친구도 늘리고",
+  "내가 만든 쇼츠도 자랑하고",
+  "연인에게 영상편지도 보내고",
+  "우리 오빠 생일축하도 해보세요",
 ]
 
 function UseCases() {
@@ -133,53 +84,18 @@ function UseCases() {
             쉽게 하는 광고
           </>
         }
-        sub="동네 손님만 골라 가게를 홍보하고, SNS 친구를 늘리고, 쇼츠를 자랑하고, 영상편지와 생일 축하까지. 사업자등록증이 없어도 개인 계정으로 바로 시작해요."
+        sub="가게를 알리는 일부터 마음을 전하는 일까지, 짧은 영상 한 편이면 충분해요. 사업자등록증이 없어도 개인 계정으로 바로 시작할 수 있어요."
       />
-      <div className="mt-10 grid gap-6 md:mt-14 md:grid-cols-2">
-        {useCases.map((g) => (
-          <div
-            key={g.group}
-            className="rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8"
-          >
-            <h3 className="text-[15px] font-semibold text-brand-700">
-              {g.group}
-            </h3>
-            <ul className="mt-4 grid gap-4">
-              {g.items.map((c) => (
-                <li
-                  key={c.title}
-                  className="rounded-2xl bg-surface p-5 ring-1 ring-line"
-                >
-                  <p className="text-[17px] font-bold text-ink">{c.title}</p>
-                  <p className="mt-1 text-[14px] text-ink-2">{c.note}</p>
-                  <div className="mt-4 flex items-end justify-between gap-4 border-t border-line pt-4">
-                    <span>
-                      <span className="block text-[13px] text-ink-3">
-                        예산 · {c.len}초 광고
-                      </span>
-                      <span className="num text-[17px] font-bold text-ink">
-                        {won(c.budget)}
-                      </span>
-                    </span>
-                    <span className="text-right">
-                      <span className="block text-[13px] text-ink-3">
-                        끝까지 볼 사람
-                      </span>
-                      <span className="num text-[17px] font-extrabold text-brand-700">
-                        {viewsFor(c.budget, c.len).toLocaleString("ko-KR")}명
-                      </span>
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <ul className="mx-auto mt-10 max-w-[680px] divide-y divide-line overflow-hidden rounded-card bg-fill-2 ring-1 ring-line md:mt-14">
+        {useCases.map((t) => (
+          <li key={t} className="flex items-center gap-4 px-6 py-5 md:px-8">
+            <Check className="shrink-0 text-brand-600" />
+            <span className="text-[17px] leading-[1.5] font-semibold text-ink md:text-[19px]">
+              {t}
+            </span>
+          </li>
         ))}
-      </div>
-      <p className="mt-6 text-center text-[13px] leading-[1.6] text-ink-3">
-        영상 길이별 최소 단가(15초 {AD_PRICE[15]}원 · 30초 {AD_PRICE[30]}원 ·
-        60초 {AD_PRICE[60]}원) 기준 예시예요.
-      </p>
+      </ul>
     </Section>
   )
 }
