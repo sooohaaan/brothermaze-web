@@ -227,7 +227,14 @@ function CashLike() {
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
         <div>
-          <div className="flex items-center gap-4 rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8">
+          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[26px]">
+            기프트샵에서 <span className="text-brand-600">정가 그대로</span>
+          </h3>
+          <p className="mt-3 text-base leading-[1.7] text-ink-2 md:text-[17px]">
+            1,000소득이면 1,000원짜리 상품을 삽니다. 할인율도, 전환 수수료도
+            없어요.
+          </p>
+          <div className="mt-6 flex items-center gap-4 rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8">
             <div className="flex items-center gap-2">
               <Coin size={28} />
               <span className="num text-[28px] font-extrabold text-ink">1</span>
