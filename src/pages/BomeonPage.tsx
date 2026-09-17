@@ -279,7 +279,7 @@ function WhyAndRates() {
       <div className="mx-auto mt-4 flex max-w-[760px] flex-col items-center justify-between gap-4 rounded-card bg-brand-50 px-6 py-6 sm:flex-row md:mt-6 md:px-8">
         <p className="text-center text-[17px] leading-[1.5] font-bold text-brand-700 sm:text-left md:text-[19px]">
           하루 상한도, 횟수 제한도 없어요
-          <span className="mt-1 block text-[15px] font-semibold text-brand-700/80">
+          <span className="mt-1 block text-[15px] font-semibold text-brand-700">
             보면 볼수록 계속 쌓입니다.
           </span>
         </p>

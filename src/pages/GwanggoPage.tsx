@@ -489,7 +489,7 @@ function SignupCTA() {
             }}
           />
           <div className="relative">
-            <p className="text-sm font-semibold text-white/80">광고해요</p>
+            <p className="text-sm font-semibold text-white/90">광고해요</p>
             <h2 className="reveal-words mt-3 text-[28px] leading-[1.3] font-bold tracking-[-0.01em] md:text-[40px] 2xl:text-[44px]">
               <SplitWords>
                 오늘 첫 광고를
@@ -497,7 +497,7 @@ function SignupCTA() {
                 올려 보세요
               </SplitWords>
             </h2>
-            <p className="mt-3 text-base text-white/85 md:text-[17px]">
+            <p className="mt-3 text-base text-white/90 md:text-[17px]">
               가입은 무료예요. 노출도 무료, 광고비는 끝까지 본 만큼만 나갑니다.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
@@ -506,7 +506,7 @@ function SignupCTA() {
               </Button>
               <a
                 href={LINKS.console}
-                className="inline-flex min-h-11 items-center text-[15px] font-semibold text-white/80 underline underline-offset-4 hover:text-white"
+                className="inline-flex min-h-11 items-center text-[15px] font-semibold text-white/90 underline underline-offset-4 hover:text-white"
               >
                 이미 계정이 있어요 · 로그인
               </a>

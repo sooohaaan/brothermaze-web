@@ -139,7 +139,7 @@ function Logo({ site, onDark }: { site: Site; onDark?: boolean }) {
         <span
           className={cx(
             "text-[12px] font-semibold",
-            onDark ? "text-white/50" : "text-ink-3",
+            onDark ? "text-white/90" : "text-ink-3",
           )}
         >
           by 보면소득
@@ -269,13 +269,13 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
               <button
                 type="button"
                 onClick={() => go("bomyeon")}
-                className="hidden text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:block"
+                className="hidden min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:inline-flex"
               >
                 보면소득 둘러보기
               </button>
               <a
                 href={LINKS.console}
-                className="hidden text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:block"
+                className="hidden min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:inline-flex"
               >
                 로그인
               </a>
@@ -288,7 +288,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
               <button
                 type="button"
                 onClick={() => go("adhaeyo")}
-                className="hidden text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:block"
+                className="hidden min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:inline-flex"
               >
                 광고주이신가요?
               </button>
