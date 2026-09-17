@@ -203,7 +203,7 @@ function Memory() {
         {memories.map((d) => (
           <div
             key={d.title}
-            className="rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8"
+            className="flex flex-col rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8"
           >
             <Check className="size-7 text-brand-600" />
             <h3 className="mt-5 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
@@ -212,99 +212,117 @@ function Memory() {
             <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
               {d.desc}
             </p>
-            {"split" in d && (
-              <div className="mt-5" aria-hidden>
-                <div className="h-2 overflow-hidden rounded-full bg-line">
-                  <div
-                    className="fill h-full rounded-full bg-brand-600"
-                    style={{ width: `${VIEWER_SHARE}%` }}
-                  />
-                </div>
-                <div className="mt-2 flex justify-between text-[13px] text-ink-2">
-                  <span>
-                    시청자에게 <b className="num text-ink">{REWARD[15]}원</b>
-                  </span>
-                  <span>
-                    운영·노출{" "}
-                    <b className="num text-ink">
-                      {AD_PRICE[15] - REWARD[15]}원
-                    </b>
-                  </span>
-                </div>
-              </div>
-            )}
 
-            {/* 두 지표가 나란히 올라가는 선 그래프. 왼쪽부터 그려집니다.
-              * 눈금·수치는 일부러 넣지 않았습니다 — 실제 측정값이 아니라
-              * 방향을 보여주는 그림이라서요. */}
-            {"trend" in d && (
-              <div className="mt-5" aria-hidden>
-                <svg
-                  viewBox="0 0 120 48"
-                  className="h-16 w-full"
-                  fill="none"
-                  preserveAspectRatio="none"
-                >
-                  <path
-                    d="M2 44 H118"
-                    stroke="var(--color-line)"
-                    strokeWidth="1"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                  <path
-                    className="draw"
-                    d="M4 38 C 28 36, 44 30, 60 24 S 96 12, 116 6"
-                    stroke="var(--color-brand-600)"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    vectorEffect="non-scaling-stroke"
-                    style={{ ["--len" as string]: 130, ["--i" as string]: 0 }}
-                  />
-                  <path
-                    className="draw"
-                    d="M4 42 C 30 41, 46 37, 62 33 S 98 24, 116 18"
-                    stroke="var(--color-ink-3)"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    vectorEffect="non-scaling-stroke"
-                    style={{ ["--len" as string]: 130, ["--i" as string]: 1 }}
-                  />
-                </svg>
-                <div className="mt-2 flex gap-4 text-[13px] text-ink-2">
-                  <span className="flex items-center gap-1.5">
-                    <i className="size-2 rounded-full bg-brand-600" />
-                    인지도
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <i className="size-2 rounded-full bg-ink-3" />
-                    호감도
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* 재생 막대가 끝까지 가서 멈춥니다 — 완전시청 그 자체 */}
-            {"timeline" in d && (
-              <div className="mt-5" aria-hidden>
-                <div className="relative h-2 rounded-full bg-line">
-                  <div className="seek absolute inset-y-0 left-0 rounded-full bg-brand-600">
-                    <span className="absolute top-1/2 right-0 size-4 translate-x-1/2 -translate-y-1/2 rounded-full bg-surface ring-2 ring-brand-600" />
+            {/* 카드마다 제목·본문 줄 수가 달라도 그림과 설명 줄이 나란히
+              * 놓이도록, 시각 효과는 카드 아래에 붙이고 그림 영역 높이를
+              * 세 카드 모두 같게 잡았습니다. */}
+            <div className="mt-auto pt-6" aria-hidden>
+              <div className="flex h-16 flex-col justify-end">
+                {"split" in d && (
+                  <div className="h-2 overflow-hidden rounded-full bg-line">
+                    <div
+                      className="fill h-full rounded-full bg-brand-600"
+                      style={{ width: `${VIEWER_SHARE}%` }}
+                    />
                   </div>
-                </div>
-                <div className="mt-2 flex justify-between text-[13px] text-ink-2">
-                  <span className="num">0:00</span>
-                  <span className="font-semibold text-brand-700">
-                    끝까지 봄
-                  </span>
-                  <span className="num">
-                    0:{String(AD_LENGTHS[0]).padStart(2, "0")}
-                  </span>
-                </div>
+                )}
+
+                {/* 두 지표가 나란히 올라가는 선 그래프. 왼쪽부터 그려집니다.
+                  * 눈금·수치는 일부러 넣지 않았습니다 — 실제 측정값이 아니라
+                  * 방향을 보여주는 그림이라서요. */}
+                {"trend" in d && (
+                  <svg
+                    viewBox="0 0 120 48"
+                    className="h-16 w-full"
+                    fill="none"
+                    preserveAspectRatio="none"
+                  >
+                    <path
+                      d="M2 44 H118"
+                      stroke="var(--color-line)"
+                      strokeWidth="1"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                    {/* 가로로 늘린 SVG 라 점선 길이 계산이 어긋나 선이
+                      * 중간중간 끊겨 보였습니다. pathLength 로 길이를 100 으로
+                      * 정규화하고, 점선을 화면 좌표에서 계산하게 만드는
+                      * non-scaling-stroke 는 빼야 합니다. 대신 선 굵기가
+                      * 세로 배율(64/48)만큼 두꺼워지므로 2.5 → 1.9 로 낮춰
+                      * 화면에서 2.5px 로 보이게 맞췄습니다. */}
+                    <path
+                      className="draw"
+                      pathLength={100}
+                      d="M4 38 C 28 36, 44 30, 60 24 S 96 12, 116 6"
+                      stroke="var(--color-brand-600)"
+                      strokeWidth="1.9"
+                      strokeLinecap="round"
+                      style={{ ["--len" as string]: 100, ["--i" as string]: 0 }}
+                    />
+                    <path
+                      className="draw"
+                      pathLength={100}
+                      d="M4 42 C 30 41, 46 37, 62 33 S 98 24, 116 18"
+                      stroke="var(--color-ink-3)"
+                      strokeWidth="1.9"
+                      strokeLinecap="round"
+                      style={{ ["--len" as string]: 100, ["--i" as string]: 1 }}
+                    />
+                  </svg>
+                )}
+
+                {/* 재생 막대가 끝까지 가서 멈춥니다 — 완전시청 그 자체 */}
+                {"timeline" in d && (
+                  <div className="relative h-2 rounded-full bg-line">
+                    <div className="seek absolute inset-y-0 left-0 rounded-full bg-brand-600">
+                      <span className="absolute top-1/2 right-0 size-4 translate-x-1/2 -translate-y-1/2 rounded-full bg-surface ring-2 ring-brand-600" />
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+
+              <div className="mt-3 flex justify-between text-[13px] text-ink-2">
+                {"split" in d && (
+                  <>
+                    <span>
+                      시청자에게 <b className="num text-ink">{REWARD[15]}원</b>
+                    </span>
+                    <span>
+                      운영·노출{" "}
+                      <b className="num text-ink">
+                        {AD_PRICE[15] - REWARD[15]}원
+                      </b>
+                    </span>
+                  </>
+                )}
+                {"trend" in d && (
+                  <>
+                    <span className="flex items-center gap-1.5">
+                      <i className="size-2 rounded-full bg-brand-600" />
+                      인지도
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <i className="size-2 rounded-full bg-ink-3" />
+                      호감도
+                    </span>
+                  </>
+                )}
+                {"timeline" in d && (
+                  <>
+                    <span className="num">0:00</span>
+                    <span className="font-semibold text-brand-700">
+                      끝까지 봄
+                    </span>
+                    <span className="num">
+                      0:{String(AD_LENGTHS[0]).padStart(2, "0")}
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         ))}
       </div>
+
       <p className="mx-auto mt-6 max-w-[680px] rounded-2xl bg-brand-50 px-6 py-5 text-center text-[17px] leading-[1.6] font-bold text-brand-700 md:text-[19px]">
         돈 주는 브랜드를 어떻게 잊어요!
       </p>
