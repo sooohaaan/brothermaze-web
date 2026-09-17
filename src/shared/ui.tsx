@@ -18,7 +18,7 @@ export function Coin({
     <span
       aria-hidden
       className={cx(
-        "inline-flex shrink-0 items-center justify-center rounded-full font-num font-extrabold text-white",
+        "inline-flex shrink-0 items-center justify-center rounded-full font-extrabold text-white",
         className,
       )}
       style={{
@@ -79,7 +79,7 @@ export function Container({
 }) {
   return (
     <div
-      className={cx("mx-auto w-full max-w-[1120px] px-5 md:px-10", className)}
+      className={cx("mx-auto w-full max-w-[1320px] px-5 md:px-12", className)}
     >
       {children}
     </div>
@@ -135,7 +135,7 @@ export function ChapterHead({
         {title}
       </h2>
       {sub && (
-        <p className="mt-4 text-base leading-[1.75] text-ink-2 md:text-[17px]">
+        <p className="mt-4 text-base leading-[1.6] text-ink-2">
           {sub}
         </p>
       )}
@@ -238,7 +238,7 @@ export function SectionHead({
       {sub && (
         <p
           className={cx(
-            "mt-3 text-base leading-[1.7] md:text-[17px]",
+            "mt-3 text-base leading-[1.6]",
             onDark ? "text-white/70" : "text-ink-2",
           )}
         >
@@ -410,12 +410,12 @@ export function FAQ({ items }: { items: { q: string; a: string }[] }) {
   return (
     <dl className="grid gap-4 md:gap-5">
       {items.map((it) => (
-        <div key={it.q} className="rounded-card bg-fill-2 p-6 md:p-7">
+        <div key={it.q} className="rounded-card bg-surface p-6 ring-1 ring-line md:p-7">
           <dt className="text-[17px] leading-[1.5] font-bold text-ink">
             <span className="num mr-2 text-brand-600">Q.</span>
             {it.q}
           </dt>
-          <dd className="mt-2 text-[15px] leading-[1.75] text-ink-2">
+          <dd className="mt-2 text-[15px] leading-[1.6] text-ink-2">
             {it.a}
           </dd>
         </div>

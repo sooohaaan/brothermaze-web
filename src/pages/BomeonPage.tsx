@@ -38,12 +38,12 @@ function Hero() {
       <Container className="grid items-center gap-12 md:grid-cols-[1.05fr_1fr] md:gap-10">
         <div>
           <p className="text-[15px] font-semibold text-ink-3">보면소득</p>
-          <h1 className="mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink md:text-[48px]">
+          <h1 className="mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px]">
             원하는 콘텐츠를 보기만 해도
             <br />
             소득받는 <span className="text-brand-600">전국민 보면소득</span>
           </h1>
-          <p className="mt-5 max-w-[440px] text-[17px] leading-[1.75] text-ink-2 md:text-lg">
+          <p className="mt-5 max-w-[440px] text-[17px] leading-[1.6] text-ink-2 md:text-lg">
             15초 광고 하나에 7원. 지하철에서, 자기 전에, 보기만 하면 소득이
             쌓여요. 쌓인 소득은 현금 1원과 똑같이 쓰거나 내 계좌로 출금할 수
             있죠.
@@ -69,7 +69,7 @@ function Hero() {
           </ul>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[500px] overflow-hidden rounded-[32px] bg-fill shadow-float">
+        <div className="relative mx-auto w-full max-w-[500px] overflow-hidden rounded-[40px] bg-fill-3 shadow-float">
           <img
             src={hero3d}
             alt="보면소득 앱 홈 화면을 띄운 스마트폰과 주변에 떠 있는 금화. 총 누적 소득 13,571원, 안 쓴 소득 12,571원"
@@ -184,7 +184,7 @@ function Referral() {
           />
         </div>
         <div>
-          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[26px]">
+          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px]">
             자는 동안에도 더해지는
             <br />
             &lsquo;얻은소득&rsquo;
@@ -201,7 +201,7 @@ function Referral() {
             ))}
           </ul>
           <div className="mt-8 rounded-2xl bg-brand-50 px-5 py-4">
-            <p className="text-[15px] leading-[1.7] font-semibold text-brand-700">
+            <p className="text-[15px] leading-[1.6] font-semibold text-brand-700">
               친구 10명이 하루 5분씩만 봐도, 나는 아무것도 하지 않고 매일
               얻은소득이 들어와요.
             </p>
@@ -236,10 +236,10 @@ function CashLike() {
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
         <div>
-          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[26px]">
+          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px]">
             기프트샵에서 <span className="text-brand-600">정가 그대로</span>
           </h3>
-          <p className="mt-3 text-base leading-[1.7] text-ink-2 md:text-[17px]">
+          <p className="mt-3 text-base leading-[1.6] text-ink-2">
             1,000소득이면 1,000원짜리 상품을 삽니다. 할인율도, 전환 수수료도
             없어요.
           </p>
@@ -285,11 +285,11 @@ function CashLike() {
           height={1156}
         />
         <div className="order-1 md:order-2">
-          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[26px]">
+          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px]">
             모은 소득은 내 계좌로{" "}
             <span className="text-brand-600">현금출금</span>
           </h3>
-          <p className="mt-3 text-base leading-[1.7] text-ink-2 md:text-[17px]">
+          <p className="mt-3 text-base leading-[1.6] text-ink-2">
             상품으로만 바꿀 수 있는 포인트가 아니에요. 진짜 현금으로
             돌려받습니다.
           </p>
@@ -360,10 +360,10 @@ function EasyAnytime() {
               <span className="num text-sm font-bold text-brand-700">
                 STEP {i + 1}
               </span>
-              <h3 className="mt-2 text-[22px] font-bold tracking-[-0.01em] text-ink">
+              <h3 className="mt-2 text-[20px] font-bold tracking-[-0.01em] text-ink">
                 {s.title}
               </h3>
-              <p className="mt-2 text-[15px] leading-[1.7] text-ink-2">
+              <p className="mt-2 text-[15px] leading-[1.6] text-ink-2">
                 {s.desc}
               </p>
             </div>
@@ -419,10 +419,10 @@ function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
             key={c.title}
             className="rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8"
           >
-            <h3 className="text-[19px] font-bold tracking-[-0.01em] text-ink">
+            <h3 className="text-[20px] font-bold tracking-[-0.01em] text-ink">
               {c.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-[1.7] text-ink-2">
+            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2">
               {c.desc}
             </p>
           </li>
@@ -448,7 +448,7 @@ function BomyeonFAQ() {
             <br />
             궁금한 것들
           </h2>
-          <p className="mt-3 text-base leading-[1.7] text-ink-2 md:text-[17px]">
+          <p className="mt-3 text-base leading-[1.6] text-ink-2">
             더 궁금한 점은{" "}
             <a
               href={`mailto:${COMPANY.email}`}
