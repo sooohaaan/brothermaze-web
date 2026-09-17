@@ -46,12 +46,14 @@ function useReveal(site: Site) {
   useEffect(() => {
     if (REDUCED) return
     const targets = Array.from(
-      document.querySelectorAll<HTMLElement>(".reveal-children > *"),
+      document.querySelectorAll<HTMLElement>(
+        ".reveal-children > *, .reveal-words",
+      ),
     )
-    targets.forEach((el, i) => {
+    targets.forEach((el) => {
+      if (el.classList.contains("reveal-words")) return
       const order = Array.prototype.indexOf.call(el.parentElement!.children, el)
-      el.style.transitionDelay = `${Math.min(order, 4) * 70}ms`
-      void i
+      el.style.transitionDelay = `${Math.min(order, 4) * 60}ms`
     })
     const io = new IntersectionObserver(
       (entries) => {

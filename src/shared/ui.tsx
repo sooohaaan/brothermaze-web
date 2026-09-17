@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import { Fragment, cloneElement, isValidElement, type ReactNode } from "react"
 import { LINKS } from "../content"
 import badgeAppStore from "../assets/badge-appstore.png"
 import badgeGooglePlay from "../assets/badge-googleplay.webp"
@@ -69,6 +69,49 @@ export function Money({
   )
 }
 
+
+/* ── 어절 단위 등장 ──────────────────────────────────────
+ * 제목을 어절(공백 기준)로 쪼개 순차로 떠오르게 합니다.
+ * 토스는 글자 단위로 쪼개지만, 한글에서 글자 단위로 나누면
+ * 줄이 아무 곳에서나 끊겨 word-break: keep-all 이 무력해지므로
+ * 어절 단위로 나눕니다. <br/> 과 강조 <span> 은 그대로 둡니다.
+ */
+function splitWords(node: ReactNode, counter: { i: number }): ReactNode {
+  if (typeof node === "string") {
+    return node.split(/(\s+)/).map((part, k) => {
+      if (!part.trim()) return <Fragment key={`s${k}`}>{part}</Fragment>
+      const i = counter.i++
+      return (
+        <span key={`w${k}`} className="word" style={{ ["--i" as string]: i }}>
+          {part}
+        </span>
+      )
+    })
+  }
+  if (Array.isArray(node))
+    return node.map((n, k) => (
+      <Fragment key={`n${k}`}>{splitWords(n, counter)}</Fragment>
+    ))
+  if (isValidElement(node)) {
+    const el = node as React.ReactElement<{ children?: ReactNode }>
+    if (el.props.children == null) return el
+    return cloneElement(el, {
+      children: splitWords(el.props.children, counter),
+    })
+  }
+  return node
+}
+
+export function SplitWords({
+  children,
+  start = 0,
+}: {
+  children: ReactNode
+  start?: number
+}) {
+  return <>{splitWords(children, { i: start })}</>
+}
+
 /* ── 레이아웃 ───────────────────────────────────────── */
 export function Container({
   children,
@@ -130,16 +173,25 @@ export function ChapterHead({
 }) {
   return (
     <header
-      className={cx("max-w-[680px]", center && "mx-auto text-center")}
+      className={cx(
+        "reveal-words max-w-[680px]",
+        center && "mx-auto text-center",
+      )}
     >
-      <p className="num text-[26px] font-extrabold text-brand-600 md:text-[32px]">
+      <p
+        className="num word text-[26px] font-extrabold text-brand-600 md:text-[32px]"
+        style={{ ["--i" as string]: 0 }}
+      >
         {no}
       </p>
-      <h2 className="mt-4 text-[28px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
-        {title}
+      <h2 className="mt-4 text-[28px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[36px] 2xl:text-[40px]">
+        <SplitWords start={1}>{title}</SplitWords>
       </h2>
       {sub && (
-        <p className="mt-4 text-base leading-[1.6] text-ink-2">
+        <p
+          className="word mt-4 text-base leading-[1.6] text-ink-2 2xl:text-[18px]"
+          style={{ ["--i" as string]: 9 }}
+        >
           {sub}
         </p>
       )}

@@ -15,6 +15,7 @@ import {
   FAQ,
   Money,
   Section,
+  SplitWords,
   StoreBadges,
   cx,
 } from "../shared/ui"
@@ -39,10 +40,12 @@ function Hero() {
       <Container className="grid items-center gap-12 md:grid-cols-[1.05fr_1fr] md:gap-10">
         <div>
           <p className="text-[15px] font-semibold text-ink-3">보면소득</p>
-          <h1 className="mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px]">
-            원하는 콘텐츠를 보기만 해도
-            <br />
-            소득받는 <span className="text-brand-600">전국민 보면소득</span>
+          <h1 className="reveal-words mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px] 2xl:text-[56px]">
+            <SplitWords>
+              원하는 콘텐츠를 보기만 해도
+              <br />
+              소득받는 <span className="text-brand-600">전국민 보면소득</span>
+            </SplitWords>
           </h1>
           <p className="mt-5 max-w-[440px] text-[17px] leading-[1.6] text-ink-2 md:text-lg">
             15초 광고 하나에 7원. 지하철에서, 자기 전에, 보기만 하면 소득이
@@ -185,7 +188,7 @@ function Referral() {
           />
         </div>
         <div>
-          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px]">
+          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
             자는 동안에도 더해지는
             <br />
             &lsquo;얻은소득&rsquo;
@@ -267,10 +270,10 @@ function CashLike() {
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
         <div>
-          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px]">
+          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
             기프트샵에서 <span className="text-brand-600">정가 그대로</span>
           </h3>
-          <p className="mt-3 text-base leading-[1.6] text-ink-2">
+          <p className="mt-3 text-base leading-[1.6] text-ink-2 2xl:text-[18px]">
             1,000소득이면 1,000원짜리 상품을 삽니다. 할인율도, 전환 수수료도
             없어요.
           </p>
@@ -340,11 +343,11 @@ function CashLike() {
           height={1156}
         />
         <div className="order-1 md:order-2">
-          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px]">
+          <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
             모은 소득은 내 계좌로{" "}
             <span className="text-brand-600">현금출금</span>
           </h3>
-          <p className="mt-3 text-base leading-[1.6] text-ink-2">
+          <p className="mt-3 text-base leading-[1.6] text-ink-2 2xl:text-[18px]">
             상품으로만 바꿀 수 있는 포인트가 아니에요. 진짜 현금으로
             돌려받습니다.
           </p>
@@ -423,10 +426,10 @@ function EasyAnytime() {
               <span className="num text-sm font-bold text-brand-700">
                 STEP {i + 1}
               </span>
-              <h3 className="mt-2 text-[20px] font-bold tracking-[-0.01em] text-ink">
+              <h3 className="mt-2 text-[20px] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
                 {s.title}
               </h3>
-              <p className="mt-2 text-[15px] leading-[1.6] text-ink-2">
+              <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
                 {s.desc}
               </p>
               <p className="mt-3 border-t border-line pt-3 text-[15px] leading-[1.6] text-ink-3">
@@ -487,10 +490,10 @@ function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
             key={c.title}
             className="rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8"
           >
-            <h3 className="text-[20px] font-bold tracking-[-0.01em] text-ink">
+            <h3 className="text-[20px] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
               {c.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2">
+            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
               {c.desc}
             </p>
           </li>
@@ -518,7 +521,7 @@ function BomyeonFAQ() {
               <br />
               궁금한 것들
             </h2>
-            <p className="mt-3 text-base leading-[1.6] text-ink-2">
+            <p className="mt-3 text-base leading-[1.6] text-ink-2 2xl:text-[18px]">
               더 궁금한 점은{" "}
               <a
                 href={`mailto:${COMPANY.email}`}

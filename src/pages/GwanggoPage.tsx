@@ -14,6 +14,7 @@ import {
   Container,
   FAQ,
   Section,
+  SplitWords,
 } from "../shared/ui"
 import adInApp from "../assets/3d/how-1-watch.webp"
 
@@ -32,10 +33,12 @@ function Hero() {
       <Container className="grid items-center gap-12 md:grid-cols-[1.1fr_1fr] md:gap-16">
         <div>
           <p className="text-[15px] font-semibold text-ink-3">광고해요</p>
-          <h1 className="mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px]">
-            전국민 <span className="text-brand-600">누구나</span>
-            <br />
-            보면소득에서 <span className="text-brand-600">광고해요</span>
+          <h1 className="reveal-words mt-4 text-[36px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px] 2xl:text-[56px]">
+            <SplitWords>
+              전국민 <span className="text-brand-600">누구나</span>
+              <br />
+              보면소득에서 <span className="text-brand-600">광고해요</span>
+            </SplitWords>
           </h1>
           <p className="mt-5 max-w-[460px] text-[17px] leading-[1.6] text-ink-2 md:text-lg">
             광고해요는 모바일앱 보면소득에 쉽게 광고할 수 있는 광고 관리
@@ -142,10 +145,10 @@ function Why() {
             className="rounded-card bg-surface p-6 shadow-card md:p-8"
           >
             <Check className="size-7 text-brand-600" />
-            <h3 className="mt-5 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink">
+            <h3 className="mt-5 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
               {d.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2">
+            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
               {d.desc}
             </p>
           </div>
@@ -193,10 +196,10 @@ function Memory() {
             className="rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8"
           >
             <Check className="size-7 text-brand-600" />
-            <h3 className="mt-5 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink">
+            <h3 className="mt-5 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
               {d.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2">
+            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
               {d.desc}
             </p>
           </div>
@@ -246,10 +249,10 @@ function Rush() {
             className="rounded-card bg-surface p-6 shadow-card md:p-8"
           >
             <Check className="size-7 text-brand-600" />
-            <h3 className="mt-5 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink">
+            <h3 className="mt-5 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink 2xl:text-[24px]">
               {d.title}
             </h3>
-            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2">
+            <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
               {d.desc}
             </p>
           </div>
@@ -334,7 +337,7 @@ function AdFAQ() {
               <br />
               궁금한 것들
             </h2>
-            <p className="mt-3 text-base leading-[1.6] text-ink-2">
+            <p className="mt-3 text-base leading-[1.6] text-ink-2 2xl:text-[18px]">
               제휴·대량 집행 문의는{" "}
               <a
                 href={`mailto:${COMPANY.partnerEmail}`}
