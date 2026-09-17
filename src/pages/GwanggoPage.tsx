@@ -12,11 +12,11 @@ import {
   Button,
   ChapterHead,
   Check,
-  Coin,
   Container,
   FAQ,
   Section,
 } from "../shared/ui"
+import adInApp from "../assets/3d/how-1-watch.webp"
 
 const won = (n: number) => `${n.toLocaleString("ko-KR")}원`
 const viewsFor = (budget: number, len: AdLength) =>
@@ -25,12 +25,13 @@ const viewsFor = (budget: number, len: AdLength) =>
 /*
  * 현행 adhaeyo.com 의 화면 구성을 그대로 토스 형식으로 옮겼습니다.
  * 히어로(서비스 정의) → 01 15원이면 누구나 쉽게 하는 광고
- * → 02 광고하기 정말 쉬워요 → FAQ(유지) → 가입 CTA → CONTACT US
+ * → 02 합리적인 진짜 광고 → 03 한번 보면 잊지 못하는 광고
+ * → 04 먼저 보려고 난리나는 광고 → 05 광고하기 정말 쉬워요
+ * → FAQ(유지) → 가입 CTA → CONTACT US
  */
 
 /* ── 히어로 ─────────────────────────────────────────────── */
 function Hero() {
-  const viewerShare = Math.round((REWARD[15] / AD_PRICE[15]) * 100)
   return (
     <section className="bg-ground pt-12 pb-20 md:pt-20 md:pb-30">
       <Container className="grid items-center gap-12 md:grid-cols-[1.1fr_1fr] md:gap-16">
@@ -54,48 +55,14 @@ function Hero() {
           </div>
         </div>
 
-        {/* 15원이 어디로 가는지 — 정적 카드 */}
-        <div className="rounded-card bg-surface p-6 shadow-float ring-1 ring-line md:p-8">
-          <p className="text-[15px] text-ink-3">완전시청 1건의 광고비</p>
-          <p className="num mt-1 text-[48px] leading-none font-extrabold text-ink">
-            15<span className="ml-1 font-sans text-2xl font-bold">원</span>
-          </p>
-          <div
-            className="mt-6 flex h-3 overflow-hidden rounded-full"
-            aria-hidden
-          >
-            <div className="bg-gold-400" style={{ width: `${viewerShare}%` }} />
-            <div className="flex-1 bg-line" />
-          </div>
-          <dl className="mt-5 grid grid-cols-2 gap-4">
-            <div>
-              <dt className="flex items-center gap-2 text-[13px] text-ink-3">
-                <span className="size-2 rounded-full bg-gold-400" /> 시청자에게
-              </dt>
-              <dd className="mt-1 flex items-center gap-1.5">
-                <Coin size={20} />
-                <span className="num text-2xl font-extrabold text-ink">
-                  7원
-                </span>
-                <span className="num text-[13px] text-ink-3">
-                  {viewerShare}%
-                </span>
-              </dd>
-            </div>
-            <div>
-              <dt className="flex items-center gap-2 text-[13px] text-ink-3">
-                <span className="size-2 rounded-full bg-line" /> 운영·노출
-              </dt>
-              <dd className="num mt-1 text-2xl font-extrabold text-ink-2">
-                8원
-              </dd>
-            </div>
-          </dl>
-          <p className="mt-6 border-t border-line pt-5 text-[15px] leading-[1.6] text-ink-2">
-            중간에 넘기거나 끝까지 보지 않으면 <b className="text-ink">0원</b>
-            입니다.
-          </p>
-        </div>
+        <img
+          src={adInApp}
+          alt="보면소득 앱의 광고 목록 화면. 광고마다 7원 소득과 영상 15초 + 방문 형식이 표시되고, '우리 가게를 직접 쉽게 광고해요' 광고가 걸려 있다"
+          className="mx-auto w-full max-w-[320px]"
+          width={640}
+          height={1156}
+          fetchPriority="high"
+        />
       </Container>
     </section>
   )
