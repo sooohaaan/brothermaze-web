@@ -41,7 +41,8 @@ const REDUCED =
   !("IntersectionObserver" in window)
 if (!REDUCED) document.documentElement.classList.add("reveal-ready")
 
-/* 스크롤 등장 — 화면에 들어온 요소부터 순서대로 떠오릅니다. */
+/* 스크롤 등장 — 화면에 들어오면 떠오르고, 완전히 벗어나면 되돌아가
+ * 다시 들어올 때 또 재생됩니다. */
 function useReveal(site: Site) {
   useEffect(() => {
     if (REDUCED) return
@@ -58,9 +59,9 @@ function useReveal(site: Site) {
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (!entry.isIntersecting) continue
-          entry.target.classList.add("is-in")
-          io.unobserve(entry.target)
+          /* 화면 밖으로 완전히 나갔을 때만 되돌리므로
+           * 보이는 중에 사라지는 일은 없습니다. */
+          entry.target.classList.toggle("is-in", entry.isIntersecting)
         }
       },
       { rootMargin: "0px 0px -10% 0px", threshold: 0.05 },
