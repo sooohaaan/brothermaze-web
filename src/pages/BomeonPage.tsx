@@ -71,14 +71,15 @@ const HERO_COINS = [
 
 /* referral 컷의 금화. 같은 방식으로 따로 렌더링했고, 이 컷은 이미지가 작아
  * 히어로(14~22%)보다 이동 폭을 키웠습니다(지름의 25~30%).
- * bg1·bg2 는 원래 폰 뒤에 있던 것이라 z 를 폰(10)보다 낮게 둡니다. */
+ * bg1·bg2 는 원래 폰 뒤에 있던 것이라 z 를 폰(10)보다 낮게 둡니다.
+ * 위에서부터 하나씩 내려와 쌓이며, 뒤에 깔릴 것부터 순서대로 내려앉습니다. */
 const REFERRAL_COINS = [
-  { src: referralCoinBg1, r0: "0%", r1: "34%", iw: 151, ih: 151, left: 60.434, top: 10.326, w: 16.778, z: 1, dur: "10s", delay: "-1.2s", dx: "9%", dy: "-26%", rot: "4deg" },
-  { src: referralCoinBg2, r0: "7%", r1: "38%", iw: 129, ih: 129, left: 18.45, top: 69.995, w: 14.333, z: 2, dur: "11.5s", delay: "-3s", dx: "-11%", dy: "25%", rot: "-5deg" },
-  { src: referralCoinD1, r0: "14%", r1: "42%", iw: 75, ih: 75, left: 54.683, top: 28.623, w: 8.333, z: 20, dur: "8s", delay: "0s", dx: "-14%", dy: "-30%", rot: "5deg" },
-  { src: referralCoinD2, r0: "21%", r1: "46%", iw: 86, ih: 87, left: 39.566, top: 79.609, w: 9.556, z: 21, dur: "9.5s", delay: "-2s", dx: "12%", dy: "-27%", rot: "-4deg" },
-  { src: referralCoinFr2, r0: "28%", r1: "50%", iw: 72, ih: 72, left: 5.222, top: 38.004, w: 8, z: 22, dur: "8.5s", delay: "-1.8s", dx: "-12%", dy: "28%", rot: "-5deg" },
-  { src: referralCoinFr1, r0: "35%", r1: "54%", iw: 101, ih: 102, left: 83.604, top: 71.801, w: 11.222, z: 23, dur: "12s", delay: "-4.5s", dx: "13%", dy: "-25%", rot: "6deg" },
+  { src: referralCoinBg1, drop: 0, iw: 151, ih: 151, left: 60.434, top: 10.326, w: 16.778, z: 1, dur: "10s", delay: "-1.2s", dx: "9%", dy: "-26%", rot: "4deg" },
+  { src: referralCoinBg2, drop: 1, iw: 129, ih: 129, left: 18.45, top: 69.995, w: 14.333, z: 2, dur: "11.5s", delay: "-3s", dx: "-11%", dy: "25%", rot: "-5deg" },
+  { src: referralCoinD1, drop: 2, iw: 75, ih: 75, left: 54.683, top: 28.623, w: 8.333, z: 20, dur: "8s", delay: "0s", dx: "-14%", dy: "-30%", rot: "5deg" },
+  { src: referralCoinD2, drop: 3, iw: 86, ih: 87, left: 39.566, top: 79.609, w: 9.556, z: 21, dur: "9.5s", delay: "-2s", dx: "12%", dy: "-27%", rot: "-4deg" },
+  { src: referralCoinFr2, drop: 4, iw: 72, ih: 72, left: 5.222, top: 38.004, w: 8, z: 22, dur: "8.5s", delay: "-1.8s", dx: "-12%", dy: "28%", rot: "-5deg" },
+  { src: referralCoinFr1, drop: 5, iw: 101, ih: 102, left: 83.604, top: 71.801, w: 11.222, z: 23, dur: "12s", delay: "-4.5s", dx: "13%", dy: "-25%", rot: "6deg" },
 ]
 
 /* 현금출금 컷의 금화. 폰 이미지는 기존 것을 그대로 두고 금화만 얹었습니다.
@@ -92,40 +93,6 @@ const CASH_COINS = [
   { src: cashCoin4, iw: 103, ih: 105, left: 6.866, top: 73.373, w: 16.094, z: 5, bx: "217%", by: "-307%", dur: "11s", delay: "-4s", dx: "10%", dy: "22%", rot: "5deg" },
   { src: cashCoin5, iw: 52, ih: 66, left: 0.924, top: 42.519, w: 8.125, z: 6, bx: "552%", by: "81%", dur: "9.5s", delay: "-2.8s", dx: "-13%", dy: "-26%", rot: "-6deg" },
 ]
-
-/* 계속 흘러드는 금화. 이미 쌓인 여섯 개 중 폰 앞에 있는 네 자리에 그대로
- * 내려앉아 스며들듯 사라집니다. 폰 뒤에 깔린 두 개(bg1·bg2) 자리는 쓰지
- * 않습니다 — 앞에서 떨어진 금화가 뒤에 있는 것과 겹치면 어색해서요.
- * 이미지는 기존 스프라이트를 그대로 재사용하므로 용량은 늘지 않습니다. */
-const REFERRAL_INFLOW = [
-  { src: referralCoinD1, iw: 75, ih: 75, left: 54.683, top: 28.623, w: 8.333, dur: "2.8s", delay: "0s" },
-  { src: referralCoinD2, iw: 86, ih: 87, left: 39.566, top: 79.609, w: 9.556, dur: "2.8s", delay: "-0.7s" },
-  { src: referralCoinFr2, iw: 72, ih: 72, left: 5.222, top: 38.004, w: 8, dur: "2.8s", delay: "-1.4s" },
-  { src: referralCoinFr1, iw: 101, ih: 102, left: 83.604, top: 71.801, w: 11.222, dur: "2.8s", delay: "-2.1s" },
-]
-
-function renderInflowCoin(c: (typeof REFERRAL_INFLOW)[number]) {
-  return (
-    <img
-      key={`in-${c.src}`}
-      src={c.src}
-      alt=""
-      aria-hidden
-      loading="lazy"
-      width={c.iw}
-      height={c.ih}
-      className="coin-add absolute block h-auto"
-      style={{
-        left: `${c.left}%`,
-        top: `${c.top}%`,
-        width: `${c.w}%`,
-        zIndex: 30,
-        ["--dur" as string]: c.dur,
-        ["--delay" as string]: c.delay,
-      }}
-    />
-  )
-}
 
 /* 기프트샵 컷에 얹는 상품 3종. 금화와 같은 방식으로 폰과 따로 렌더링했고,
  * 폰 화면 한가운데(49.8%, 50%)에서 튀어나옵니다. 화면이 가려지지 않도록
@@ -149,9 +116,9 @@ type FloatCoin =
 function renderFloatCoin(c: FloatCoin, i: number) {
   /* 올라오는 동작은 바깥 래퍼가, 떠다니는 동작은 안쪽 이미지가 맡습니다.
    * 한 요소에 둘을 같이 걸면 transform 이 서로를 덮어씁니다. */
-  /* coin-rise: 스크롤에 맞춰 아래에서 / coin-pop: 화면 가운데서 튀어나옴 /
+  /* coin-drop: 위에서 하나씩 내려와 쌓임 / coin-pop: 화면 가운데서 튀어나옴 /
    * coin-in: 뜨자마자 한 번 (히어로) */
-  const kind = "r0" in c ? "coin-rise" : "bx" in c ? "coin-pop" : "coin-in"
+  const kind = "drop" in c ? "coin-drop" : "bx" in c ? "coin-pop" : "coin-in"
   return (
     <span
       key={c.src}
@@ -161,9 +128,8 @@ function renderFloatCoin(c: FloatCoin, i: number) {
         top: `${c.top}%`,
         width: `${c.w}%`,
         zIndex: c.z,
-        ...("r0" in c ? { ["--r0" as string]: c.r0, ["--r1" as string]: c.r1 } : null),
         ...("bx" in c ? { ["--bx" as string]: c.bx, ["--by" as string]: c.by } : null),
-        ["--i" as string]: i,
+        ["--i" as string]: "drop" in c ? c.drop : i,
       }}
     >
       <img
@@ -365,7 +331,7 @@ function Referral() {
         sub="한 번 초대해 두면 끝. 친구가 보면소득을 쓰는 동안 내가 아무것도 하지 않아도 소득이 자동으로 늘어나는 구조예요. 친구를 더 많이 모으세요. 먼저 시작할수록 유리해요."
       />
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
-        <div className="coin-stage relative mx-auto w-full max-w-[340px]">
+        <div className="relative mx-auto w-full max-w-[340px]">
           {/* bg 두 개는 폰 뒤에 깔려 폰 뒤에서 드나듭니다 */}
           {REFERRAL_COINS.filter((c) => c.z < 10).map(renderFloatCoin)}
           <img
@@ -377,8 +343,6 @@ function Referral() {
             height={1269}
           />
           {REFERRAL_COINS.filter((c) => c.z > 10).map(renderFloatCoin)}
-          {/* 계속 흘러드는 금화 — 쌓인 것 위로 내려앉습니다 */}
-          {REFERRAL_INFLOW.map(renderInflowCoin)}
         </div>
         <div>
           <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">

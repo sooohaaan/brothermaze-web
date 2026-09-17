@@ -252,34 +252,18 @@
       animation-delay: calc(var(--i, 0) * 90ms);
     }
 
-    /* 금화가 계속 흘러듭니다 — 위에서 내려와 이미 쌓인 자리에서 스며들듯
-     * 사라집니다. 쌓여 있는 금화는 그대로 두어야 합니다. 그것들이 사라졌다
-     * 나타나면 소득이 빠져나가는 것처럼 읽히기 때문입니다. */
-    @keyframes coin-add {
-      0% {
-        transform: translateY(-260%) scale(0.45);
-        opacity: 0;
-      }
-      18% {
-        opacity: 1;
-      }
-      62% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(0) scale(1);
-        opacity: 0;
-      }
+    /* 금화가 위에서 하나씩 내려와 제자리에 쌓입니다. 내려앉은 뒤에는
+     * 사라지지 않고 그대로 남습니다 — 사라지면 쌓이는 게 아니라 빠져나가는
+     * 것으로 읽힙니다. 섹션에 다시 들어올 때마다 처음부터 다시 쌓입니다. */
+    html.reveal-ready .coin-drop {
+      transition:
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.4s ease-out;
+      transition-delay: calc(var(--i, 0) * 260ms);
     }
-    html.reveal-ready .coin-add {
-      animation: coin-add var(--dur, 2.8s) cubic-bezier(0.45, 0.05, 0.35, 1)
-        var(--delay, 0s) infinite;
-    }
-    /* 화면 밖에서는 세워 둡니다 — 무한 반복이라 그냥 두면 안 보이는 동안에도
-     * 계속 돕니다. 다시 들어오면 멈춘 자리에서 이어집니다. */
-    html.reveal-ready .reveal-children > *:not(.is-in) .coin-add {
-      animation-play-state: paused;
+    html.reveal-ready .reveal-children > *:not(.is-in) .coin-drop {
+      transform: translateY(-260%) scale(0.5);
+      opacity: 0;
     }
 
     /* 화면 한가운데서 폰 주변으로 튀어나옵니다. 끝에서 아주 살짝 넘어갔다
@@ -294,24 +278,6 @@
     html.reveal-ready .reveal-children > *:not(.is-in) .coin-pop {
       transform: translate(var(--bx, 0), var(--by, 0)) scale(0.25);
       opacity: 0;
-    }
-  }
-
-  /* 스크롤에 맞춰 올라오기 — 타임라인은 이미지 박스에 하나만 두고,
-   * 코인마다 구간 시작점을 어긋나게 해서 순서대로 올라오게 합니다.
-   * 지원하지 않는 브라우저에서는 규칙이 통째로 빠져 코인이 제자리에
-   * 그대로 있습니다. */
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .coin-stage {
-        view-timeline-name: --coin-stage;
-        view-timeline-axis: block;
-      }
-      .coin-rise {
-        animation: coin-rise linear both;
-        animation-timeline: --coin-stage;
-        animation-range: entry var(--r0, 0%) cover var(--r1, 40%);
-      }
     }
   }
 
