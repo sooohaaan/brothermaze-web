@@ -1,5 +1,6 @@
 import {
   ADHAEYO_FAQ,
+  AD_LENGTHS,
   AD_PRICE,
   COMPANY,
   LINKS,
@@ -175,10 +176,12 @@ const memories = [
   {
     title: "인지도와 호감도가 함께 올라요",
     desc: "광고가 불편한 방해가 아니라 반가운 선물이 됩니다. 브랜드를 좋은 기억으로 만나게 되죠.",
+    trend: true,
   },
   {
     title: "끝까지 본 사람만 남아요",
     desc: "과금 조건이 완전시청이라, 내 광고를 본 사람은 전부 처음부터 끝까지 본 사람입니다.",
+    timeline: true,
   },
 ]
 
@@ -226,6 +229,75 @@ function Memory() {
                     <b className="num text-ink">
                       {AD_PRICE[15] - REWARD[15]}원
                     </b>
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* 두 지표가 나란히 올라가는 선 그래프. 왼쪽부터 그려집니다.
+              * 눈금·수치는 일부러 넣지 않았습니다 — 실제 측정값이 아니라
+              * 방향을 보여주는 그림이라서요. */}
+            {"trend" in d && (
+              <div className="mt-5" aria-hidden>
+                <svg
+                  viewBox="0 0 120 48"
+                  className="h-16 w-full"
+                  fill="none"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M2 44 H118"
+                    stroke="var(--color-line)"
+                    strokeWidth="1"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  <path
+                    className="draw"
+                    d="M4 38 C 28 36, 44 30, 60 24 S 96 12, 116 6"
+                    stroke="var(--color-brand-600)"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                    style={{ ["--len" as string]: 130, ["--i" as string]: 0 }}
+                  />
+                  <path
+                    className="draw"
+                    d="M4 42 C 30 41, 46 37, 62 33 S 98 24, 116 18"
+                    stroke="var(--color-ink-3)"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                    style={{ ["--len" as string]: 130, ["--i" as string]: 1 }}
+                  />
+                </svg>
+                <div className="mt-2 flex gap-4 text-[13px] text-ink-2">
+                  <span className="flex items-center gap-1.5">
+                    <i className="size-2 rounded-full bg-brand-600" />
+                    인지도
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <i className="size-2 rounded-full bg-ink-3" />
+                    호감도
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* 재생 막대가 끝까지 가서 멈춥니다 — 완전시청 그 자체 */}
+            {"timeline" in d && (
+              <div className="mt-5" aria-hidden>
+                <div className="relative h-2 rounded-full bg-line">
+                  <div className="seek absolute inset-y-0 left-0 rounded-full bg-brand-600">
+                    <span className="absolute top-1/2 right-0 size-4 translate-x-1/2 -translate-y-1/2 rounded-full bg-surface ring-2 ring-brand-600" />
+                  </div>
+                </div>
+                <div className="mt-2 flex justify-between text-[13px] text-ink-2">
+                  <span className="num">0:00</span>
+                  <span className="font-semibold text-brand-700">
+                    끝까지 봄
+                  </span>
+                  <span className="num">
+                    0:{String(AD_LENGTHS[0]).padStart(2, "0")}
                   </span>
                 </div>
               </div>

@@ -184,37 +184,54 @@ function WhyAndRates() {
         }
         sub="나 보라고 만든 광고를 내가 봤는데, 왜 수익은 크리에이터가 벌까요? 보면소득에서는 광고를 보면 내가 법니다."
       />
-      {/* 길수록 커지는 막대 — 보면 볼수록 쌓인다는 걸 높이로 보여줍니다 */}
-      <ol className="mx-auto mt-10 grid max-w-[760px] grid-cols-3 gap-2 md:mt-14 md:gap-6">
-        {AD_LENGTHS.map((len) => (
-          <li
-            key={len}
-            className="flex flex-col items-center rounded-card bg-fill-2 px-2 py-6 ring-1 ring-line md:px-6 md:py-7"
-          >
-            <span className="num text-[13px] font-semibold text-ink-2 md:text-[15px]">
+      {/* 하나의 판 안에서 같은 바닥선을 공유하게 두어 길이 차이가 바로
+        * 읽히게 했습니다. 금액은 막대 위에 올려 눈이 위로 움직이도록. */}
+      <div className="mx-auto mt-10 max-w-[760px] rounded-card bg-fill-2 px-5 pt-8 pb-6 md:mt-14 md:px-10 md:pt-10 md:pb-7">
+        <ol className="grid grid-cols-3 items-end gap-3 md:gap-10">
+          {AD_LENGTHS.map((len, i) => (
+            <li key={len} className="flex flex-col items-center">
+              {/* 눈으로는 바닥선 아래 줄에서 읽고, 스크린리더에서는 금액과
+                * 한 항목으로 붙여 읽히도록 여기에도 넣어 둡니다. */}
+              <span className="sr-only">{len}초 광고</span>
+              <span
+                className="bar-label mb-3 block md:mb-4"
+                style={{ ["--i" as string]: i }}
+              >
+                <span className="md:hidden">
+                  <Money value={REWARD[len]} size="sm" />
+                </span>
+                <span className="hidden md:inline-flex">
+                  <Money value={REWARD[len]} size="md" />
+                </span>
+              </span>
+              <div
+                aria-hidden
+                className="flex h-28 w-full items-end justify-center md:h-40"
+              >
+                <div
+                  className="bar w-full max-w-[64px] rounded-t-lg bg-brand-600 md:max-w-[88px]"
+                  style={{
+                    height: `${(REWARD[len] / REWARD[60]) * 100}%`,
+                    ["--i" as string]: i,
+                  }}
+                />
+              </div>
+            </li>
+          ))}
+        </ol>
+        {/* 바닥선 — 세 막대가 같은 기준에서 출발한다는 걸 보여줍니다 */}
+        <div aria-hidden className="h-px w-full bg-line" />
+        <div aria-hidden className="grid grid-cols-3 gap-3 pt-3 md:gap-10">
+          {AD_LENGTHS.map((len) => (
+            <span
+              key={len}
+              className="num text-center text-[13px] font-semibold text-ink-2 md:text-[15px]"
+            >
               {len}초 광고
             </span>
-            <div
-              aria-hidden
-              className="mt-5 flex h-24 w-full items-end justify-center md:mt-6 md:h-28"
-            >
-              <div
-                className="grow w-10 rounded-t-xl bg-brand-600 md:w-14"
-                style={{
-                  height: `${(REWARD[len] / REWARD[60]) * 100}%`,
-                  ["--i" as string]: AD_LENGTHS.indexOf(len),
-                }}
-              />
-            </div>
-            <span className="mt-4 block md:hidden">
-              <Money value={REWARD[len]} size="sm" />
-            </span>
-            <span className="mt-5 hidden md:block">
-              <Money value={REWARD[len]} size="md" />
-            </span>
-          </li>
-        ))}
-      </ol>
+          ))}
+        </div>
+      </div>
 
       {/* 제한 없음 — 흐려지며 이어지는 코인으로 '계속'을 표현 */}
       <div className="mx-auto mt-4 flex max-w-[760px] flex-col items-center justify-between gap-4 rounded-card bg-brand-50 px-6 py-6 sm:flex-row md:mt-6 md:px-8">
@@ -479,6 +496,8 @@ const steps = [
     desc: "앱을 열고 원하는 광고를 고릅니다. 끝까지 보면 바로 적립돼요.",
     more: "다양한 영상을 골라 볼 수 있어요.",
     img: how1Watch,
+    /* 폰의 어느 부분을 보여줄지 — 위 / 가운데 / 아래 */
+    focus: "50% 0%",
     alt: "보면소득 앱의 광고 목록 화면. 총 누적소득 13,571원, 높은 소득 탭, 영상 15초 + 방문 7원 광고 카드",
   },
   {
@@ -486,6 +505,7 @@ const steps = [
     desc: "보는 즉시 소득이 쌓입니다. 매일 확인하는 재미가 있어요.",
     more: "영상광고 말고 참여소득으로도 쌓을 수 있어요.",
     img: how2Earn,
+    focus: "50% 50%",
     alt: "소득 적립 완료 팝업. 참여소득 받기 성공",
   },
   {
@@ -493,6 +513,7 @@ const steps = [
     desc: "기프트샵에서 정가 그대로 사거나, 현금으로 출금합니다.",
     more: "출금은 횟수 제한없이 신청할 수 있어요.",
     img: how3Spend,
+    focus: "50% 100%",
     alt: "보면소득 소득 출금 화면. 12,500원 출금 신청을 완료하였습니다",
   },
 ]
@@ -536,16 +557,20 @@ function EasyAnytime() {
                 {s.more}
               </p>
             </div>
-            {/* 폰 화면은 잘리지 않게 두고 높이만 제한합니다. */}
+            {/* 단계마다 폰의 다른 부분을 잘라 보여줍니다. 창 높이를 폰의
+              * 절반쯤으로 잡아 화면이 크게 보이도록 했습니다. */}
             <div className="mt-4 flex justify-center px-4 md:mt-0 md:px-0 md:pr-8">
-              <img
-                src={s.img}
-                alt={s.alt}
-                loading="lazy"
-                className="w-full max-w-[250px] md:h-[420px] md:w-auto md:max-w-none"
-                width={640}
-                height={1156}
-              />
+              <div className="aspect-[7/6] w-full max-w-[280px] overflow-hidden rounded-2xl bg-fill-2">
+                <img
+                  src={s.img}
+                  alt={s.alt}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                  style={{ objectPosition: s.focus }}
+                  width={640}
+                  height={1156}
+                />
+              </div>
             </div>
           </li>
           ))}
