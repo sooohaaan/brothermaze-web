@@ -147,143 +147,11 @@ export function ChapterHead({
   )
 }
 
-/* ── 토스식 거대 숫자 — 라벨 위 · 숫자 아래 ──────────────── */
-export function StatBig({ value, label }: { value: ReactNode; label: string }) {
-  return (
-    <div className="text-center">
-      <p className="text-[15px] font-semibold text-ink-3">{label}</p>
-      <p className="num mt-2 text-[34px] font-extrabold tracking-[-0.02em] text-ink md:text-[44px]">
-        {value}
-      </p>
-    </div>
-  )
-}
-
-/* ── 토스식 '더 읽어보기' 카드 ───────────────────────────── */
-export function ReadMoreCard({
-  title,
-  desc,
-  tags,
-  onClick,
-}: {
-  title: string
-  desc: string
-  tags: string[]
-  onClick: () => void
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="group flex w-full flex-col rounded-card bg-fill-2 p-6 text-left ring-1 ring-line transition-shadow hover:shadow-card md:p-8"
-    >
-      <span className="text-[15px] font-semibold text-ink-3">{title}</span>
-      <span className="mt-2 text-[20px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[22px]">
-        {desc}
-      </span>
-      <span className="mt-5 flex flex-wrap items-center gap-2">
-        {tags.map((t) => (
-          <span
-            key={t}
-            className="rounded-full bg-surface px-3 py-1.5 text-[13px] font-semibold text-ink-2 ring-1 ring-line"
-          >
-            {t}
-          </span>
-        ))}
-        <Arrow className="ml-auto text-ink-3 transition-transform group-hover:translate-x-1" />
-      </span>
-    </button>
-  )
-}
-
-/* eyebrow → 제목 12 · 제목 → 부제 12 */
-export function SectionHead({
-  eyebrow,
-  title,
-  sub,
-  onDark,
-  center,
-  className,
-}: {
-  eyebrow?: string
-  title: ReactNode
-  sub?: ReactNode
-  onDark?: boolean
-  center?: boolean
-  className?: string
-}) {
-  return (
-    <header
-      className={cx(
-        "max-w-[640px]",
-        center && "mx-auto text-center",
-        className,
-      )}
-    >
-      {eyebrow && (
-        <p
-          className={cx(
-            "text-sm font-semibold tracking-normal",
-            onDark ? "text-gold-400" : "text-brand-700",
-          )}
-        >
-          {eyebrow}
-        </p>
-      )}
-      <h2
-        className={cx(
-          "text-[26px] leading-[1.35] font-bold tracking-[-0.01em] md:text-[36px]",
-          eyebrow && "mt-3",
-          onDark ? "text-white" : "text-ink",
-        )}
-      >
-        {title}
-      </h2>
-      {sub && (
-        <p
-          className={cx(
-            "mt-3 text-base leading-[1.6]",
-            onDark ? "text-white/70" : "text-ink-2",
-          )}
-        >
-          {sub}
-        </p>
-      )}
-    </header>
-  )
-}
-
-/* ── 카드 ───────────────────────────────────────────── */
-export function Card({
-  children,
-  className,
-  flat,
-}: {
-  children: ReactNode
-  className?: string
-  flat?: boolean
-}) {
-  return (
-    <div
-      className={cx(
-        "rounded-card bg-surface p-6 md:p-8",
-        flat ? "ring-1 ring-line" : "shadow-card",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  )
-}
-
 /* ── 버튼 — 라운드 = 높이 ÷ 2 ─────────────────────────── */
 const btnVariant = {
   primary: "bg-brand-700 text-white hover:bg-brand-800 active:bg-brand-800",
   secondary:
     "bg-surface text-ink ring-1 ring-inset ring-line hover:ring-ink-3/40 hover:bg-ground/60",
-  tint: "bg-brand-50 text-brand-700 hover:bg-brand-100",
-  onDark:
-    "bg-white/10 text-white ring-1 ring-inset ring-white/25 hover:bg-white/15",
   white: "bg-white text-brand-700 hover:bg-brand-50",
 }
 const btnSize = {
@@ -378,35 +246,6 @@ export function storeLink() {
   )
     return LINKS.appStore
   return LINKS.playStore
-}
-
-/* ── 통계 ───────────────────────────────────────────── */
-export function Stat({
-  value,
-  label,
-  onDark,
-}: {
-  value: ReactNode
-  label: string
-  onDark?: boolean
-}) {
-  return (
-    <div>
-      <p
-        className={cx(
-          "num text-2xl font-extrabold md:text-[28px]",
-          onDark ? "text-white" : "text-ink",
-        )}
-      >
-        {value}
-      </p>
-      <p
-        className={cx("mt-1 text-sm", onDark ? "text-white/60" : "text-ink-3")}
-      >
-        {label}
-      </p>
-    </div>
-  )
 }
 
 /* ── Q&A — 토스처럼 전부 펼쳐서 보여줍니다. 누를 것 없음 ──── */

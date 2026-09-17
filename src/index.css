@@ -16,12 +16,8 @@
   --color-brand-700: #0967ce; /* 같은 색상, 작은 글자용 (흰 배경 대비 5.5:1) */
   --color-brand-800: #0854a8;
 
-  /* 골드 코인 — 금액·리워드에만 */
-  --color-gold-50: #fdf6e6;
-  --color-gold-100: #faebc4;
-  --color-gold-400: #f5b32d;
+  /* 골드 — 금액·별점 표시에만 */
   --color-gold-600: #d99a14;
-  --color-gold-800: #7a5200;
 
   /* 그라운드 · 텍스트 (보조 텍스트도 흰 배경 대비 4.5:1 이상)
    * 토스처럼 페이지는 순백, 면이 필요한 곳만 옅은 회색(fill)을 씁니다. */
@@ -35,8 +31,6 @@
   --color-ink-2: #4e535c;
   --color-ink-3: #727780;
   --color-line: #e3e8ef;
-  --color-navy: #2b3a5c;
-  --color-navy-900: #172036;
 
   --radius-card: 40px;
 
