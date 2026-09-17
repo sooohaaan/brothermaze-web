@@ -7,6 +7,9 @@
  */
 
 export const LINKS = {
+  /* 원링크 하나로 iOS·Android 를 알아서 가릅니다. 스토어 링크는 참고용으로
+   * 남겨 둡니다(웹에서는 더 쓰지 않습니다). */
+  oneLink: "https://bomyeon.onelink.me/6YAi/p6ikxuua", // [확정]
   appStore: "https://apps.apple.com/kr/app/id6477753490", // [확정]
   playStore: "https://play.google.com/store/apps/details?id=com.brothermaze.bomyeon", // [확정]
   console: "https://www.bomyeon.com", // [확정] 광고해요 가입·로그인

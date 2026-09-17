@@ -2,6 +2,7 @@ import {
   AD_LENGTHS,
   BOMYEON_FAQ,
   COMPANY,
+  LINKS,
   REWARD,
   STATS,
   STORE,
@@ -16,7 +17,6 @@ import {
   Money,
   Section,
   SplitWords,
-  StoreBadges,
   cx,
 } from "../shared/ui"
 import logoBomyeon from "../assets/logo-bomyeon.png"
@@ -172,7 +172,9 @@ function Hero() {
             쌓여요. 쌓인 소득은 현금 1원과 똑같이 쓰거나 내 계좌로 출금할 수
             있죠.
           </p>
-          <StoreBadges className="mt-8" />
+          <Button href={LINKS.oneLink} external className="mt-8">
+            앱 설치하고 소득 받기
+          </Button>
           <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-2">
             <li className="flex items-center gap-1.5">
               <span aria-hidden className="text-gold-600">★</span>
@@ -746,7 +748,9 @@ function FinalCTA() {
             <p className="mt-3 text-base font-medium text-white md:text-[17px]">
               원하는 콘텐츠 보면서 소득 버는 쉬운 방법.
             </p>
-            <StoreBadges className="mt-8 justify-center" />
+            <Button href={LINKS.oneLink} external variant="white" className="mt-8">
+              앱 설치하고 소득 받기
+            </Button>
           </div>
         </div>
       </Container>

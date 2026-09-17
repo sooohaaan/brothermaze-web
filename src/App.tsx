@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { COMPANY, LINKS } from "./content"
-import { Button, Container, cx, storeLink } from "./shared/ui"
+import { Button, Container, cx } from "./shared/ui"
 import logoBomyeon from "./assets/logo-bomyeon.png"
+import qrOneLink from "./assets/qr-onelink.svg"
 import { siteMeta, type SiteId } from "./sites"
 import BomeonPage from "./pages/BomeonPage"
 import GwanggoPage from "./pages/GwanggoPage"
@@ -157,6 +158,60 @@ function Logo({ site, onDark }: { site: Site; onDark?: boolean }) {
   )
 }
 
+/* 앱 다운로드 — 데스크톱에서는 QR 을 펼치고(폰으로 찍어야 설치되니까),
+ * 모바일에서는 설치 링크로 바로 보냅니다. 두 경우를 CSS 로 갈라 두어
+ * 사용자 에이전트를 들여다보지 않습니다. */
+function AppDownload() {
+  const [open, setOpen] = useState(false)
+  const box = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false)
+    const onDown = (e: MouseEvent) => {
+      if (!box.current?.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener("keydown", onKey)
+    document.addEventListener("mousedown", onDown)
+    return () => {
+      document.removeEventListener("keydown", onKey)
+      document.removeEventListener("mousedown", onDown)
+    }
+  }, [open])
+
+  return (
+    <>
+      <Button href={LINKS.oneLink} external size="sm" className="md:hidden">
+        앱 다운로드
+      </Button>
+      <div ref={box} className="relative hidden md:block">
+        <Button size="sm" expanded={open} onClick={() => setOpen((v) => !v)}>
+          앱 다운로드
+        </Button>
+        {open && (
+          <div
+            role="dialog"
+            aria-label="앱 설치 QR 코드"
+            className="absolute top-full right-0 z-50 mt-3 w-[212px] rounded-2xl bg-surface p-4 shadow-card ring-1 ring-line"
+          >
+            <img
+              src={qrOneLink}
+              alt="보면소득 앱 설치 페이지로 가는 QR 코드"
+              width={180}
+              height={180}
+              className="block w-full rounded-lg"
+            />
+            <p className="mt-3 text-center text-[13px] leading-[1.5] text-ink-2">
+              휴대폰 카메라로 찍으면
+              <br />앱 설치 페이지로 이동해요
+            </p>
+          </div>
+        )}
+      </div>
+    </>
+  )
+}
+
 function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
   const scrolled = useScrolled(8)
   const links =
@@ -235,9 +290,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
               >
                 광고주이신가요?
               </button>
-              <Button href="#download" size="sm">
-                앱 다운로드
-              </Button>
+              <AppDownload />
             </>
           )}
         </div>
@@ -278,7 +331,7 @@ function MobileCTA({ site }: { site: Site }) {
           무료로 시작하기
         </Button>
       ) : (
-        <Button href={storeLink()} external className="w-full">
+        <Button href={LINKS.oneLink} external className="w-full">
           앱 설치하고 소득 받기
         </Button>
       )}

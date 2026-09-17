@@ -1,7 +1,5 @@
 import { Fragment, cloneElement, isValidElement, type ReactNode } from "react"
 import { LINKS } from "../content"
-import badgeAppStore from "../assets/badge-appstore.png"
-import badgeGooglePlay from "../assets/badge-googleplay.webp"
 
 const cx = (...c: (string | false | null | undefined)[]) =>
   c.filter(Boolean).join(" ")
@@ -244,6 +242,8 @@ type BtnProps = {
   onClick?: () => void
   className?: string
   external?: boolean
+  /* 팝오버를 여는 버튼이면 열림 상태를 알려 줍니다 */
+  expanded?: boolean
 }
 export function Button({
   children,
@@ -253,6 +253,7 @@ export function Button({
   onClick,
   className,
   external,
+  expanded,
 }: BtnProps) {
   const cls = cx(
     "inline-flex items-center justify-center gap-2 rounded-full font-bold whitespace-nowrap transition-colors duration-150",
@@ -272,57 +273,16 @@ export function Button({
     )
   }
   return (
-    <button type="button" onClick={onClick} className={cls}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={cls}
+      aria-expanded={expanded}
+      aria-haspopup={expanded === undefined ? undefined : "dialog"}
+    >
       {children}
     </button>
   )
-}
-
-/* ── 스토어 배지 — 현행 사이트의 공식 배지 이미지 ────────── */
-/* 두 이미지 모두 투명 여백 없이 배지 본체만 남겨 높이를 48px로 맞춤 */
-export function StoreBadges({ className }: { className?: string }) {
-  return (
-    <div className={cx("flex flex-wrap items-center gap-3", className)}>
-      <a
-        href={LINKS.appStore}
-        target="_blank"
-        rel="noreferrer"
-        className="block rounded-[10px] transition-transform hover:-translate-y-0.5"
-      >
-        <img
-          src={badgeAppStore}
-          alt="App Store에서 다운로드 하기"
-          width={512}
-          height={158}
-          className="block h-12 w-auto"
-        />
-      </a>
-      <a
-        href={LINKS.playStore}
-        target="_blank"
-        rel="noreferrer"
-        className="block rounded-[10px] transition-transform hover:-translate-y-0.5"
-      >
-        <img
-          src={badgeGooglePlay}
-          alt="Google Play에서 다운로드"
-          width={974}
-          height={289}
-          className="block h-12 w-auto"
-        />
-      </a>
-    </div>
-  )
-}
-
-/* 기기를 보고 알맞은 스토어로 */
-export function storeLink() {
-  if (
-    typeof navigator !== "undefined" &&
-    /iPhone|iPad|iPod/i.test(navigator.userAgent)
-  )
-    return LINKS.appStore
-  return LINKS.playStore
 }
 
 /* ── Q&A — 토스처럼 전부 펼쳐서 보여줍니다. 누를 것 없음 ──── */
