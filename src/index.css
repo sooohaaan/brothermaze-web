@@ -104,6 +104,61 @@
       will-change: auto;
     }
 
+    /* 막대가 아래에서 자라납니다 — 높이가 곧 메시지인 곳에 씁니다. */
+    html.reveal-ready .grow {
+      transform-origin: bottom;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: calc(var(--i, 0) * 80ms);
+    }
+    html.reveal-ready .reveal-children > *:not(.is-in) .grow {
+      transform: scaleY(0);
+    }
+
+    /* 막대가 왼쪽에서 차오릅니다 — 비율을 보여주는 곳에 씁니다. */
+    html.reveal-ready .fill {
+      transform-origin: left;
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: 120ms;
+    }
+    html.reveal-ready .reveal-children > *:not(.is-in) .fill {
+      transform: scaleX(0);
+    }
+
+    /* 목록 항목이 하나씩 이어집니다 — 열거의 리듬이 메시지인 곳에 씁니다. */
+    html.reveal-ready .step {
+      transition:
+        opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: calc(var(--i, 0) * 70ms);
+    }
+    html.reveal-ready .reveal-children > *:not(.is-in) .step {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    /* 코인이 계속 흘러옵니다 — '제한 없음'을 표현합니다. */
+    .coin-stream > * {
+      animation: coin-bob 2.4s ease-in-out infinite;
+      animation-delay: calc(var(--i, 0) * 160ms);
+    }
+    @keyframes coin-bob {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .coin-stream > * {
+      animation: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
     /* 어절 래퍼 — 줄바꿈이 어절 사이에서만 일어나게 합니다. */
     .reveal-words .wgroup {
       display: inline-block;

@@ -90,8 +90,12 @@ function UseCases() {
         sub="가게를 알리는 일부터 마음을 전하는 일까지, 짧은 영상 한 편이면 충분해요. 사업자등록증이 없어도 개인 계정으로 바로 시작할 수 있어요."
       />
       <ul className="mx-auto mt-10 max-w-[680px] divide-y divide-line overflow-hidden rounded-card bg-fill-2 ring-1 ring-line md:mt-14">
-        {useCases.map((t) => (
-          <li key={t} className="flex items-center gap-4 px-6 py-5 md:px-8">
+        {useCases.map((t, i) => (
+          <li
+            key={t}
+            className="step flex items-center gap-4 px-6 py-5 md:px-8"
+            style={{ ["--i" as string]: i }}
+          >
             <Check className="shrink-0 text-brand-600" />
             <span className="text-[17px] leading-[1.5] font-semibold text-ink md:text-[19px]">
               {t}
@@ -160,10 +164,13 @@ function Why() {
 }
 
 /* ── 03 한번 보면 잊지 못하는 광고 ───────────────────────── */
+const VIEWER_SHARE = Math.round((REWARD[15] / AD_PRICE[15]) * 100)
+
 const memories = [
   {
     title: "광고비를 고객에게 직접 나눠줘요",
     desc: `완전시청 1건 ${AD_PRICE[15]}원 중 ${REWARD[15]}원이 광고를 본 그 사람의 주머니로 들어갑니다.`,
+    split: true,
   },
   {
     title: "인지도와 호감도가 함께 올라요",
@@ -202,6 +209,27 @@ function Memory() {
             <p className="mt-2 text-[15px] leading-[1.6] text-ink-2 2xl:text-base">
               {d.desc}
             </p>
+            {"split" in d && (
+              <div className="mt-5" aria-hidden>
+                <div className="h-2 overflow-hidden rounded-full bg-line">
+                  <div
+                    className="fill h-full rounded-full bg-brand-600"
+                    style={{ width: `${VIEWER_SHARE}%` }}
+                  />
+                </div>
+                <div className="mt-2 flex justify-between text-[13px] text-ink-2">
+                  <span>
+                    시청자에게 <b className="num text-ink">{REWARD[15]}원</b>
+                  </span>
+                  <span>
+                    운영·노출{" "}
+                    <b className="num text-ink">
+                      {AD_PRICE[15] - REWARD[15]}원
+                    </b>
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>

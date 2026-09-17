@@ -117,8 +117,11 @@ function WhyAndRates() {
               className="mt-5 flex h-24 w-full items-end justify-center md:mt-6 md:h-28"
             >
               <div
-                className="w-10 rounded-t-xl bg-brand-600 md:w-14"
-                style={{ height: `${(REWARD[len] / REWARD[60]) * 100}%` }}
+                className="grow w-10 rounded-t-xl bg-brand-600 md:w-14"
+                style={{
+                  height: `${(REWARD[len] / REWARD[60]) * 100}%`,
+                  ["--i" as string]: AD_LENGTHS.indexOf(len),
+                }}
               />
             </div>
             <span className="mt-4 block md:hidden">
@@ -139,13 +142,25 @@ function WhyAndRates() {
             보면 볼수록 계속 쌓입니다.
           </span>
         </p>
-        <span aria-hidden className="flex shrink-0 items-center gap-1.5">
-          {[1, 0.8, 0.6, 0.4, 0.22].map((o) => (
-            <span key={o} style={{ opacity: o }} className="flex">
+        <span
+          aria-hidden
+          className="coin-stream flex shrink-0 items-center gap-1.5"
+        >
+          {[1, 0.8, 0.6, 0.4, 0.22].map((o, i) => (
+            <span
+              key={o}
+              style={{ opacity: o, ["--i" as string]: i }}
+              className="flex"
+            >
               <Coin size={26} />
             </span>
           ))}
-          <span className="num text-xl font-extrabold text-brand-700/40">···</span>
+          <span
+            className="num text-xl font-extrabold text-brand-700/40"
+            style={{ ["--i" as string]: 5 }}
+          >
+            ···
+          </span>
         </span>
       </div>
 
