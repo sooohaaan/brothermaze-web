@@ -274,7 +274,7 @@ export function Card({
 
 /* ── 버튼 — 라운드 = 높이 ÷ 2 ─────────────────────────── */
 const btnVariant = {
-  primary: "bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800",
+  primary: "bg-brand-700 text-white hover:bg-brand-800 active:bg-brand-800",
   secondary:
     "bg-surface text-ink ring-1 ring-inset ring-line hover:ring-ink-3/40 hover:bg-ground/60",
   tint: "bg-brand-50 text-brand-700 hover:bg-brand-100",
@@ -412,7 +412,7 @@ export function FAQ({ items }: { items: { q: string; a: string }[] }) {
       {items.map((it) => (
         <div key={it.q} className="rounded-card bg-surface p-6 ring-1 ring-line md:p-7">
           <dt className="text-[17px] leading-[1.5] font-bold text-ink">
-            <span className="num mr-2 text-brand-600">Q.</span>
+            <span className="num mr-2 text-brand-700">Q.</span>
             {it.q}
           </dt>
           <dd className="mt-2 text-[15px] leading-[1.6] text-ink-2">

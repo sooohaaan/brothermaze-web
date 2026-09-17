@@ -289,7 +289,7 @@ function EasySteps() {
       <ol className="mx-auto mt-10 grid max-w-[680px] gap-6 md:mt-14">
         {steps.map((s, i) => (
           <li key={s.title} className="grid grid-cols-[40px_1fr] gap-4">
-            <span className="num grid size-10 place-items-center rounded-full bg-brand-600 text-[15px] font-bold text-white">
+            <span className="num grid size-10 place-items-center rounded-full bg-brand-700 text-[15px] font-bold text-white">
               {i + 1}
             </span>
             <div className="pt-1.5">
@@ -347,7 +347,7 @@ function SignupCTA() {
   return (
     <section id="signup" className="bg-ground pt-20 pb-10 md:pt-30 md:pb-14">
       <Container>
-        <div className="relative overflow-hidden rounded-[32px] bg-brand-600 px-6 py-14 text-center text-white md:px-16 md:py-20">
+        <div className="relative overflow-hidden rounded-[40px] bg-brand-700 px-6 py-14 text-center text-white md:px-16 md:py-20">
           <div
             aria-hidden
             className="pointer-events-none absolute -bottom-32 left-1/2 size-[520px] -translate-x-1/2 rounded-full opacity-40 blur-3xl"
@@ -410,7 +410,7 @@ function Contact() {
             href={`mailto:${c.email}`}
             className="rounded-card bg-fill-2 p-6 ring-1 ring-line transition-shadow hover:shadow-card md:p-8"
           >
-            <p className="text-[15px] font-semibold text-ink-3">{c.label}</p>
+            <p className="text-[15px] font-semibold text-ink-2">{c.label}</p>
             <p className="mt-2 text-[17px] font-bold break-all text-brand-700">
               {c.email}
             </p>
@@ -423,7 +423,7 @@ function Contact() {
 
 export default function GwanggoPage() {
   return (
-    <main>
+    <main id="main">
       <Hero />
       <UseCases />
       <Why />

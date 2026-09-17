@@ -12,6 +12,9 @@
   "icons": {
     "icon": "favicon.png"
   },
+  "customScripts": {
+    "headStart": "<link rel=\"preconnect\" href=\"https://cdn.jsdelivr.net\" crossorigin>"
+  },
   "openGraph": {
     "image": "https://sooohaaan.github.io/brothermaze-web/og-image.png"
   }

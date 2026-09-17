@@ -7,18 +7,48 @@ import GwanggoPage from "./pages/GwanggoPage"
 
 type Site = "bomyeon" | "adhaeyo"
 
-const SITES: { id: Site; label: string; title: string }[] = [
+const SITES: {
+  id: Site
+  label: string
+  title: string
+  description: string
+}[] = [
   {
     id: "bomyeon",
     label: "보면소득",
     title: "보면소득 — 원하는 콘텐츠를 보기만 해도 소득받는 전국민 보면소득",
+    description:
+      "15초 광고 하나에 7원. 보기만 하면 소득이 쌓이고, 소득 1원은 현금 1원처럼 쓰거나 내 계좌로 출금할 수 있어요.",
   },
   {
     id: "adhaeyo",
     label: "광고해요",
     title: "광고해요 — 전국민 누구나 보면소득에서 광고해요",
+    description:
+      "보면소득에 광고를 올리는 광고 관리 서비스. 노출은 무료, 끝까지 본 사람에게만 15원. 광고비의 절반은 광고를 본 사람에게 돌아갑니다.",
   },
 ]
+
+/* 화면을 바꿀 때 문서 메타도 함께 갱신합니다. */
+function setMeta(attr: "name" | "property", key: string, value: string) {
+  let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`)
+  if (!el) {
+    el = document.createElement("meta")
+    el.setAttribute(attr, key)
+    document.head.appendChild(el)
+  }
+  el.setAttribute("content", value)
+}
+
+function setCanonical(url: string) {
+  let el = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+  if (!el) {
+    el = document.createElement("link")
+    el.rel = "canonical"
+    document.head.appendChild(el)
+  }
+  el.href = url
+}
 
 /* ?site= 로 화면을 고릅니다. #앵커는 페이지 안 이동에 그대로 씁니다. */
 /* ?capture=1 — 화면설계서용 캡처 모드: 프로토타입 바와 고정 CTA를 숨김 */
@@ -37,7 +67,12 @@ function useSite() {
     return () => window.removeEventListener("popstate", onPop)
   }, [])
   useEffect(() => {
-    document.title = SITES.find((s) => s.id === site)!.title
+    const meta = SITES.find((s) => s.id === site)!
+    document.title = meta.title
+    setMeta("name", "description", meta.description)
+    setMeta("property", "og:title", meta.title)
+    setMeta("property", "og:description", meta.description)
+    setCanonical(window.location.origin + window.location.pathname + window.location.search)
   }, [site])
   const go = useCallback((next: Site) => {
     const url =
@@ -310,6 +345,12 @@ export default function App() {
   const [site, go] = useSite()
   return (
     <div id="top">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:font-semibold focus:text-white"
+      >
+        본문 바로가기
+      </a>
       {!CAPTURE && <PrototypeBar site={site} go={go} />}
       <Header site={site} go={go} />
       {site === "bomyeon" && <BomeonPage onSwitchToAd={() => go("adhaeyo")} />}

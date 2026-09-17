@@ -51,12 +51,12 @@ function Hero() {
           <StoreBadges className="mt-8" />
           <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-2">
             <li className="flex items-center gap-1.5">
-              <span className="text-gold-600">★</span>
+              <span aria-hidden className="text-gold-600">★</span>
               <b className="num font-bold text-ink">{STORE.appStore.rating}</b>
               App Store
             </li>
             <li className="flex items-center gap-1.5">
-              <span className="text-gold-600">★</span>
+              <span aria-hidden className="text-gold-600">★</span>
               <b className="num font-bold text-ink">{STORE.playStore.rating}</b>
               Google Play
             </li>
@@ -105,7 +105,7 @@ function WhyAndRates() {
             key={len}
             className="flex flex-col items-center rounded-card bg-fill-2 px-2 py-6 ring-1 ring-line md:px-6 md:py-7"
           >
-            <span className="num text-[13px] font-semibold text-ink-3 md:text-[15px]">
+            <span className="num text-[13px] font-semibold text-ink-2 md:text-[15px]">
               {len}초 광고
             </span>
             <div
@@ -470,7 +470,7 @@ function FinalCTA() {
   return (
     <section id="download" className="bg-ground pt-20 pb-10 md:pt-30 md:pb-14">
       <Container>
-        <div className="relative overflow-hidden rounded-[32px] bg-brand-600 px-6 py-14 text-center md:px-16 md:py-20">
+        <div className="relative overflow-hidden rounded-[40px] bg-brand-700 px-6 py-14 text-center md:px-16 md:py-20">
           <div
             aria-hidden
             className="pointer-events-none absolute -bottom-32 left-1/2 size-[520px] -translate-x-1/2 rounded-full opacity-40 blur-3xl"
@@ -529,7 +529,7 @@ function Contact() {
             href={`mailto:${c.email}`}
             className="rounded-card bg-fill-2 p-6 ring-1 ring-line transition-shadow hover:shadow-card md:p-8"
           >
-            <p className="text-[15px] font-semibold text-ink-3">{c.label}</p>
+            <p className="text-[15px] font-semibold text-ink-2">{c.label}</p>
             <p className="mt-2 text-[17px] font-bold break-all text-brand-700">
               {c.email}
             </p>
@@ -546,7 +546,7 @@ export default function BomeonPage({
   onSwitchToAd: () => void
 }) {
   return (
-    <main>
+    <main id="main">
       <Hero />
       <WhyAndRates />
       <Referral />
