@@ -119,18 +119,23 @@ const differences = [
 function Why() {
   return (
     <Section id="value" tone="gray" label="본 만큼만 내는 합리적인 광고">
-      <ChapterHead
-        no="02"
-        title={
-          <>
-            본 만큼만 내는
-            <br />
-            합리적인 진짜 광고
-          </>
-        }
-        sub="예산이 어디에 쓰였는지 설명할 수 없는 광고는 그만. 광고해요는 돈이 나가는 조건이 단 하나, 끝까지 본 시청뿐입니다."
-      />
-      <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-3 md:gap-6">
+      {/* 챕터를 고정하고 카드가 지나가게 합니다. */}
+      <div className="md:grid md:grid-cols-[minmax(0,360px)_1fr] md:gap-16">
+        <div className="md:sticky md:top-[100px] md:self-start md:py-4">
+          <ChapterHead
+            no="02"
+            center={false}
+            title={
+              <>
+                본 만큼만 내는
+                <br />
+                합리적인 진짜 광고
+              </>
+            }
+            sub="예산이 어디에 쓰였는지 설명할 수 없는 광고는 그만. 광고해요는 돈이 나가는 조건이 단 하나, 끝까지 본 시청뿐입니다."
+          />
+        </div>
+        <div className="mt-10 grid gap-4 md:mt-0 md:gap-6">
         {differences.map((d) => (
           <div
             key={d.title}
@@ -144,7 +149,8 @@ function Why() {
               {d.desc}
             </p>
           </div>
-        ))}
+          ))}
+        </div>
       </div>
     </Section>
   )

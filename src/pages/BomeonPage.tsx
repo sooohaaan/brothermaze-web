@@ -16,6 +16,7 @@ import {
   Money,
   Section,
   StoreBadges,
+  cx,
 } from "../shared/ui"
 import logoBomyeon from "../assets/logo-bomyeon.png"
 import hero3d from "../assets/3d/hero-dollar-3d.webp"
@@ -214,7 +215,37 @@ function Referral() {
 
 /* ── 03 소득을 현금처럼 사용하세요 — 1:1 + 현금출금 ───────── */
 function CashLike() {
-  const brands = ["네이버페이", "투썸플레이스", "맘스터치", "메가커피", "CU"]
+  /* 두 줄이 서로 반대로 흐릅니다. */
+  const brandRows = [
+    [
+      "네이버페이",
+      "투썸플레이스",
+      "맘스터치",
+      "메가커피",
+      "CU",
+      "컴포트커피",
+      "이마트24",
+      "올리브영",
+      "파리바게트",
+      "GS25",
+      "설빙",
+      "빽다방",
+    ],
+    [
+      "스마일머니",
+      "죠스떡볶이",
+      "카카오이모티콘플러스",
+      "굽네치킨",
+      "교보문고",
+      "뚜레쥬르",
+      "롯데시네마",
+      "배스킨라빈스",
+      "커피스미스",
+      "다이소",
+      "달리는커피",
+      "상무초밥",
+    ],
+  ]
   const rows: [string, string][] = [
     ["출금 시작 금액", `${STATS.minPayout}부터`],
     ["입금까지", `신청 후 ${STATS.payoutDays} 이내`],
@@ -251,19 +282,6 @@ function CashLike() {
             <span className="text-[22px] font-bold text-ink-3">=</span>
             <span className="num text-[28px] font-extrabold text-ink">₩1</span>
           </div>
-          <ul className="mt-6 flex flex-wrap gap-2">
-            {brands.map((b) => (
-              <li
-                key={b}
-                className="rounded-full bg-surface px-4 py-2 text-[15px] font-semibold text-ink-2 ring-1 ring-line"
-              >
-                {b}
-              </li>
-            ))}
-            <li className="rounded-full px-4 py-2 text-[15px] text-ink-3">
-              외 브랜드샵
-            </li>
-          </ul>
         </div>
         <img
           src={cashGiftshop}
@@ -274,6 +292,28 @@ function CashLike() {
           height={1444}
         />
       </div>
+
+      {/* 브랜드 띠 — 컨테이너 좌우 여백을 넘어 화면 끝까지 흐릅니다. */}
+      <div className="marquee mt-12 -mx-5 md:-mx-12">
+        {brandRows.map((row, i) => (
+          <ul
+            key={i}
+            aria-label={i === 0 ? "소득으로 살 수 있는 브랜드" : undefined}
+            className={cx("marquee-track gap-2 py-1", i === 1 && "is-reverse mt-2")}
+          >
+            {[...row, ...row].map((b, j) => (
+              <li
+                key={`${b}-${j}`}
+                aria-hidden={j >= row.length ? true : undefined}
+                className="shrink-0 rounded-full bg-surface px-4 py-2 text-[15px] font-semibold whitespace-nowrap text-ink-2 ring-1 ring-line"
+              >
+                {b}
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+      <p className="mt-4 text-center text-[15px] text-ink-3">외 브랜드샵</p>
 
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
         <img
@@ -339,18 +379,23 @@ const steps = [
 function EasyAnytime() {
   return (
     <Section id="how" tone="gray" label="남는 시간에는 언제든지">
-      <ChapterHead
-        no="04"
-        title={
-          <>
-            단 몇 초라도
-            <br />
-            남는 시간에는 언제든지
-          </>
-        }
-        sub="지하철 탈 때, 혼밥할 때, 알바할 때, 자기 전에. 그냥 보기만 해도 돈 버는 가장 쉬운 보편소득이에요. 세 단계면 충분합니다."
-      />
-      <ol className="mt-10 grid gap-6 md:mt-14 md:grid-cols-3">
+      {/* 토스처럼 챕터를 고정하고 단계 카드가 지나가게 합니다. */}
+      <div className="md:grid md:grid-cols-[minmax(0,360px)_1fr] md:gap-16">
+        <div className="md:sticky md:top-[100px] md:self-start md:py-4">
+          <ChapterHead
+            no="04"
+            center={false}
+            title={
+              <>
+                단 몇 초라도
+                <br />
+                남는 시간에는 언제든지
+              </>
+            }
+            sub="지하철 탈 때, 혼밥할 때, 알바할 때, 자기 전에. 그냥 보기만 해도 돈 버는 가장 쉬운 보편소득이에요. 세 단계면 충분합니다."
+          />
+        </div>
+        <ol className="mt-10 grid gap-6 md:mt-0">
         {steps.map((s, i) => (
           <li
             key={s.title}
@@ -378,8 +423,9 @@ function EasyAnytime() {
               />
             </div>
           </li>
-        ))}
-      </ol>
+          ))}
+        </ol>
+      </div>
     </Section>
   )
 }

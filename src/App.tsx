@@ -35,6 +35,45 @@ const CAPTURE = new URLSearchParams(window.location.search).has("capture")
 
 const BASE = import.meta.env.BASE_URL
 
+/* 렌더 전에 미리 켜 두어야 요소가 보였다 사라지는 깜빡임이 없습니다. */
+const REDUCED =
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+  !("IntersectionObserver" in window)
+if (!REDUCED) document.documentElement.classList.add("reveal-ready")
+
+/* 스크롤 등장 — 화면에 들어온 요소부터 순서대로 떠오릅니다. */
+function useReveal(site: Site) {
+  useEffect(() => {
+    if (REDUCED) return
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>(".reveal-children > *"),
+    )
+    targets.forEach((el, i) => {
+      const order = Array.prototype.indexOf.call(el.parentElement!.children, el)
+      el.style.transitionDelay = `${Math.min(order, 4) * 70}ms`
+      void i
+    })
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue
+          entry.target.classList.add("is-in")
+          io.unobserve(entry.target)
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.05 },
+    )
+    targets.forEach((el) => io.observe(el))
+    return () => {
+      io.disconnect()
+      targets.forEach((el) => {
+        el.classList.remove("is-in")
+        el.style.transitionDelay = ""
+      })
+    }
+  }, [site])
+}
+
 function readSite(): Site {
   if (/\/adhaeyo\/?$/.test(window.location.pathname)) return "adhaeyo"
   /* 이전에 공유된 ?site=adhaeyo 링크도 계속 열리도록 */
@@ -305,6 +344,7 @@ function Footer({ site, go }: { site: Site; go: (s: Site) => void }) {
 
 export default function App() {
   const [site, go] = useSite()
+  useReveal(site)
   return (
     <div id="top">
       <a

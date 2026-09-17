@@ -84,29 +84,76 @@
   }
 
   /*
-   * 스크롤 등장 — 토스처럼 섹션 요소가 하나씩 떠오릅니다.
-   * JS 없이 CSS 스크롤 기반 애니메이션(animation-timeline)만 씁니다.
-   * 미지원 브라우저에서는 규칙이 아예 적용되지 않아 콘텐츠가 처음부터 보입니다.
+   * 스크롤 등장 — 토스처럼 opacity + blur + transform 세 겹으로 떠오릅니다.
+   * IntersectionObserver 로 제어하므로 모든 브라우저에서 동작하고,
+   * 스크립트가 클래스를 달기 전(또는 실패했을 때)에는 그냥 보입니다.
    */
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .reveal-children > * {
-        animation: reveal-in linear both;
-        animation-timeline: view();
-        animation-range: entry 5% entry 40%;
-      }
+  @media (prefers-reduced-motion: no-preference) {
+    html.reveal-ready .reveal-children > * {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(6px);
+      transition:
+        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform, filter;
+    }
+    html.reveal-ready .reveal-children > *.is-in {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+      will-change: auto;
+    }
+  }
+
+  /* 브랜드 띠 — 좌우로 천천히 흐릅니다. */
+  .marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 6%,
+      #000 94%,
+      transparent
+    );
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-left 48s linear infinite;
+  }
+  .marquee-track.is-reverse {
+    animation-name: marquee-right;
+  }
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+  @keyframes marquee-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes marquee-right {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+      mask-image: none;
+    }
+    .marquee-track {
+      animation: none;
     }
   }
 }
 
-@keyframes reveal-in {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
+@media print {
+  html.reveal-ready .reveal-children > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }
 
