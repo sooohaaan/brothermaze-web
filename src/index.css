@@ -252,14 +252,14 @@
       animation-delay: calc(var(--i, 0) * 90ms);
     }
 
-    /* 화면 한가운데서 폰 주변으로 튀어나옵니다. 끝에서 살짝 넘어갔다
-     * 돌아오는 곡선이라야 "튄다"는 느낌이 납니다. 출발점(--bx·--by)은
-     * 코인마다 다르므로 각자 style 로 받습니다. */
+    /* 화면 한가운데서 폰 주변으로 튀어나옵니다. 끝에서 아주 살짝 넘어갔다
+     * 돌아오는 곡선이라 "튄다"는 느낌은 남기되 튕기지는 않습니다.
+     * 출발점(--bx·--by)은 코인마다 다르므로 각자 style 로 받습니다. */
     html.reveal-ready .coin-pop {
       transition:
-        transform 0.62s cubic-bezier(0.34, 1.56, 0.64, 1),
-        opacity 0.28s ease-out;
-      transition-delay: calc(var(--i, 0) * 45ms);
+        transform 1.05s cubic-bezier(0.17, 1.08, 0.38, 1),
+        opacity 0.5s ease-out;
+      transition-delay: calc(var(--i, 0) * 75ms);
     }
     html.reveal-ready .reveal-children > *:not(.is-in) .coin-pop {
       transform: translate(var(--bx, 0), var(--by, 0)) scale(0.25);

@@ -82,12 +82,12 @@ const REFERRAL_COINS = [
  * bx·by 는 폰 화면 한가운데(49.8%, 50%)까지의 거리를 코인 자신의 크기 대비
  * 퍼센트로 옮긴 값 — 여기서 출발해 제자리로 튀어나옵니다. */
 const CASH_COINS = [
-  { src: cashCoin0, iw: 106, ih: 118, left: -1.437, top: 5.484, w: 16.562, z: 1, bx: "260%", by: "386%", dur: "9s", delay: "-0.6s", dx: "10%", dy: "-22%", rot: "4deg" },
-  { src: cashCoin1, iw: 77, ih: 82, left: 82.286, top: 20.121, w: 12.031, z: 2, bx: "-320%", by: "371%", dur: "10.5s", delay: "-2.2s", dx: "-9%", dy: "24%", rot: "-5deg" },
-  { src: cashCoin2, iw: 88, ih: 131, left: 87.308, top: 53.14, w: 13.75, z: 3, bx: "-322%", by: "-78%", dur: "8.5s", delay: "-3.4s", dx: "11%", dy: "-20%", rot: "5deg" },
-  { src: cashCoin3, iw: 76, ih: 76, left: 78.905, top: 86.273, w: 11.875, z: 4, bx: "-295%", by: "-602%", dur: "11s", delay: "-1.4s", dx: "-12%", dy: "-24%", rot: "-4deg" },
-  { src: cashCoin4, iw: 103, ih: 105, left: 6.864, top: 73.394, w: 16.094, z: 5, bx: "217%", by: "-308%", dur: "9.5s", delay: "-4s", dx: "10%", dy: "22%", rot: "5deg" },
-  { src: cashCoin5, iw: 52, ih: 66, left: 0.92, top: 42.531, w: 8.125, z: 6, bx: "552%", by: "81%", dur: "8s", delay: "-2.8s", dx: "-13%", dy: "-26%", rot: "-6deg" },
+  { src: cashCoin0, iw: 117, ih: 118, left: -3.174, top: 5.484, w: 18.281, z: 1, bx: "240%", by: "386%", dur: "10.5s", delay: "-0.6s", dx: "10%", dy: "-22%", rot: "4deg" },
+  { src: cashCoin1, iw: 78, ih: 82, left: 82.263, top: 20.117, w: 12.188, z: 2, bx: "-316%", by: "371%", dur: "12s", delay: "-2.2s", dx: "-9%", dy: "24%", rot: "-5deg" },
+  { src: cashCoin2, iw: 100, ih: 131, left: 87.283, top: 53.125, w: 15.625, z: 3, bx: "-290%", by: "-78%", dur: "10s", delay: "-3.4s", dx: "11%", dy: "-20%", rot: "5deg" },
+  { src: cashCoin3, iw: 76, ih: 76, left: 78.883, top: 86.247, w: 11.875, z: 4, bx: "-295%", by: "-601%", dur: "12.5s", delay: "-1.4s", dx: "-12%", dy: "-24%", rot: "-4deg" },
+  { src: cashCoin4, iw: 103, ih: 105, left: 6.866, top: 73.373, w: 16.094, z: 5, bx: "217%", by: "-307%", dur: "11s", delay: "-4s", dx: "10%", dy: "22%", rot: "5deg" },
+  { src: cashCoin5, iw: 52, ih: 66, left: 0.924, top: 42.519, w: 8.125, z: 6, bx: "552%", by: "81%", dur: "9.5s", delay: "-2.8s", dx: "-13%", dy: "-26%", rot: "-6deg" },
 ]
 
 type FloatCoin =
