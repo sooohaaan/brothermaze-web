@@ -274,7 +274,7 @@ function CashLike() {
             1,000소득이면 1,000원짜리 상품을 삽니다. 할인율도, 전환 수수료도
             없어요.
           </p>
-          <div className="mt-6 flex items-center gap-4 rounded-card bg-fill-2 p-6 ring-1 ring-line md:p-8">
+          <div className="mt-6 flex w-fit items-center gap-4 rounded-2xl bg-fill-2 px-7 py-5 ring-1 ring-line">
             <div className="flex items-center gap-2">
               <Coin size={28} />
               <span className="num text-[28px] font-extrabold text-ink">1</span>
