@@ -282,6 +282,21 @@ function CashLike() {
             <span className="text-[22px] font-bold text-ink-3">=</span>
             <span className="num text-[28px] font-extrabold text-ink">₩1</span>
           </div>
+          <ul className="mt-6 grid gap-3">
+            {[
+              "커피·편의점·마트·외식 상품까지",
+              "산 쿠폰은 앱에서 바로 쓸 수 있어요",
+              "소득사용내역·쿠폰구매내역에서 확인해요",
+            ].map((t) => (
+              <li
+                key={t}
+                className="flex items-start gap-3 text-base leading-[1.6] text-ink"
+              >
+                <Check className="mt-0.5 text-brand-600" />
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
         <img
           src={cashGiftshop}
@@ -399,9 +414,9 @@ function EasyAnytime() {
         {steps.map((s, i) => (
           <li
             key={s.title}
-            className="flex flex-col overflow-hidden rounded-card bg-surface ring-1 ring-line"
+            className="overflow-hidden rounded-card bg-surface ring-1 ring-line md:grid md:grid-cols-[1fr_320px] md:items-center md:gap-8"
           >
-            <div className="p-6 pb-0 md:p-8 md:pb-0">
+            <div className="p-6 pb-0 md:p-8">
               <span className="num text-sm font-bold text-brand-700">
                 STEP {i + 1}
               </span>
@@ -412,12 +427,13 @@ function EasyAnytime() {
                 {s.desc}
               </p>
             </div>
-            <div className="mt-4 flex flex-1 items-end justify-center px-4">
+            {/* 데스크톱에서는 카드 아래 모서리에서 잘리게 해 높이를 잡습니다. */}
+            <div className="mt-4 flex justify-center px-4 md:mt-0 md:h-[320px] md:items-start md:overflow-hidden md:px-0 md:pr-8">
               <img
                 src={s.img}
                 alt={s.alt}
                 loading="lazy"
-                className="w-full max-w-[250px]"
+                className="w-full max-w-[250px] md:h-full md:w-full md:max-w-none md:object-cover md:object-top"
                 width={640}
                 height={1156}
               />
