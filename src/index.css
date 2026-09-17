@@ -150,10 +150,49 @@
         transform: translateY(-4px);
       }
     }
+
+    /* 히어로의 금화 — 폰과 따로 렌더링해 각자 다른 주기로 떠다닙니다.
+     * 네 구간으로 나눠 위아래·좌우 위상을 어긋나게 두면 기계적으로 보이지
+     * 않습니다. 이동 폭은 컨테이너 대비 퍼센트라 화면 크기를 따라갑니다. */
+    .hero-coin {
+      animation: hero-float var(--dur, 9s) ease-in-out var(--delay, 0s) infinite;
+      will-change: transform;
+    }
+    @keyframes hero-float {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate3d(
+            calc(var(--dx, 0%) * 0.55),
+            var(--dy, -3%),
+            0
+          )
+          rotate(calc(var(--rot, 0deg) * 0.6));
+      }
+      50% {
+        transform: translate3d(
+            var(--dx, 0%),
+            calc(var(--dy, -3%) * 0.3),
+            0
+          )
+          rotate(var(--rot, 0deg));
+      }
+      75% {
+        transform: translate3d(
+            calc(var(--dx, 0%) * 0.3),
+            calc(var(--dy, -3%) * 0.75),
+            0
+          )
+          rotate(calc(var(--rot, 0deg) * 0.35));
+      }
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .coin-stream > * {
+    .coin-stream > *,
+    .hero-coin {
       animation: none;
     }
   }

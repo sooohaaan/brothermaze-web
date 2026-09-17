@@ -20,7 +20,13 @@ import {
   cx,
 } from "../shared/ui"
 import logoBomyeon from "../assets/logo-bomyeon.png"
-import hero3d from "../assets/3d/hero-dollar-3d.webp"
+import heroPhone from "../assets/3d/hero-phone.webp"
+import heroCoin0 from "../assets/3d/hero-coin-0.webp"
+import heroCoin1 from "../assets/3d/hero-coin-1.webp"
+import heroCoin2 from "../assets/3d/hero-coin-2.webp"
+import heroCoin3 from "../assets/3d/hero-coin-3.webp"
+import heroCoin4 from "../assets/3d/hero-coin-4.webp"
+import heroCoin5 from "../assets/3d/hero-coin-5.webp"
 import how1Watch from "../assets/3d/how-1-watch.webp"
 import how2Earn from "../assets/3d/how-2-earn.webp"
 import how3Spend from "../assets/3d/how-3-spend.webp"
@@ -34,6 +40,18 @@ import referral3d from "../assets/3d/referral-3d-alpha.webp"
  */
 
 /* ── 히어로 ─────────────────────────────────────────────── */
+/* 블렌더에서 코인만 따로 렌더링한 스프라이트.
+ * left·top·w 는 원본 1200×1128 화면에서의 위치를 퍼센트로 옮긴 값이고,
+ * z 는 카메라에서 먼 순서(뒤→앞)입니다. */
+const HERO_COINS = [
+  { src: heroCoin3, left: 17.333, top: 20.301, w: 9.25, z: 1, dur: "9.5s", delay: "-0.8s", dx: "-3%", dy: "-5%", rot: "-3deg" },
+  { src: heroCoin0, left: 64.917, top: 8.333, w: 20.417, z: 2, dur: "8s", delay: "0s", dx: "2%", dy: "-3.5%", rot: "2deg" },
+  { src: heroCoin4, left: 7.25, top: 37.943, w: 12.417, z: 3, dur: "10.5s", delay: "-2.4s", dx: "-2.5%", dy: "4%", rot: "3deg" },
+  { src: heroCoin1, left: 77.083, top: 26.507, w: 16.333, z: 4, dur: "9s", delay: "-1.6s", dx: "3%", dy: "3.5%", rot: "-2deg" },
+  { src: heroCoin2, left: 63.917, top: 34.752, w: 13.667, z: 5, dur: "7.5s", delay: "-3.2s", dx: "-2.5%", dy: "-4.5%", rot: "3deg" },
+  { src: heroCoin5, left: 53.167, top: 69.504, w: 11.917, z: 6, dur: "11s", delay: "-4s", dx: "3.5%", dy: "-3%", rot: "-4deg" },
+]
+
 function Hero() {
   return (
     <section aria-label="보면소득 소개" className="bg-ground pt-12 pb-20 md:pt-20 md:pb-30">
@@ -75,13 +93,34 @@ function Hero() {
 
         <div className="relative mx-auto w-full max-w-[500px] overflow-hidden rounded-[40px] bg-fill-3 shadow-float">
           <img
-            src={hero3d}
+            src={heroPhone}
             alt="보면소득 앱 홈 화면을 띄운 스마트폰과 주변에 떠 있는 금화. 총 누적 소득 13,571원, 안 쓴 소득 12,571원"
             className="block w-full"
             width={1200}
             height={1128}
             fetchPriority="high"
           />
+          {/* 금화는 폰과 따로 렌더링해 각자 다른 주기로 떠다닙니다 */}
+          {HERO_COINS.map((c) => (
+            <img
+              key={c.src}
+              src={c.src}
+              alt=""
+              aria-hidden
+              className="hero-coin absolute"
+              style={{
+                left: `${c.left}%`,
+                top: `${c.top}%`,
+                width: `${c.w}%`,
+                zIndex: c.z,
+                ["--dur" as string]: c.dur,
+                ["--delay" as string]: c.delay,
+                ["--dx" as string]: c.dx,
+                ["--dy" as string]: c.dy,
+                ["--rot" as string]: c.rot,
+              }}
+            />
+          ))}
         </div>
       </Container>
     </section>
