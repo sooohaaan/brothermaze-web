@@ -260,9 +260,9 @@
        * 떨어진 것처럼 보입니다. 살짝 가속했다 부드럽게 멎는 곡선으로 바꾸고
        * 길이와 간격을 함께 늘려 하나씩 내려오는 게 보이게 했습니다. */
       transition:
-        transform 1.2s cubic-bezier(0.45, 0.05, 0.3, 1),
-        opacity 0.5s ease-out;
-      transition-delay: calc(var(--i, 0) * 450ms);
+        transform 1s cubic-bezier(0.45, 0.05, 0.3, 1),
+        opacity 0.45s ease-out;
+      transition-delay: calc(var(--i, 0) * 360ms);
     }
     html.reveal-ready .reveal-children > *:not(.is-in) .coin-drop {
       transform: translateY(-260%) scale(0.5);

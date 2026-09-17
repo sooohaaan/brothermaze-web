@@ -255,7 +255,9 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
             <a
               key={href}
               href={href}
-              className="inline-flex min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-ink"
+              /* ink-2 → ink 는 한 단계 차이라 올려도 거의 티가 나지 않습니다.
+               * 브랜드 색으로 바꿔 눌리는 것임이 분명히 보이게 합니다. */
+              className="inline-flex min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700"
             >
               {label}
             </a>
@@ -267,13 +269,13 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
               <button
                 type="button"
                 onClick={() => go("bomyeon")}
-                className="hidden text-[15px] font-semibold text-ink-2 hover:text-ink sm:block"
+                className="hidden text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:block"
               >
                 보면소득 둘러보기
               </button>
               <a
                 href={LINKS.console}
-                className="hidden text-[15px] font-semibold text-ink-2 hover:text-ink sm:block"
+                className="hidden text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:block"
               >
                 로그인
               </a>
@@ -286,7 +288,7 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
               <button
                 type="button"
                 onClick={() => go("adhaeyo")}
-                className="hidden text-[15px] font-semibold text-ink-2 hover:text-ink sm:block"
+                className="hidden text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:block"
               >
                 광고주이신가요?
               </button>
