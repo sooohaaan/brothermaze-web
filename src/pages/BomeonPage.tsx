@@ -42,16 +42,17 @@ import referral3d from "../assets/3d/referral-3d-alpha.webp"
 /* ── 히어로 ─────────────────────────────────────────────── */
 /* 블렌더에서 코인만 따로 렌더링한 스프라이트.
  * left·top·w 는 원본 1200×1128 화면에서의 위치를 퍼센트로 옮긴 값이고,
- * z 는 카메라에서 먼 순서(뒤→앞)입니다. */
+ * z 는 카메라에서 먼 순서(뒤→앞)입니다.
+ * dx·dy 는 transform 의 퍼센트라 컨테이너가 아니라 코인 자신의 크기 기준입니다.
+ * 작은 코인이 덜 움직여야 자연스러우므로 오히려 이 편이 맞습니다. */
 const HERO_COINS = [
-  { src: heroCoin3, left: 17.333, top: 20.301, w: 9.25, z: 1, dur: "9.5s", delay: "-0.8s", dx: "-3%", dy: "-5%", rot: "-3deg" },
-  { src: heroCoin0, left: 64.917, top: 8.333, w: 20.417, z: 2, dur: "8s", delay: "0s", dx: "2%", dy: "-3.5%", rot: "2deg" },
-  { src: heroCoin4, left: 7.25, top: 37.943, w: 12.417, z: 3, dur: "10.5s", delay: "-2.4s", dx: "-2.5%", dy: "4%", rot: "3deg" },
-  { src: heroCoin1, left: 77.083, top: 26.507, w: 16.333, z: 4, dur: "9s", delay: "-1.6s", dx: "3%", dy: "3.5%", rot: "-2deg" },
-  { src: heroCoin2, left: 63.917, top: 34.752, w: 13.667, z: 5, dur: "7.5s", delay: "-3.2s", dx: "-2.5%", dy: "-4.5%", rot: "3deg" },
-  { src: heroCoin5, left: 53.167, top: 69.504, w: 11.917, z: 6, dur: "11s", delay: "-4s", dx: "3.5%", dy: "-3%", rot: "-4deg" },
+  { src: heroCoin3, left: 17.333, top: 20.301, w: 9.25, z: 1, dur: "9.5s", delay: "-0.8s", dx: "-12%", dy: "-22%", rot: "-4deg" },
+  { src: heroCoin0, left: 64.917, top: 8.333, w: 20.417, z: 2, dur: "8s", delay: "0s", dx: "8%", dy: "-16%", rot: "3deg" },
+  { src: heroCoin4, left: 7.25, top: 37.943, w: 12.417, z: 3, dur: "10.5s", delay: "-2.4s", dx: "-10%", dy: "18%", rot: "4deg" },
+  { src: heroCoin1, left: 77.083, top: 26.507, w: 16.333, z: 4, dur: "9s", delay: "-1.6s", dx: "11%", dy: "14%", rot: "-3deg" },
+  { src: heroCoin2, left: 63.917, top: 34.752, w: 13.667, z: 5, dur: "7.5s", delay: "-3.2s", dx: "-9%", dy: "-18%", rot: "4deg" },
+  { src: heroCoin5, left: 53.167, top: 69.504, w: 11.917, z: 6, dur: "11s", delay: "-4s", dx: "13%", dy: "-20%", rot: "-5deg" },
 ]
-
 function Hero() {
   return (
     <section aria-label="보면소득 소개" className="bg-ground pt-12 pb-20 md:pt-20 md:pb-30">
