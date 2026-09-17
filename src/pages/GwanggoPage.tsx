@@ -332,10 +332,12 @@ function AdFAQ() {
         {/* 다른 2열 섹션과 같이 제목을 고정합니다. */}
         <div className="md:sticky md:top-[100px] md:self-start md:py-4">
           <header className="max-w-[640px]">
-            <h2 className="text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
-              광고 올리기 전에
-              <br />
-              궁금한 것들
+            <h2 className="reveal-words text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px] 2xl:text-[40px]">
+              <SplitWords>
+                광고 올리기 전에
+                <br />
+                궁금한 것들
+              </SplitWords>
             </h2>
             <p className="mt-3 text-base leading-[1.6] text-ink-2 2xl:text-[18px]">
               제휴·대량 집행 문의는{" "}
@@ -370,10 +372,12 @@ function SignupCTA() {
           />
           <div className="relative">
             <p className="text-sm font-semibold text-white/80">광고해요</p>
-            <h2 className="mt-3 text-[28px] leading-[1.3] font-bold tracking-[-0.01em] md:text-[40px]">
-              오늘 첫 광고를
-              <br />
-              올려 보세요
+            <h2 className="reveal-words mt-3 text-[28px] leading-[1.3] font-bold tracking-[-0.01em] md:text-[40px] 2xl:text-[44px]">
+              <SplitWords>
+                오늘 첫 광고를
+                <br />
+                올려 보세요
+              </SplitWords>
             </h2>
             <p className="mt-3 text-base text-white/85 md:text-[17px]">
               가입은 무료예요. 노출도 무료, 광고비는 끝까지 본 만큼만 나갑니다.
@@ -410,10 +414,12 @@ function Contact() {
   ]
   return (
     <Section id="contact" label="문의" className="pt-10 md:pt-14">
-      <h2 className="text-center text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
-        궁금한 점이 있다면
-        <br />
-        언제든 물어보세요
+      <h2 className="reveal-words text-center text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px] 2xl:text-[40px]">
+        <SplitWords>
+          궁금한 점이 있다면
+          <br />
+          언제든 물어보세요
+        </SplitWords>
       </h2>
       <div className="mx-auto mt-10 grid max-w-[720px] gap-4 md:grid-cols-2">
         {contacts.map((c) => (

@@ -70,36 +70,59 @@ export function Money({
 }
 
 
-/* ── 어절 단위 등장 ──────────────────────────────────────
- * 제목을 어절(공백 기준)로 쪼개 순차로 떠오르게 합니다.
- * 토스는 글자 단위로 쪼개지만, 한글에서 글자 단위로 나누면
- * 줄이 아무 곳에서나 끊겨 word-break: keep-all 이 무력해지므로
- * 어절 단위로 나눕니다. <br/> 과 강조 <span> 은 그대로 둡니다.
+/* ── 글자 단위 등장 ──────────────────────────────────────
+ * 토스처럼 제목을 글자 단위로 쪼개 순차로 떠오르게 합니다.
+ * 다만 글자를 그대로 inline-block 으로 두면 줄이 글자 사이 아무 곳에서나
+ * 끊겨 word-break: keep-all 이 무력해지므로, 어절을 nowrap 래퍼로 한 번
+ * 감싼 뒤 그 안에서 글자를 쪼갭니다. 줄바꿈은 어절 사이에서만 일어납니다.
  */
-function splitWords(node: ReactNode, counter: { i: number }): ReactNode {
+const MAX_STAGGER_INDEX = 40
+
+function splitChars(node: ReactNode, counter: { i: number }): ReactNode {
   if (typeof node === "string") {
     return node.split(/(\s+)/).map((part, k) => {
       if (!part.trim()) return <Fragment key={`s${k}`}>{part}</Fragment>
-      const i = counter.i++
       return (
-        <span key={`w${k}`} className="word" style={{ ["--i" as string]: i }}>
-          {part}
+        <span key={`g${k}`} className="wgroup">
+          {[...part].map((ch, j) => {
+            const i = counter.i++
+            return (
+              <span
+                key={j}
+                className="word"
+                style={{ ["--i" as string]: Math.min(i, MAX_STAGGER_INDEX) }}
+              >
+                {ch}
+              </span>
+            )
+          })}
         </span>
       )
     })
   }
   if (Array.isArray(node))
     return node.map((n, k) => (
-      <Fragment key={`n${k}`}>{splitWords(n, counter)}</Fragment>
+      <Fragment key={`n${k}`}>{splitChars(n, counter)}</Fragment>
     ))
   if (isValidElement(node)) {
     const el = node as React.ReactElement<{ children?: ReactNode }>
     if (el.props.children == null) return el
     return cloneElement(el, {
-      children: splitWords(el.props.children, counter),
+      children: splitChars(el.props.children, counter),
     })
   }
   return node
+}
+
+/* 뒤따르는 요소의 지연을 맞추기 위한 글자 수 */
+export function countChars(node: ReactNode): number {
+  if (typeof node === "string") return node.replace(/\s+/g, "").length
+  if (Array.isArray(node)) return node.reduce<number>((a, n) => a + countChars(n), 0)
+  if (isValidElement(node)) {
+    const el = node as React.ReactElement<{ children?: ReactNode }>
+    return countChars(el.props.children)
+  }
+  return 0
 }
 
 export function SplitWords({
@@ -109,7 +132,7 @@ export function SplitWords({
   children: ReactNode
   start?: number
 }) {
-  return <>{splitWords(children, { i: start })}</>
+  return <>{splitChars(children, { i: start })}</>
 }
 
 /* ── 레이아웃 ───────────────────────────────────────── */
@@ -190,7 +213,9 @@ export function ChapterHead({
       {sub && (
         <p
           className="word mt-4 text-base leading-[1.6] text-ink-2 2xl:text-[18px]"
-          style={{ ["--i" as string]: 9 }}
+          style={{
+            ["--i" as string]: Math.min(countChars(title) + 2, MAX_STAGGER_INDEX),
+          }}
         >
           {sub}
         </p>

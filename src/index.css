@@ -104,8 +104,13 @@
       will-change: auto;
     }
 
-    /* 제목 — 어절 단위로 떠오릅니다. 한글 줄바꿈 규칙을 깨지 않도록
-       글자가 아니라 어절로 나눕니다. */
+    /* 어절 래퍼 — 줄바꿈이 어절 사이에서만 일어나게 합니다. */
+    .reveal-words .wgroup {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    /* 제목 — 글자 하나씩 순차로 떠오릅니다. */
     html.reveal-ready .reveal-words .word {
       display: inline-block;
       opacity: 0;
@@ -115,7 +120,7 @@
         opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
         transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
         filter 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-      transition-delay: calc(var(--i, 0) * 45ms);
+      transition-delay: calc(var(--i, 0) * 22ms);
       will-change: opacity, transform, filter;
     }
     html.reveal-ready .reveal-words.is-in .word {

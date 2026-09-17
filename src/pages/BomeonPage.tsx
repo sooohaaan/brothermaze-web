@@ -516,10 +516,12 @@ function BomyeonFAQ() {
         {/* 다른 2열 섹션과 같이 제목을 고정합니다. */}
         <div className="md:sticky md:top-[100px] md:self-start md:py-4">
           <header className="max-w-[640px]">
-            <h2 className="text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
-              시작하기 전에
-              <br />
-              궁금한 것들
+            <h2 className="reveal-words text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px] 2xl:text-[40px]">
+              <SplitWords>
+                시작하기 전에
+                <br />
+                궁금한 것들
+              </SplitWords>
             </h2>
             <p className="mt-3 text-base leading-[1.6] text-ink-2 2xl:text-[18px]">
               더 궁금한 점은{" "}
@@ -561,10 +563,12 @@ function FinalCTA() {
               height={64}
               className="mx-auto size-16 rounded-[14px] shadow-[0_8px_24px_rgb(0_40_110/0.35)] ring-2 ring-white/70"
             />
-            <h2 className="mt-6 text-[28px] leading-[1.3] font-bold tracking-[-0.01em] text-white md:text-[40px]">
-              전국민 보편소득 보면소득을
-              <br />
-              지금 바로 시작해 보세요
+            <h2 className="reveal-words mt-6 text-[28px] leading-[1.3] font-bold tracking-[-0.01em] text-white md:text-[40px] 2xl:text-[44px]">
+              <SplitWords>
+                전국민 보편소득 보면소득을
+                <br />
+                지금 바로 시작해 보세요
+              </SplitWords>
             </h2>
             <p className="mt-3 text-base font-medium text-white md:text-[17px]">
               원하는 콘텐츠 보면서 소득 버는 쉬운 방법.
@@ -591,10 +595,12 @@ function Contact() {
   ]
   return (
     <Section id="contact" label="문의" className="pt-10 md:pt-14">
-      <h2 className="text-center text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
-        궁금한 점이 있다면
-        <br />
-        언제든 물어보세요
+      <h2 className="reveal-words text-center text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px] 2xl:text-[40px]">
+        <SplitWords>
+          궁금한 점이 있다면
+          <br />
+          언제든 물어보세요
+        </SplitWords>
       </h2>
       <div className="mx-auto mt-10 grid max-w-[720px] gap-4 md:grid-cols-2">
         {contacts.map((c) => (
