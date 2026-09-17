@@ -374,18 +374,21 @@ const steps = [
   {
     title: "본다",
     desc: "앱을 열고 원하는 광고를 고릅니다. 끝까지 보면 바로 적립돼요.",
+    more: "높은 소득순·빠른 소득순으로 골라 볼 수 있어요.",
     img: how1Watch,
     alt: "보면소득 앱의 광고 목록 화면. 총 누적소득 13,571원, 높은 소득 탭, 영상 15초 + 방문 7원 광고 카드",
   },
   {
     title: "쌓인다",
     desc: "보는 즉시 소득이 쌓입니다. 매일 확인하는 재미가 있어요.",
+    more: "영상광고 말고 참여소득으로도 쌓을 수 있어요.",
     img: how2Earn,
     alt: "소득 적립 완료 팝업. 참여소득 받기 성공",
   },
   {
     title: "쓴다",
     desc: "기프트샵에서 정가 그대로 사거나, 현금으로 출금합니다.",
+    more: `출금은 ${STATS.minPayout}부터 신청할 수 있어요.`,
     img: how3Spend,
     alt: "보면소득 소득 출금 화면. 12,500원 출금 신청을 완료하였습니다",
   },
@@ -425,6 +428,9 @@ function EasyAnytime() {
               </h3>
               <p className="mt-2 text-[15px] leading-[1.6] text-ink-2">
                 {s.desc}
+              </p>
+              <p className="mt-3 border-t border-line pt-3 text-[15px] leading-[1.6] text-ink-3">
+                {s.more}
               </p>
             </div>
             {/* 폰 화면은 잘리지 않게 두고 높이만 제한합니다. */}
