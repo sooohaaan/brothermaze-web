@@ -16,7 +16,6 @@ import {
   Money,
   Section,
   StoreBadges,
-  cx,
 } from "../shared/ui"
 import logoBomyeon from "../assets/logo-bomyeon.png"
 import hero3d from "../assets/3d/hero-dollar-3d.webp"
@@ -99,46 +98,56 @@ function WhyAndRates() {
         }
         sub="나 보라고 만든 광고를 내가 봤는데, 왜 수익은 크리에이터가 벌까요? 보면소득에서는 광고를 보면 내가 법니다."
       />
-      <div className="mx-auto mt-10 max-w-[680px] rounded-card bg-fill-2 p-6 ring-1 ring-line md:mt-14 md:p-8">
-        <div className="flex items-baseline justify-between">
-          <h3 className="text-lg font-bold text-ink">광고 길이별 소득</h3>
-          <span className="text-[13px] text-ink-3">끝까지 봤을 때</span>
-        </div>
-        <ul className="mt-5 grid gap-2">
-          {AD_LENGTHS.map((len) => {
-            const best = len === 60
-            return (
-              <li
-                key={len}
-                className={cx(
-                  "grid grid-cols-[4rem_1fr_auto] items-center gap-4 rounded-2xl px-5 py-4",
-                  best
-                    ? "bg-surface shadow-card"
-                    : "bg-surface ring-1 ring-line",
-                )}
-              >
-                <span className="num text-[15px] font-semibold text-ink-3">
-                  {len}초
-                </span>
-                <span className="flex items-center gap-2">
-                  <Money value={REWARD[len]} size="sm" />
-                  {best && (
-                    <span className="rounded-full bg-brand-600 px-2 py-0.5 text-[12px] font-bold text-white">
-                      가장 유리
-                    </span>
-                  )}
-                </span>
-                <span className="num text-[13px] text-ink-3">
-                  초당 {(REWARD[len] / len).toFixed(2)}원
-                </span>
-              </li>
-            )
-          })}
-        </ul>
-        <p className="mt-4 text-[13px] leading-[1.6] text-ink-3">
-          길게 볼수록 초당 소득이 커지고, 제한 없이 벌 수 있어요.
+      {/* 길수록 커지는 막대 — 보면 볼수록 쌓인다는 걸 높이로 보여줍니다 */}
+      <ol className="mx-auto mt-10 grid max-w-[760px] grid-cols-3 gap-2 md:mt-14 md:gap-6">
+        {AD_LENGTHS.map((len) => (
+          <li
+            key={len}
+            className="flex flex-col items-center rounded-card bg-fill-2 px-2 py-6 ring-1 ring-line md:px-6 md:py-7"
+          >
+            <span className="num text-[13px] font-semibold text-ink-3 md:text-[15px]">
+              {len}초 광고
+            </span>
+            <div
+              aria-hidden
+              className="mt-5 flex h-24 w-full items-end justify-center md:mt-6 md:h-28"
+            >
+              <div
+                className="w-10 rounded-t-xl bg-brand-600 md:w-14"
+                style={{ height: `${(REWARD[len] / REWARD[60]) * 100}%` }}
+              />
+            </div>
+            <span className="mt-4 block md:hidden">
+              <Money value={REWARD[len]} size="sm" />
+            </span>
+            <span className="mt-5 hidden md:block">
+              <Money value={REWARD[len]} size="md" />
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      {/* 제한 없음 — 흐려지며 이어지는 코인으로 '계속'을 표현 */}
+      <div className="mx-auto mt-4 flex max-w-[760px] flex-col items-center justify-between gap-4 rounded-card bg-brand-50 px-6 py-6 sm:flex-row md:mt-6 md:px-8">
+        <p className="text-center text-[17px] leading-[1.5] font-bold text-brand-700 sm:text-left md:text-[19px]">
+          하루 상한도, 횟수 제한도 없어요
+          <span className="mt-1 block text-[15px] font-semibold text-brand-700/80">
+            보면 볼수록 계속 쌓입니다.
+          </span>
         </p>
+        <span aria-hidden className="flex shrink-0 items-center gap-1.5">
+          {[1, 0.8, 0.6, 0.4, 0.22].map((o) => (
+            <span key={o} style={{ opacity: o }} className="flex">
+              <Coin size={26} />
+            </span>
+          ))}
+          <span className="num text-xl font-extrabold text-brand-700/40">···</span>
+        </span>
       </div>
+
+      <p className="mx-auto mt-4 max-w-[760px] text-center text-[13px] leading-[1.6] text-ink-3 sm:text-left">
+        광고를 끝까지 봤을 때 받는 소득이에요.
+      </p>
     </Section>
   )
 }
