@@ -326,22 +326,25 @@ function AdFAQ() {
   return (
     <Section id="faq" tone="gray" label="자주 묻는 질문">
       <div className="grid gap-10 md:grid-cols-[1fr_1.6fr] md:gap-16">
-        <header className="max-w-[640px]">
-          <h2 className="text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
-            광고 올리기 전에
-            <br />
-            궁금한 것들
-          </h2>
-          <p className="mt-3 text-base leading-[1.6] text-ink-2">
-            제휴·대량 집행 문의는{" "}
-            <a
-              href={`mailto:${COMPANY.partnerEmail}`}
-              className="font-semibold text-brand-700 underline underline-offset-4"
-            >
-              {COMPANY.partnerEmail}
-            </a>
-          </p>
-        </header>
+        {/* 다른 2열 섹션과 같이 제목을 고정합니다. */}
+        <div className="md:sticky md:top-[100px] md:self-start md:py-4">
+          <header className="max-w-[640px]">
+            <h2 className="text-[26px] leading-[1.35] font-bold tracking-[-0.01em] text-ink md:text-[36px]">
+              광고 올리기 전에
+              <br />
+              궁금한 것들
+            </h2>
+            <p className="mt-3 text-base leading-[1.6] text-ink-2">
+              제휴·대량 집행 문의는{" "}
+              <a
+                href={`mailto:${COMPANY.partnerEmail}`}
+                className="font-semibold text-brand-700 underline underline-offset-4"
+              >
+                {COMPANY.partnerEmail}
+              </a>
+            </p>
+          </header>
+        </div>
         <FAQ items={ADHAEYO_FAQ} />
       </div>
     </Section>
