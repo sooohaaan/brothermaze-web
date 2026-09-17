@@ -251,6 +251,20 @@
       animation: coin-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
       animation-delay: calc(var(--i, 0) * 90ms);
     }
+
+    /* 화면 한가운데서 폰 주변으로 튀어나옵니다. 끝에서 살짝 넘어갔다
+     * 돌아오는 곡선이라야 "튄다"는 느낌이 납니다. 출발점(--bx·--by)은
+     * 코인마다 다르므로 각자 style 로 받습니다. */
+    html.reveal-ready .coin-pop {
+      transition:
+        transform 0.62s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.28s ease-out;
+      transition-delay: calc(var(--i, 0) * 45ms);
+    }
+    html.reveal-ready .reveal-children > *:not(.is-in) .coin-pop {
+      transform: translate(var(--bx, 0), var(--by, 0)) scale(0.25);
+      opacity: 0;
+    }
   }
 
   /* 스크롤에 맞춰 올라오기 — 타임라인은 이미지 박스에 하나만 두고,

@@ -38,6 +38,12 @@ import referralCoinD1 from "../assets/3d/referral-coin-d1.webp"
 import referralCoinD2 from "../assets/3d/referral-coin-d2.webp"
 import referralCoinFr1 from "../assets/3d/referral-coin-fr1.webp"
 import referralCoinFr2 from "../assets/3d/referral-coin-fr2.webp"
+import cashCoin0 from "../assets/3d/cash-coin-0.webp"
+import cashCoin1 from "../assets/3d/cash-coin-1.webp"
+import cashCoin2 from "../assets/3d/cash-coin-2.webp"
+import cashCoin3 from "../assets/3d/cash-coin-3.webp"
+import cashCoin4 from "../assets/3d/cash-coin-4.webp"
+import cashCoin5 from "../assets/3d/cash-coin-5.webp"
 
 /*
  * 현행 brothermaze.com 의 화면 구성을 그대로 토스 형식으로 옮겼습니다.
@@ -72,24 +78,41 @@ const REFERRAL_COINS = [
   { src: referralCoinFr1, r0: "35%", r1: "54%", iw: 101, ih: 102, left: 83.604, top: 71.801, w: 11.222, z: 23, dur: "12s", delay: "-4.5s", dx: "13%", dy: "-25%", rot: "6deg" },
 ]
 
-type FloatCoin = (typeof HERO_COINS)[number] | (typeof REFERRAL_COINS)[number]
+/* 현금출금 컷의 금화. 폰 이미지는 기존 것을 그대로 두고 금화만 얹었습니다.
+ * bx·by 는 폰 화면 한가운데(49.8%, 50%)까지의 거리를 코인 자신의 크기 대비
+ * 퍼센트로 옮긴 값 — 여기서 출발해 제자리로 튀어나옵니다. */
+const CASH_COINS = [
+  { src: cashCoin0, iw: 106, ih: 118, left: -1.437, top: 5.484, w: 16.562, z: 1, bx: "260%", by: "386%", dur: "9s", delay: "-0.6s", dx: "10%", dy: "-22%", rot: "4deg" },
+  { src: cashCoin1, iw: 77, ih: 82, left: 82.286, top: 20.121, w: 12.031, z: 2, bx: "-320%", by: "371%", dur: "10.5s", delay: "-2.2s", dx: "-9%", dy: "24%", rot: "-5deg" },
+  { src: cashCoin2, iw: 88, ih: 131, left: 87.308, top: 53.14, w: 13.75, z: 3, bx: "-322%", by: "-78%", dur: "8.5s", delay: "-3.4s", dx: "11%", dy: "-20%", rot: "5deg" },
+  { src: cashCoin3, iw: 76, ih: 76, left: 78.905, top: 86.273, w: 11.875, z: 4, bx: "-295%", by: "-602%", dur: "11s", delay: "-1.4s", dx: "-12%", dy: "-24%", rot: "-4deg" },
+  { src: cashCoin4, iw: 103, ih: 105, left: 6.864, top: 73.394, w: 16.094, z: 5, bx: "217%", by: "-308%", dur: "9.5s", delay: "-4s", dx: "10%", dy: "22%", rot: "5deg" },
+  { src: cashCoin5, iw: 52, ih: 66, left: 0.92, top: 42.531, w: 8.125, z: 6, bx: "552%", by: "81%", dur: "8s", delay: "-2.8s", dx: "-13%", dy: "-26%", rot: "-6deg" },
+]
+
+type FloatCoin =
+  | (typeof HERO_COINS)[number]
+  | (typeof REFERRAL_COINS)[number]
+  | (typeof CASH_COINS)[number]
 
 function renderFloatCoin(c: FloatCoin, i: number) {
   /* 올라오는 동작은 바깥 래퍼가, 떠다니는 동작은 안쪽 이미지가 맡습니다.
    * 한 요소에 둘을 같이 걸면 transform 이 서로를 덮어씁니다. */
-  const scroll = "r0" in c
+  /* coin-rise: 스크롤에 맞춰 아래에서 / coin-pop: 화면 가운데서 튀어나옴 /
+   * coin-in: 뜨자마자 한 번 (히어로) */
+  const kind = "r0" in c ? "coin-rise" : "bx" in c ? "coin-pop" : "coin-in"
   return (
     <span
       key={c.src}
-      className={cx("absolute block", scroll ? "coin-rise" : "coin-in")}
+      className={cx("absolute block", kind)}
       style={{
         left: `${c.left}%`,
         top: `${c.top}%`,
         width: `${c.w}%`,
         zIndex: c.z,
-        ...(scroll
-          ? { ["--r0" as string]: c.r0, ["--r1" as string]: c.r1 }
-          : { ["--i" as string]: i }),
+        ...("r0" in c ? { ["--r0" as string]: c.r0, ["--r1" as string]: c.r1 } : null),
+        ...("bx" in c ? { ["--bx" as string]: c.bx, ["--by" as string]: c.by } : null),
+        ["--i" as string]: i,
       }}
     >
       <img
@@ -451,14 +474,18 @@ function CashLike() {
       <p className="mt-4 text-center text-[15px] text-ink-3">외 브랜드샵</p>
 
       <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-2 md:items-center md:gap-16">
-        <img
-          src={how3Spend}
-          alt="보면소득 앱의 소득 출금 화면을 띄운 스마트폰. 125,500원 출금 신청을 완료했다는 안내와 입금 계좌"
-          loading="lazy"
-          className="order-2 mx-auto w-full max-w-[300px] md:order-1"
-          width={640}
-          height={1156}
-        />
+        {/* 금화는 폰과 따로 렌더링해, 화면 한가운데서 폰 주변으로 튀어나옵니다 */}
+        <div className="relative order-2 mx-auto w-full max-w-[300px] md:order-1">
+          <img
+            src={how3Spend}
+            alt="보면소득 앱의 소득 출금 화면을 띄운 스마트폰. 125,500원 출금 신청을 완료했다는 안내와 입금 계좌"
+            loading="lazy"
+            className="relative z-0 w-full"
+            width={640}
+            height={1156}
+          />
+          {CASH_COINS.map(renderFloatCoin)}
+        </div>
         <div className="order-1 md:order-2">
           <h3 className="text-[22px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[28px] 2xl:text-[32px]">
             모은 소득은 내 계좌로{" "}
