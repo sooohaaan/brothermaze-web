@@ -44,6 +44,12 @@ import cashCoin2 from "../assets/3d/cash-coin-2.webp"
 import cashCoin3 from "../assets/3d/cash-coin-3.webp"
 import cashCoin4 from "../assets/3d/cash-coin-4.webp"
 import cashCoin5 from "../assets/3d/cash-coin-5.webp"
+import giftItem0 from "../assets/3d/gift-item-0.webp"
+import giftItem1 from "../assets/3d/gift-item-1.webp"
+import giftItem2 from "../assets/3d/gift-item-2.webp"
+import giftItem3 from "../assets/3d/gift-item-3.webp"
+import giftItem4 from "../assets/3d/gift-item-4.webp"
+import giftItem5 from "../assets/3d/gift-item-5.webp"
 
 /*
  * 현행 brothermaze.com 의 화면 구성을 그대로 토스 형식으로 옮겼습니다.
@@ -90,10 +96,29 @@ const CASH_COINS = [
   { src: cashCoin5, iw: 52, ih: 66, left: 0.924, top: 42.519, w: 8.125, z: 6, bx: "552%", by: "81%", dur: "9.5s", delay: "-2.8s", dx: "-13%", dy: "-26%", rot: "-6deg" },
 ]
 
+/* 기프트샵 컷에 얹는 상품 6종. 금화와 같은 방식으로 폰과 따로 렌더링했고,
+ * 폰 화면 한가운데(49.8%, 50%)에서 튀어나옵니다. 물병은 투명해서 흰 배경
+ * 위에서는 안 보이므로 폰 화면에 걸치도록 뒀습니다. */
+const GIFT_ITEMS = [
+  /* 종이컵 */
+  { src: giftItem0, iw: 205, ih: 279, left: 2.569, top: -2.106, w: 25.625, z: 3, bx: "134%", by: "220%", dur: "11s", delay: "-0.7s", dx: "7%", dy: "-16%", rot: "3deg" },
+  /* 물병 */
+  { src: giftItem1, iw: 156, ih: 330, left: 10.145, top: 42.248, w: 19.5, z: 1, bx: "153%", by: "-16%", dur: "12.5s", delay: "-2.4s", dx: "-6%", dy: "17%", rot: "-3deg" },
+  /* 빵 */
+  { src: giftItem2, iw: 244, ih: 125, left: -1.526, top: 74.748, w: 30.5, z: 4, bx: "118%", by: "-336%", dur: "10.5s", delay: "-3.6s", dx: "8%", dy: "-15%", rot: "4deg" },
+  /* 캔 */
+  { src: giftItem3, iw: 211, ih: 355, left: 85.905, top: 28.976, w: 26.375, z: 5, bx: "-187%", by: "35%", dur: "13s", delay: "-1.5s", dx: "-7%", dy: "-18%", rot: "-3deg" },
+  /* 컵라면 */
+  { src: giftItem4, iw: 280, ih: 343, left: 70.139, top: -3.354, w: 35.0, z: 2, bx: "-108%", by: "174%", dur: "11.5s", delay: "-4.2s", dx: "6%", dy: "16%", rot: "3deg" },
+  /* 아이스크림 */
+  { src: giftItem5, iw: 153, ih: 364, left: 79.558, top: 59.888, w: 19.125, z: 6, bx: "-206%", by: "-89%", dur: "10s", delay: "-3s", dx: "-8%", dy: "-17%", rot: "-4deg" },
+]
+
 type FloatCoin =
   | (typeof HERO_COINS)[number]
   | (typeof REFERRAL_COINS)[number]
   | (typeof CASH_COINS)[number]
+  | (typeof GIFT_ITEMS)[number]
 
 function renderFloatCoin(c: FloatCoin, i: number) {
   /* 올라오는 동작은 바깥 래퍼가, 떠다니는 동작은 안쪽 이미지가 맡습니다.
@@ -441,14 +466,18 @@ function CashLike() {
             ))}
           </ul>
         </div>
-        <img
-          src={cashGiftshop}
-          alt="보면소득 소득사용 기프트샵을 띄운 스마트폰. 소득사용내역·쿠폰구매내역·현금출금 메뉴와 인기상품 CU 모바일 금액권 5,000원"
-          loading="lazy"
-          className="mx-auto w-full max-w-[300px]"
-          width={800}
-          height={1444}
-        />
+        {/* 상품은 폰과 따로 렌더링해, 화면 한가운데서 폰 주변으로 튀어나옵니다 */}
+        <div className="relative mx-auto w-full max-w-[300px]">
+          <img
+            src={cashGiftshop}
+            alt="보면소득 소득사용 기프트샵을 띄운 스마트폰. 소득사용내역·쿠폰구매내역·현금출금 메뉴와 인기상품 CU 모바일 금액권 5,000원"
+            loading="lazy"
+            className="relative z-0 w-full"
+            width={800}
+            height={1444}
+          />
+          {GIFT_ITEMS.map(renderFloatCoin)}
+        </div>
       </div>
 
       {/* 브랜드 띠 — 컨테이너 좌우 여백을 넘어 화면 끝까지 흐릅니다. */}
