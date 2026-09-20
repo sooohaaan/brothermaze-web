@@ -55,8 +55,18 @@ function multiSiteHtml(): Plugin {
   const escapeAttr = (v: string) =>
     v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
-  const rewrite = (html: string, meta: (typeof SITES)[number], base: string) =>
-    html
+  /* 하위 경로(/adhaeyo/)에서 열리는 사본이므로 상대경로 자산은 base 를 붙여
+   * 절대경로로 바꿉니다. 그대로 두면 favicon.png 가 /adhaeyo/favicon.png 로
+   * 잘못 해석돼 404 가 납니다. */
+  const absolutize = (html: string, base: string) =>
+    html.replace(
+      /\s(href|src)="([^"]+)"/g,
+      (whole, attr: string, value: string) =>
+        /^([a-z]+:|\/\/|\/|#)/i.test(value) ? whole : ` ${attr}="${base}${value}"`,
+    )
+
+  const rewrite = (html: string, meta: (typeof SITES)[number], base: string, urlBase: string) =>
+    absolutize(html, urlBase)
       .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(meta.title)}</title>`)
       .replace(
         /(<meta name="description" content=")[^"]*(")/,
@@ -80,11 +90,14 @@ function multiSiteHtml(): Plugin {
       )
 
   let outDir = 'dist'
+  /* 빌드 시 --base 로 들어오는 경로 (예: /brothermaze-web/) */
+  let urlBase = '/'
 
   return {
     name: 'multi-site-html',
     configResolved(config) {
       outDir = path.resolve(config.root, config.build.outDir)
+      urlBase = config.base.endsWith('/') ? config.base : `${config.base}/`
     },
     /* 개발 서버에서도 /adhaeyo/ 로 열리도록 */
     configureServer(server) {
@@ -94,7 +107,8 @@ function multiSiteHtml(): Plugin {
         try {
           const shell = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
           res.setHeader('Content-Type', 'text/html; charset=utf-8')
-          res.end(await server.transformIndexHtml(url, shell))
+          /* 빌드 때와 같이 상대경로 자산을 절대경로로 바꿔 줍니다 */
+          res.end(absolutize(await server.transformIndexHtml(url, shell), urlBase))
         } catch (err) {
           next(err as Error)
         }
@@ -111,7 +125,7 @@ function multiSiteHtml(): Plugin {
         if (!meta.path) continue
         const dir = path.join(outDir, meta.path)
         fs.mkdirSync(dir, { recursive: true })
-        fs.writeFileSync(path.join(dir, 'index.html'), rewrite(html, meta, origin))
+        fs.writeFileSync(path.join(dir, 'index.html'), rewrite(html, meta, origin, urlBase))
       }
     },
   }
