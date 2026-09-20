@@ -46,11 +46,8 @@ function Hero() {
             서비스입니다. 노출은 무료, 끝까지 본 사람에게만 15원. 광고비의
             절반은 광고를 본 그 사람의 주머니로 돌아갑니다.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8">
             <Button href="#signup">무료로 시작하기</Button>
-            <Button href="#usecases" variant="secondary">
-              어떤 광고를 할 수 있나요
-            </Button>
           </div>
         </div>
 
@@ -88,7 +85,7 @@ function UseCases() {
             쉽게 하는 광고
           </>
         }
-        sub="가게를 알리는 일부터 마음을 전하는 일까지, 짧은 영상 한 편이면 충분해요. 사업자등록증이 없어도 개인 계정으로 바로 시작할 수 있어요."
+        sub="가게를 알리는 일부터 마음을 전하는 일까지, 짧은 영상 한 편이면 충분해요."
       />
       <ul className="mx-auto mt-10 max-w-[680px] divide-y divide-line overflow-hidden rounded-card bg-fill-2 ring-1 ring-line md:mt-14">
         {useCases.map((t, i) => (
@@ -115,8 +112,8 @@ const differences = [
     desc: "광고가 보이는 것만으로는 한 푼도 내지 않아요. 소재가 아무리 많이 노출돼도 0원입니다.",
   },
   {
-    title: "끝까지 본 1건에만 냅니다",
-    desc: "영상광고는 완전시청 1건마다 과금돼요. 15초 광고 기준 딱 15원입니다.",
+    title: "끝까지 본 광고에만 냅니다",
+    desc: "영상광고는 완전 시청한 광고마다 과금돼요. 15초 광고 기준 딱 15원입니다.",
   },
   {
     title: "중간에 넘기면 0원이에요",

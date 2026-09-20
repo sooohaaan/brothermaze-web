@@ -5,7 +5,6 @@ import {
   LINKS,
   REWARD,
   STATS,
-  STORE,
 } from "../content"
 import {
   Button,
@@ -175,24 +174,6 @@ function Hero() {
           <Button href={LINKS.oneLink} external className="mt-8">
             앱 설치하고 소득 받기
           </Button>
-          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-2">
-            <li className="flex items-center gap-1.5">
-              <span aria-hidden className="text-gold-600">★</span>
-              <b className="num font-bold text-ink">{STORE.appStore.rating}</b>
-              App Store
-            </li>
-            <li className="flex items-center gap-1.5">
-              <span aria-hidden className="text-gold-600">★</span>
-              <b className="num font-bold text-ink">{STORE.playStore.rating}</b>
-              Google Play
-            </li>
-            <li className="flex items-center gap-1.5">
-              <b className="num font-bold text-ink">
-                {STORE.playStore.downloads}
-              </b>
-              다운로드
-            </li>
-          </ul>
         </div>
 
         <div className="relative mx-auto w-full max-w-[500px] overflow-hidden rounded-[40px] bg-fill-3 shadow-float">
@@ -305,9 +286,6 @@ function WhyAndRates() {
         </span>
       </div>
 
-      <p className="mx-auto mt-4 max-w-[760px] text-center text-[13px] leading-[1.6] text-ink-3 sm:text-left">
-        광고를 끝까지 봤을 때 받는 소득이에요.
-      </p>
     </Section>
   )
 }
@@ -363,12 +341,6 @@ function Referral() {
               </li>
             ))}
           </ul>
-          <div className="mt-8 rounded-2xl bg-brand-50 px-5 py-4">
-            <p className="text-base leading-[1.6] font-semibold text-brand-700">
-              친구 10명이 하루 5분씩만 봐도, 나는 아무것도 하지 않고 매일
-              얻은소득이 들어와요.
-            </p>
-          </div>
         </div>
       </div>
     </Section>
@@ -412,7 +384,6 @@ function CashLike() {
     ["출금 시작 금액", `${STATS.minPayout}부터`],
     ["입금까지", `신청 후 ${STATS.payoutDays} 이내`],
     ["받는 계좌", "본인 명의 계좌"],
-    ["수수료", "단 500원"],
   ]
   return (
     <Section id="cash" label="소득을 현금처럼 사용하기">
@@ -529,10 +500,6 @@ function CashLike() {
               </div>
             ))}
           </dl>
-          <p className="mt-4 text-[13px] leading-[1.6] text-ink-3">
-            주 5일 금융 거래일 기준이며, 시스템 점검이나 금융기관 사정으로
-            늦어질 수 있어요.
-          </p>
         </div>
       </div>
     </Section>
@@ -635,7 +602,7 @@ function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
   const cases = [
     {
       title: "친구 생일 깜짝 축하",
-      desc: "낯선 사람들과 함께 축하하는 특별한 경험을 선물해요.",
+      desc: "함께 축하하는 특별한 경험을 선물해요.",
     },
     {
       title: "가족에게 영상편지",
@@ -657,7 +624,7 @@ function PersonalAd({ onSwitchToAd }: { onSwitchToAd: () => void }) {
             재미있게 나를 알려 보세요
           </>
         }
-        sub="광고는 기업만 하는 게 아니에요. 전단지, 블로그, 동영상, 핸드폰 영상까지. 원하는 이미지나 영상으로 나를, 내 가게를, 내 친구를 직접 광고해 보세요. 사업자등록증 없이도 15초 광고 한 편에 15원부터예요."
+        sub="광고는 기업만 하는 게 아니에요. 전단지, 블로그, 동영상, 핸드폰 영상까지. 원하는 이미지나 영상으로 나를, 내 가게를, 내 친구를 직접 광고해 보세요."
       />
       <ul className="mt-10 grid gap-4 md:mt-14 md:grid-cols-3 md:gap-6">
         {cases.map((c) => (
