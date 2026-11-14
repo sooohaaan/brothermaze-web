@@ -129,14 +129,15 @@ function useSite() {
     setMeta("property", "og:description", meta.description)
     setCanonical(window.location.origin + routeUrl(route))
   }, [route.site, route.doc])
-  const nav = useCallback((next: Route) => {
-    window.history.pushState(null, "", routeUrl(next))
+  /* at — 문서 안의 단락 id. 주소에 #at 을 붙이면 DocView 가 그 단락으로 옮겨 줍니다. */
+  const nav = useCallback((next: Route, at?: string) => {
+    window.history.pushState(null, "", routeUrl(next) + (at ? `#${at}` : ""))
     setRoute(next)
-    window.scrollTo({ top: 0 })
+    if (!at) window.scrollTo({ top: 0 })
   }, [])
   const go = useCallback((site: Site) => nav({ site }), [nav])
   const openGuide = useCallback(
-    (doc?: GuideSlug) => nav({ site: "guide", doc }),
+    (doc?: GuideSlug, at?: string) => nav({ site: "guide", doc }, at),
     [nav],
   )
   return [route, go, openGuide] as const
@@ -261,7 +262,7 @@ function Header({
 }: {
   site: Site
   go: (s: Site) => void
-  openGuide: (d?: GuideSlug) => void
+  openGuide: (d?: GuideSlug, at?: string) => void
 }) {
   const scrolled = useScrolled(8)
   const links =

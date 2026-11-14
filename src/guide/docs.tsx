@@ -39,12 +39,13 @@ import review0 from "../assets/guide/review-0.webp"
  * 운영 정책은 약관의 일부이므로 내용을 고칠 때는 원문과 함께 고쳐 주세요.
  */
 
-export type GuideGroup = "service" | "product" | "policy"
+/* 읽는 순서대로 묶습니다 — 시작하기 → 광고 운영 → 정책·도움말 */
+export type GuideGroup = "start" | "operate" | "help"
 
 export const GROUPS: { id: GuideGroup; title: string }[] = [
-  { id: "service", title: "서비스 이용 가이드" },
-  { id: "product", title: "광고 상품 이용 가이드" },
-  { id: "policy", title: "정책" },
+  { id: "start", title: "시작하기" },
+  { id: "operate", title: "광고 운영" },
+  { id: "help", title: "정책·도움말" },
 ]
 
 export type GuideSection = { id: string; title: string; body: ReactNode }
@@ -66,7 +67,7 @@ const meta = (slug: GuideSlug) => GUIDE_DOCS.find((d) => d.slug === slug)!
 /* ── 이용자 가입 및 광고 계정 만들기 ─────────────────────── */
 const signup: GuideDoc = {
   ...meta("signup"),
-  group: "service",
+  group: "start",
   lead: "이메일로 가입하고, 개인·사업자 광고 계정을 만들어요.",
   sections: [
     {
@@ -155,6 +156,10 @@ const signup: GuideDoc = {
                 </>,
               ]}
             />
+            <P className="text-[15px] md:text-base">
+              계정 종류의 정의는 운영 정책의{" "}
+              <DocLink to="policy" at="account">광고 계정 등록</DocLink>에 있어요.
+            </P>
             <Shot
               src={signup3}
               width={871}
@@ -254,7 +259,7 @@ const signup: GuideDoc = {
             />
           </Step>
           <Step no={6} title="광고 계정 생성 완료">
-            <P>지금 바로 광고를 등록해서 전국민 보편소득 보면소득에 광고해요!</P>
+            <P>지금 바로 광고를 등록해서 전국민 보면소득에 광고해요!</P>
             <Shot
               src={signup9}
               width={1036}
@@ -269,10 +274,10 @@ const signup: GuideDoc = {
   ],
 }
 
-/* ── 광고해요 궁금해요 ─────────────────────────────────── */
+/* ── 광고해요 소개와 광고 상품 ─────────────────────────────────── */
 const about: GuideDoc = {
   ...meta("about"),
-  group: "service",
+  group: "start",
   lead: "광고해요가 무엇이고, 어떤 광고 상품이 있는지 알아봐요.",
   sections: [
     {
@@ -332,9 +337,9 @@ const about: GuideDoc = {
               "이미지로 배너광고를 등록할 수 있어요.",
               <>
                 <B>
-                  최소 5만 원으로도 짧은 시간 안에 원하는 페이지로 최대 1만 명을
-                  방문시키고 트래픽을 높일 수 있어요.
-                </B>
+                  5만 원이면 원하는 페이지로 최대 1만 번의 클릭을 모을 수 있어요.
+                </B>{" "}
+                (일반 배너 최소 단가 5원 기준)
               </>,
             ]}
           />
@@ -356,7 +361,7 @@ const about: GuideDoc = {
 /* ── 광고 등록 가이드 ──────────────────────────────────── */
 const register: GuideDoc = {
   ...meta("register"),
-  group: "product",
+  group: "operate",
   lead: "등록 절차, 소재 규격, 운영 설정, 랜딩페이지 규칙을 확인해요.",
   sections: [
     {
@@ -384,17 +389,13 @@ const register: GuideDoc = {
               </P>
             </Step>
             <Step no={4} title="광고 소재 심사">
-              <P>광고 등록 후 광고 소재 심사는 최대 5영업일이 걸립니다.</P>
-              <Bullets
-                items={[
-                  "가이드에 맞지 않아 심사 결과가 “보류”일 경우, “소재 작성하기”를 눌러 보류 사유를 확인하고, 사유를 참고해 소재를 수정한 뒤 다시 등록해 주세요.",
-                  <>
-                    자세한 사항은{" "}
-                    <DocLink to="review">광고해요 광고 소재 심사 가이드</DocLink>를
-                    참고해 주세요.
-                  </>,
-                ]}
-              />
+              <P>
+                등록한 소재는 최대 5영업일 동안 심사해요. 반려됐을 때 고치는
+                방법은 <DocLink to="review" at="flow">광고 소재 심사 프로세스</DocLink>,
+                집행일 기준 등록 기한은 운영 정책의{" "}
+                <DocLink to="policy" at="review">광고 등록 및 심사</DocLink>를
+                참고해 주세요.
+              </P>
             </Step>
           </Steps>
         </>
@@ -595,16 +596,11 @@ const register: GuideDoc = {
       body: (
         <>
           <P>
-            각 광고 상품 상세 화면에서 <B>[집행 중단]</B> 버튼을 눌러 광고
-            집행을 중단할 수 있어요. 집행을 중단하면 위약금이 발생하고, 중단한
-            광고를 다시 집행하려면 새로 등록해야 하니 신중하게 선택해 주세요.
+            <B>광고 소재 및 성과</B> 화면의 <B>[집행 중단]</B> 버튼으로 광고를
+            중단할 수 있어요. 중단 시점에 따라 위약금이 생기고, 다시 집행하려면
+            새로 등록해야 해요.
           </P>
-          <P>
-            자세한 사항은 서비스 운영 정책의{" "}
-            <DocLink to="policy">집행 중단 및 위약금 규정</DocLink>을 참고해
-            주세요.
-          </P>
-          <GoDoc to="policy">광고해요 서비스 운영 정책</GoDoc>
+          <GoDoc to="policy" at="penalty">위약금 기준은 운영 정책의 광고 집행 중단 및 위약금</GoDoc>
         </>
       ),
     },
@@ -669,8 +665,13 @@ const RULES: { title: string; items: string[]; note?: ReactNode }[] = [
       "사회 윤리적으로 용납되지 않는 행위(스와핑, 동거 등), 전통적인 가족 윤리를 훼손할 우려가 있는 내용(존속 폭행 및 살인 등)이 포함된 경우",
       "청소년의 건전한 인격과 시민의식 형성을 저해할 우려가 있는 내용이 있는 경우",
       "회사 내부 기준에 따라 청소년 유해 콘텐츠라고 판단되는 내용을 포함한 경우",
-      "공익성 광고에 한해 제한적으로 광고를 집행할 수 있습니다.",
     ],
+    note: (
+      <Callout>
+        위 청소년 부적합 게시물에 해당하더라도 공익성 광고는 제한적으로 집행할
+        수 있습니다.
+      </Callout>
+    ),
   },
   {
     title: "현행법 및 권고사항",
@@ -697,7 +698,7 @@ const RULES: { title: string; items: string[]; note?: ReactNode }[] = [
 /* ── 광고 소재 심사 가이드 ─────────────────────────────── */
 const review: GuideDoc = {
   ...meta("review"),
-  group: "product",
+  group: "operate",
   lead: "심사 기준과 광고 금지 사항, 심사 프로세스를 확인해요.",
   sections: [
     {
@@ -743,9 +744,12 @@ const review: GuideDoc = {
               </>,
               "광고 심사 때 등록한 문구, 이미지, 연결 페이지 등을 승인 이후 변경·변형하는 경우",
               "광고 성과를 변경하거나 부정하게 만들어 내는 경우",
-              "이 밖에 회사 내부 정책에 따라 별도 고지 없이 심사 가이드가 변경될 수 있습니다.",
             ]}
           />
+          <P className="text-[15px] text-ink-3 md:text-base">
+            이 밖에 회사 내부 정책에 따라 별도 고지 없이 심사 가이드가 변경될 수
+            있습니다.
+          </P>
         </>
       ),
     },
@@ -825,7 +829,9 @@ const review: GuideDoc = {
             <P>
               심사 결과는 광고 등록 완료 후 최대 5영업일 이내에 확인할 수
               있습니다. 심사 중이거나 승인이 끝난 뒤에는 광고 소재를 수정할 수
-              없습니다.
+              없습니다. 집행일 기준 등록 기한은 운영 정책의{" "}
+              <DocLink to="policy" at="review">광고 등록 및 심사</DocLink>를
+              따릅니다.
             </P>
           </Step>
           <Step no={3} title="심사 반려">
@@ -885,7 +891,7 @@ const CPV_ROWS: [string, string][] = [
 
 const policy: GuideDoc = {
   ...meta("policy"),
-  group: "policy",
+  group: "help",
   lead: "계정, 심사, 요금, 위약금, 환불, 세금계산서 규정을 담았어요.",
   sections: [
     {
@@ -1238,7 +1244,7 @@ const policy: GuideDoc = {
 /* 근거: 기존 광고해요 광고계정 웹 분석(2026-11-05, 광고해요-기획 폴더) */
 const charge: GuideDoc = {
   ...meta("charge"),
-  group: "product",
+  group: "operate",
   lead: "충전 방법, 결제 수단과 증빙, 광고비가 쓰이는 순서를 알아봐요.",
   sections: [
     {
@@ -1365,7 +1371,7 @@ const charge: GuideDoc = {
 /* 근거: 기존 광고해요 광고계정 웹 분석(2026-11-05) — 목록 열과 상태값 */
 const performance: GuideDoc = {
   ...meta("performance"),
-  group: "product",
+  group: "operate",
   lead: "광고 상태와 성과 지표를 확인하고 내려받는 방법을 알아봐요.",
   sections: [
     {
@@ -1477,7 +1483,7 @@ const faqItem = (start: string, more?: { to: GuideSlug; label: string }) => {
 
 const faq: GuideDoc = {
   ...meta("faq"),
-  group: "service",
+  group: "help",
   lead: "가입, 비용, 심사, 성과까지 자주 묻는 질문을 모았어요.",
   sections: [
     {
@@ -1528,14 +1534,14 @@ const faq: GuideDoc = {
 }
 
 export const DOCS: GuideDoc[] = [
-  signup,
   about,
-  faq,
+  signup,
   register,
-  charge,
   review,
+  charge,
   performance,
   policy,
+  faq,
 ]
 
 export const docBySlug = (slug: GuideSlug) => DOCS.find((d) => d.slug === slug)!
