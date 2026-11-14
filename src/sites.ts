@@ -43,14 +43,14 @@ export const siteMeta = (id: SiteId) => SITES.find((s) => s.id === id)!
  * 본문은 src/guide/docs.tsx, 여기는 주소와 문서 메타만 둡니다.
  */
 export type GuideSlug =
-  | "signup"
   | "about"
-  | "faq"
+  | "signup"
   | "register"
-  | "charge"
   | "review"
+  | "charge"
   | "performance"
   | "policy"
+  | "faq"
 
 export type GuideMeta = {
   slug: GuideSlug
@@ -62,25 +62,20 @@ export const GUIDE_HOME = {
   path: "adhaeyo/guide/",
   title: "광고해요 서비스 이용 가이드",
   description:
-    "광고해요 가입부터 광고 계정 만들기, 광고 등록, 소재 심사, 운영 정책까지 한곳에서 확인하세요.",
+    "광고해요 소개부터 가입, 광고 등록과 심사, 충전과 성과 확인, 운영 정책까지 한곳에서 확인하세요.",
   ogImage: "og-adhaeyo.png",
 }
 
 export const GUIDE_DOCS: GuideMeta[] = [
   {
-    slug: "signup",
-    title: "이용자 가입 및 광고 계정 만들기",
-    description: "광고해요 이용자 가입부터 개인·사업자 광고 계정 생성과 심사까지 차례로 안내합니다.",
-  },
-  {
     slug: "about",
-    title: "광고해요 궁금해요",
+    title: "광고해요 소개와 광고 상품",
     description: "광고해요가 어떤 서비스인지, 영상광고와 배너광고는 어떻게 다른지 알려드려요.",
   },
   {
-    slug: "faq",
-    title: "자주 묻는 질문",
-    description: "가입, 단가, 심사, 중단, 환불, 성과, 세금계산서까지 광고주가 자주 묻는 질문을 모았어요.",
+    slug: "signup",
+    title: "이용자 가입 및 광고 계정 만들기",
+    description: "광고해요 이용자 가입부터 개인·사업자 광고 계정 생성과 심사까지 차례로 안내합니다.",
   },
   {
     slug: "register",
@@ -88,14 +83,14 @@ export const GUIDE_DOCS: GuideMeta[] = [
     description: "광고 등록 절차와 소재 규격, 광고 운영 설정(기간·예산·단가·타겟), 랜딩페이지 URL 규칙을 확인하세요.",
   },
   {
-    slug: "charge",
-    title: "광고비 충전과 결제",
-    description: "광고비를 충전하는 방법, 결제 수단과 증빙, 광고비가 쓰이는 순서와 환불을 안내합니다.",
-  },
-  {
     slug: "review",
     title: "광고 소재 심사 가이드",
     description: "광고 소재 심사 기준, 광고 금지 사항, 심의필 번호, 심사 프로세스를 안내합니다.",
+  },
+  {
+    slug: "charge",
+    title: "광고비 충전과 결제",
+    description: "광고비를 충전하는 방법, 결제 수단과 증빙, 광고비가 쓰이는 순서와 환불을 안내합니다.",
   },
   {
     slug: "performance",
@@ -106,6 +101,11 @@ export const GUIDE_DOCS: GuideMeta[] = [
     slug: "policy",
     title: "서비스 운영 정책",
     description: "광고 계정, 광고 등록·심사, 이용 요금, 위약금, 환불, 세금계산서 규정을 담았습니다.",
+  },
+  {
+    slug: "faq",
+    title: "자주 묻는 질문",
+    description: "가입, 단가, 심사, 중단, 환불, 성과, 세금계산서까지 광고주가 자주 묻는 질문을 모았어요.",
   },
 ]
 

@@ -14,7 +14,7 @@ import { docHref } from "../guide/blocks"
 
 type Props = {
   slug?: GuideSlug
-  open: (slug?: GuideSlug) => void
+  open: (slug?: GuideSlug, at?: string) => void
 }
 
 export default function GuidePage({ slug, open }: Props) {
@@ -24,7 +24,15 @@ export default function GuidePage({ slug, open }: Props) {
     const a = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[data-doc]")
     if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
     e.preventDefault()
-    open((a.dataset.doc || undefined) as GuideSlug | undefined)
+    const to = (a.dataset.doc || undefined) as GuideSlug | undefined
+    const at = a.dataset.at
+    /* 같은 문서 안의 단락 링크는 주소의 #만 바꾸고 그 자리로 옮깁니다. */
+    if (at && to === slug) {
+      window.history.pushState(null, "", `#${at}`)
+      document.getElementById(at)?.scrollIntoView({ block: "start" })
+      return
+    }
+    open(to, at)
   }
 
   return (
@@ -76,7 +84,7 @@ function Hub() {
                       <DocCard doc={d} />
                     </li>
                   ))}
-                  {g.id === "service" && (
+                  {g.id === "start" && (
                     <li>
                       <a
                         href={import.meta.env.BASE_URL}

@@ -2,25 +2,30 @@ import type { ReactNode } from "react"
 import { cx } from "../shared/ui"
 import { guidePath, type GuideSlug } from "../sites"
 
-export const docHref = (slug?: GuideSlug) => import.meta.env.BASE_URL + guidePath(slug)
+export const docHref = (slug?: GuideSlug, at?: string) =>
+  import.meta.env.BASE_URL + guidePath(slug) + (at ? `#${at}` : "")
 
 /*
  * 가이드 본문용 블록 — 노션의 번호 목록·글머리표·콜아웃·표·이미지를
  * 랜딩 페이지와 같은 토큰(ink·brand·fill·line)으로 다시 그립니다.
  */
 
-/* 가이드 안의 다른 문서로 가는 링크 — GuidePage 가 클릭을 가로채 화면만 바꿉니다. */
+/* 가이드 안의 다른 문서로 가는 링크 — GuidePage 가 클릭을 가로채 화면만 바꿉니다.
+ * at 을 주면 그 문서의 해당 단락(section id)으로 바로 갑니다. */
 export function DocLink({
   to,
+  at,
   children,
 }: {
   to: GuideSlug
+  at?: string
   children: ReactNode
 }) {
   return (
     <a
-      href={docHref(to)}
+      href={docHref(to, at)}
       data-doc={to}
+      data-at={at}
       className="font-semibold text-brand-700 underline decoration-brand-100 decoration-2 underline-offset-4 hover:decoration-brand-600"
     >
       {children}
@@ -200,11 +205,20 @@ export function Callout({
 }
 
 /* 다른 문서 바로가기 카드 */
-export function GoDoc({ to, children }: { to: GuideSlug; children: ReactNode }) {
+export function GoDoc({
+  to,
+  at,
+  children,
+}: {
+  to: GuideSlug
+  at?: string
+  children: ReactNode
+}) {
   return (
     <a
-      href={docHref(to)}
+      href={docHref(to, at)}
       data-doc={to}
+      data-at={at}
       className="group flex items-center justify-between gap-4 rounded-2xl bg-surface px-5 py-4 ring-1 ring-line transition-colors hover:bg-fill-2 md:px-6"
     >
       <span className="text-[15px] font-semibold text-ink md:text-base">
