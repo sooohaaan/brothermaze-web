@@ -3,11 +3,21 @@ import { COMPANY, LINKS } from "./content"
 import { Button, Container, cx } from "./shared/ui"
 import logoBomyeon from "./assets/logo-bomyeon.png"
 import qrOneLink from "./assets/qr-onelink.svg"
-import { siteMeta, type SiteId } from "./sites"
+import {
+  GUIDE_DOCS,
+  GUIDE_HOME,
+  guidePath,
+  siteMeta,
+  type GuideSlug,
+  type SiteId,
+} from "./sites"
 import BomeonPage from "./pages/BomeonPage"
 import GwanggoPage from "./pages/GwanggoPage"
+import GuidePage from "./pages/GuidePage"
 
-type Site = SiteId
+/* guide — 광고해요 서비스 이용 가이드(/adhaeyo/guide/) */
+type Site = SiteId | "guide"
+type Route = { site: Site; doc?: GuideSlug }
 
 /* 화면을 바꿀 때 문서 메타도 함께 갱신합니다. */
 function setMeta(attr: "name" | "property", key: string, value: string) {
@@ -44,7 +54,7 @@ if (!REDUCED) document.documentElement.classList.add("reveal-ready")
 
 /* 스크롤 등장 — 화면에 들어오면 떠오르고, 완전히 벗어나면 되돌아가
  * 다시 들어올 때 또 재생됩니다. */
-function useReveal(site: Site) {
+function useReveal(site: string) {
   useEffect(() => {
     if (REDUCED) return
     const targets = Array.from(
@@ -78,38 +88,58 @@ function useReveal(site: Site) {
   }, [site])
 }
 
-function readSite(): Site {
-  if (/\/adhaeyo\/?$/.test(window.location.pathname)) return "adhaeyo"
+const GUIDE_SLUGS = GUIDE_DOCS.map((d) => d.slug)
+
+function readRoute(): Route {
+  const path = window.location.pathname
+  const g = path.match(/\/adhaeyo\/guide(?:\/([a-z-]+))?\/?$/)
+  if (g) {
+    const doc = GUIDE_SLUGS.find((s) => s === g[1])
+    return { site: "guide", doc }
+  }
+  if (/\/adhaeyo\/?$/.test(path)) return { site: "adhaeyo" }
   /* 이전에 공유된 ?site=adhaeyo 링크도 계속 열리도록 */
   const q = new URLSearchParams(window.location.search).get("site")
-  return q === "adhaeyo" ? "adhaeyo" : "bomyeon"
+  return { site: q === "adhaeyo" ? "adhaeyo" : "bomyeon" }
 }
 
-function siteUrl(id: Site) {
-  return BASE + siteMeta(id).path
+function routeUrl({ site, doc }: Route) {
+  return BASE + (site === "guide" ? guidePath(doc) : siteMeta(site).path)
+}
+
+function routeMeta({ site, doc }: Route) {
+  if (site !== "guide") return siteMeta(site)
+  if (!doc) return GUIDE_HOME
+  const d = GUIDE_DOCS.find((x) => x.slug === doc)!
+  return { title: `${d.title} — ${GUIDE_HOME.title}`, description: d.description }
 }
 
 function useSite() {
-  const [site, setSite] = useState<Site>(readSite)
+  const [route, setRoute] = useState<Route>(readRoute)
   useEffect(() => {
-    const onPop = () => setSite(readSite())
+    const onPop = () => setRoute(readRoute())
     window.addEventListener("popstate", onPop)
     return () => window.removeEventListener("popstate", onPop)
   }, [])
   useEffect(() => {
-    const meta = siteMeta(site)
+    const meta = routeMeta(route)
     document.title = meta.title
     setMeta("name", "description", meta.description)
     setMeta("property", "og:title", meta.title)
     setMeta("property", "og:description", meta.description)
-    setCanonical(window.location.origin + siteUrl(site))
-  }, [site])
-  const go = useCallback((next: Site) => {
-    window.history.pushState(null, "", siteUrl(next))
-    setSite(next)
+    setCanonical(window.location.origin + routeUrl(route))
+  }, [route.site, route.doc])
+  const nav = useCallback((next: Route) => {
+    window.history.pushState(null, "", routeUrl(next))
+    setRoute(next)
     window.scrollTo({ top: 0 })
   }, [])
-  return [site, go] as const
+  const go = useCallback((site: Site) => nav({ site }), [nav])
+  const openGuide = useCallback(
+    (doc?: GuideSlug) => nav({ site: "guide", doc }),
+    [nav],
+  )
+  return [route, go, openGuide] as const
 }
 
 function useScrolled(threshold: number) {
@@ -125,6 +155,18 @@ function useScrolled(threshold: number) {
 
 /* ── 사이트 헤더 ────────────────────────────────────── */
 function Logo({ site, onDark }: { site: Site; onDark?: boolean }) {
+  if (site === "guide") {
+    return (
+      <span className="flex items-center gap-2">
+        <span className="text-[19px] font-extrabold tracking-[-0.03em] text-ink">
+          광고해요
+        </span>
+        <span className="rounded-full bg-brand-50 px-2.5 py-1 text-[12px] font-bold text-brand-700">
+          이용 가이드
+        </span>
+      </span>
+    )
+  }
   if (site === "adhaeyo") {
     return (
       <span className="flex items-baseline gap-2">
@@ -212,10 +254,20 @@ function AppDownload() {
   )
 }
 
-function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
+function Header({
+  site,
+  go,
+  openGuide,
+}: {
+  site: Site
+  go: (s: Site) => void
+  openGuide: (d?: GuideSlug) => void
+}) {
   const scrolled = useScrolled(8)
   const links =
-    site === "adhaeyo"
+    site === "guide"
+      ? []
+      : site === "adhaeyo"
       ? [
           ["#usecases", "누구나 쉽게"],
           ["#value", "합리적인 광고"],
@@ -238,10 +290,21 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
     >
       <Container className="flex h-16 items-center justify-between gap-6">
         <a
-          href="#top"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          href={site === "guide" ? BASE + guidePath() : "#top"}
+          onClick={(e) => {
+            if (site === "guide") {
+              e.preventDefault()
+              openGuide()
+              return
+            }
+            window.scrollTo({ top: 0, behavior: "smooth" })
+          }}
           aria-label={`${
-            site === "adhaeyo" ? "광고해요" : "보면소득"
+            site === "guide"
+              ? "광고해요 이용 가이드"
+              : site === "adhaeyo"
+                ? "광고해요"
+                : "보면소득"
           } 처음으로`}
           className="inline-flex min-h-11 items-center"
         >
@@ -264,7 +327,26 @@ function Header({ site, go }: { site: Site; go: (s: Site) => void }) {
           ))}
         </nav>
         <div className="flex items-center gap-4">
-          {site === "adhaeyo" ? (
+          {site === "guide" ? (
+            <>
+              <button
+                type="button"
+                onClick={() => go("adhaeyo")}
+                className="hidden min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:inline-flex"
+              >
+                광고해요 홈
+              </button>
+              <a
+                href={LINKS.console}
+                className="hidden min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:inline-flex"
+              >
+                로그인
+              </a>
+              <Button href={LINKS.console} size="sm">
+                광고 시작하기
+              </Button>
+            </>
+          ) : site === "adhaeyo" ? (
             <>
               <button
                 type="button"
@@ -347,7 +429,7 @@ function Footer({ site, go }: { site: Site; go: (s: Site) => void }) {
     <footer className="border-t border-line bg-surface pt-12 pb-28 md:pb-12">
       <Container className="grid gap-8 md:grid-cols-[1fr_auto]">
         <div>
-          <Logo site={site === "adhaeyo" ? "adhaeyo" : "bomyeon"} />
+          <Logo site={site === "bomyeon" ? "bomyeon" : "adhaeyo"} />
           <dl className="mt-5 grid gap-1 text-[13px] leading-[1.7] text-ink-3">
             <div className="flex flex-wrap gap-x-4">
               <span>{COMPANY.name}</span>
@@ -373,10 +455,10 @@ function Footer({ site, go }: { site: Site; go: (s: Site) => void }) {
         >
           <button
             type="button"
-            onClick={() => go(site === "adhaeyo" ? "bomyeon" : "adhaeyo")}
+            onClick={() => go(site === "bomyeon" ? "adhaeyo" : "bomyeon")}
             className="inline-flex min-h-11 items-center hover:text-ink"
           >
-            {site === "adhaeyo" ? "보면소득" : "광고해요"}
+            {site === "bomyeon" ? "광고해요" : "보면소득"}
           </button>
           <a
             href={LINKS.terms}
@@ -401,8 +483,9 @@ function Footer({ site, go }: { site: Site; go: (s: Site) => void }) {
 }
 
 export default function App() {
-  const [site, go] = useSite()
-  useReveal(site)
+  const [route, go, openGuide] = useSite()
+  const { site, doc } = route
+  useReveal(site + (doc ?? ""))
   return (
     <div id="top">
       <a
@@ -411,11 +494,12 @@ export default function App() {
       >
         본문 바로가기
       </a>
-      <Header site={site} go={go} />
+      <Header site={site} go={go} openGuide={openGuide} />
       {site === "bomyeon" && <BomeonPage onSwitchToAd={() => go("adhaeyo")} />}
       {site === "adhaeyo" && <GwanggoPage />}
+      {site === "guide" && <GuidePage slug={doc} open={openGuide} />}
       <Footer site={site} go={go} />
-      {!CAPTURE && <MobileCTA site={site} />}
+      {!CAPTURE && site !== "guide" && <MobileCTA site={site} />}
     </div>
   )
 }

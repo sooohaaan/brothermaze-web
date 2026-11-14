@@ -18,6 +18,7 @@ import {
   SplitWords,
 } from "../shared/ui"
 import adInApp from "../assets/3d/how-1-watch.webp"
+import { guidePath } from "../sites"
 
 /*
  * 현행 adhaeyo.com 의 화면 구성을 그대로 토스 형식으로 옮겼습니다.
@@ -427,9 +428,7 @@ function EasySteps() {
       </ol>
       <div className="mt-10 text-center">
         <a
-          href={LINKS.adGuide}
-          target="_blank"
-          rel="noreferrer"
+          href={import.meta.env.BASE_URL + guidePath("register")}
           className="inline-flex min-h-11 items-center gap-1 text-[15px] font-semibold text-brand-700 hover:text-brand-800"
         >
           광고 등록 가이드 자세히 보기 <Arrow className="size-4" />
