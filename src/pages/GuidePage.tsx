@@ -184,7 +184,17 @@ function DocView({ doc }: { doc: GuideDoc }) {
   useEffect(() => {
     const id = decodeURIComponent(window.location.hash.slice(1))
     if (!id) return
-    requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView())
+    /* 부드러운 스크롤(html 의 scroll-behavior)은 첫 화면 렌더와 겹치면
+     * 중간에 멈춰서, 즉시 이동하고 글꼴이 늦게 들어와 밀린 경우를 위해
+     * 한 번 더 맞춥니다. */
+    const jump = () =>
+      document.getElementById(id)?.scrollIntoView({ behavior: "instant", block: "start" })
+    const raf = requestAnimationFrame(jump)
+    const t = window.setTimeout(jump, 400)
+    return () => {
+      cancelAnimationFrame(raf)
+      window.clearTimeout(t)
+    }
   }, [doc.slug])
   const idx = DOCS.findIndex((d) => d.slug === doc.slug)
   const prev = DOCS[idx - 1]
@@ -207,13 +217,16 @@ function DocView({ doc }: { doc: GuideDoc }) {
           {doc.title}
         </h1>
         <p className="mt-4 text-base leading-[1.6] text-ink-2 md:text-lg">{doc.description}</p>
+        {doc.effective && (
+          <p className="mt-3 text-[14px] font-semibold text-ink-3">시행일 {doc.effective}</p>
+        )}
 
         {/* 모바일 — 문서 목차를 접어서 보여줍니다. */}
         <MobileToc doc={doc} />
 
         <div className="mt-12 grid gap-16 md:mt-16 md:gap-20">
           {doc.sections.map((s) => (
-            <section key={s.id} id={s.id} aria-labelledby={`${s.id}-h`} className="scroll-mt-24">
+            <section key={s.id} id={s.id} aria-labelledby={`${s.id}-h`}>
               <h2
                 id={`${s.id}-h`}
                 className="text-[24px] leading-[1.4] font-bold tracking-[-0.01em] text-ink md:text-[30px]"
