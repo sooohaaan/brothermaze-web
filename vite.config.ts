@@ -6,6 +6,7 @@ import path from 'node:path'
 import fs from 'node:fs'
 import siteConfiguration from './.figma/make/site.json'
 import { GUIDE_DOCS, GUIDE_HOME, SITES, guidePath } from './src/sites'
+import { ADHAEYO_FAQ, GUIDE_FAQ } from './src/content'
 
 // Vite config — https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -132,11 +133,45 @@ function multiSiteHtml(): Plugin {
           ogImage: GUIDE_HOME.ogImage,
         })),
       ]
+      /* 가이드 FAQ 화면에 보이는 질문을 검색엔진용 구조화 데이터로도 넣습니다.
+       * 화면과 내용이 같아야 하므로 같은 데이터(content.ts)를 씁니다. */
+      const faqJsonLd = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [...ADHAEYO_FAQ, ...GUIDE_FAQ].map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      }).replace(/</g, '\\u003c')
+      const faqPath = guidePath('faq')
+
       for (const meta of [...SITES, ...guidePages]) {
         if (!meta.path) continue
         const dir = path.join(outDir, meta.path)
         fs.mkdirSync(dir, { recursive: true })
-        fs.writeFileSync(path.join(dir, 'index.html'), rewrite(html, meta, origin, urlBase))
+        let page = rewrite(html, meta, origin, urlBase)
+        if (meta.path === faqPath)
+          page = page.replace(
+            '</head>',
+            `<script type="application/ld+json">${faqJsonLd}</script></head>`,
+          )
+        fs.writeFileSync(path.join(dir, 'index.html'), page)
+      }
+
+      /* 사이트맵과 robots.txt — 주소는 og:image 와 같은 배포 주소를 기준으로 */
+      if (origin) {
+        const urls = ['', ...[...SITES, ...guidePages].map((m) => m.path).filter(Boolean)]
+        const sitemap =
+          '<?xml version="1.0" encoding="UTF-8"?>\n' +
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+          urls.map((u) => `  <url><loc>${escapeAttr(origin + u)}</loc></url>`).join('\n') +
+          '\n</urlset>\n'
+        fs.writeFileSync(path.join(outDir, 'sitemap.xml'), sitemap)
+        fs.writeFileSync(
+          path.join(outDir, 'robots.txt'),
+          `User-agent: *\nAllow: /\n\nSitemap: ${origin}sitemap.xml\n`,
+        )
       }
     },
   }

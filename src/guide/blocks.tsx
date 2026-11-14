@@ -243,7 +243,9 @@ export function GoDoc({
   )
 }
 
-/* 표 — 좁은 화면에서는 가로로 밀어 봅니다. */
+/* 표 — 넓은 화면에서는 표, 좁은 화면(md 미만)에서는 행마다 카드로 쌓아
+ * 옆으로 밀지 않고 읽게 합니다. 표가 넓어 가로 스크롤이 생기면 키보드로도
+ * 밀 수 있도록 영역에 초점을 줍니다. */
 export function DataTable({
   head,
   rows,
@@ -255,49 +257,83 @@ export function DataTable({
   caption?: string
   emphasizeLast?: boolean
 }) {
+  const last = (i: number) => emphasizeLast && i === rows.length - 1
   return (
-    <div className="overflow-x-auto rounded-2xl ring-1 ring-line">
-      <table className="w-full min-w-[520px] border-collapse text-left text-[15px] leading-[1.6]">
-        {caption && <caption className="sr-only">{caption}</caption>}
-        <thead className="bg-fill-2">
-          <tr>
-            {head.map((h, i) => (
-              <th
-                key={i}
-                scope="col"
-                className="px-4 py-3 font-bold whitespace-nowrap text-ink md:px-5"
-              >
-                {h}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, i) => (
-            <tr
-              key={i}
-              className={cx(
-                "border-t border-line",
-                emphasizeLast && i === rows.length - 1 && "bg-brand-50/60 font-bold text-ink",
-              )}
-            >
-              {r.map((c, j) => (
-                <td
-                  key={j}
-                  className={cx(
-                    "num px-4 py-3 align-top md:px-5",
-                    j === 0 ? "text-ink" : "text-ink-2",
-                    emphasizeLast && i === rows.length - 1 && "text-ink",
-                  )}
+    <>
+      <div
+        role="region"
+        aria-label={caption}
+        tabIndex={0}
+        className="hidden overflow-x-auto rounded-2xl ring-1 ring-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 md:block"
+      >
+        <table className="w-full min-w-[520px] border-collapse text-left text-[15px] leading-[1.6]">
+          {caption && <caption className="sr-only">{caption}</caption>}
+          <thead className="bg-fill-2">
+            <tr>
+              {head.map((h, i) => (
+                <th
+                  key={i}
+                  scope="col"
+                  className="px-4 py-3 font-bold whitespace-nowrap text-ink md:px-5"
                 >
-                  {c}
-                </td>
+                  {h}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {rows.map((r, i) => (
+              <tr
+                key={i}
+                className={cx(
+                  "border-t border-line",
+                  last(i) && "bg-brand-50/60 font-bold text-ink",
+                )}
+              >
+                {r.map((c, j) => (
+                  <td
+                    key={j}
+                    className={cx(
+                      "num px-4 py-3 align-top md:px-5",
+                      j === 0 || last(i) ? "text-ink" : "text-ink-2",
+                    )}
+                  >
+                    {c}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* 좁은 화면 — 첫 칸을 제목으로, 나머지는 머리글과 값 */}
+      <ul aria-label={caption} className="grid gap-3 md:hidden">
+        {rows.map((r, i) => (
+          <li
+            key={i}
+            className={cx(
+              "rounded-2xl px-4 py-4 ring-1 ring-line",
+              last(i) ? "bg-brand-50/60" : "bg-surface",
+            )}
+          >
+            <p className="num text-[15px] leading-[1.5] font-bold text-ink">
+              {r[0]}
+            </p>
+            {r.length > 1 && (
+              <dl className="mt-2 grid gap-1.5">
+                {r.slice(1).map((c, j) => (
+                  <div key={j} className="grid grid-cols-[minmax(72px,auto)_1fr] gap-3 text-[15px] leading-[1.6]">
+                    <dt className="text-ink-3">{head[j + 1]}</dt>
+                    <dd className={cx("num", last(i) ? "font-bold text-ink" : "text-ink-2")}>{c}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </li>
+        ))}
+      </ul>
+    </>
   )
 }
 
@@ -335,7 +371,7 @@ export const B = ({ children }: { children: ReactNode }) => (
 export function FaqList({
   items,
 }: {
-  items: { q: string; a: string; more?: { to: GuideSlug; label: string } }[]
+  items: { q: string; a: string; more?: { to: GuideSlug; at?: string; label: string } }[]
 }) {
   return (
     <dl className="grid gap-4">
@@ -349,7 +385,9 @@ export function FaqList({
             {it.a}
             {it.more && (
               <span className="mt-2 block">
-                <DocLink to={it.more.to}>{it.more.label} 자세히 보기</DocLink>
+                <DocLink to={it.more.to} at={it.more.at}>
+                  {it.more.label} 자세히 보기
+                </DocLink>
               </span>
             )}
           </dd>

@@ -225,9 +225,15 @@ function DocView({ doc }: { doc: GuideDoc }) {
           {doc.title}
         </h1>
         <p className="mt-4 text-base leading-[1.6] text-ink-2 md:text-lg">{doc.description}</p>
-        {doc.effective && (
-          <p className="mt-3 text-[14px] font-semibold text-ink-3">시행일 {doc.effective}</p>
-        )}
+        <p className="mt-3 flex flex-wrap gap-x-4 text-[14px] font-semibold text-ink-3">
+          {doc.effective && <span>시행일 {doc.effective}</span>}
+          <span>
+            마지막 업데이트{" "}
+            <time dateTime={doc.updated}>
+              {doc.updated.replace(/^(\d+)-0?(\d+)-0?(\d+)$/, "$1년 $2월 $3일")}
+            </time>
+          </span>
+        </p>
 
         {/* 모바일 — 문서 목차를 접어서 보여줍니다. */}
         <MobileToc doc={doc} />
