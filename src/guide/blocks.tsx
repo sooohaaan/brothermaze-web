@@ -316,3 +316,45 @@ export function Ordered({ items }: { items: ReactNode[] }) {
 export const B = ({ children }: { children: ReactNode }) => (
   <strong className="font-bold text-ink">{children}</strong>
 )
+
+/* 자주 묻는 질문 — 질문마다 관련 문서로 가는 링크를 붙일 수 있습니다. */
+export function FaqList({
+  items,
+}: {
+  items: { q: string; a: string; more?: { to: GuideSlug; label: string } }[]
+}) {
+  return (
+    <dl className="grid gap-4">
+      {items.map((it) => (
+        <div key={it.q} className="rounded-2xl bg-surface p-5 ring-1 ring-line md:p-6">
+          <dt className="text-[17px] leading-[1.5] font-bold text-ink">
+            <span className="num mr-2 text-brand-700">Q.</span>
+            {it.q}
+          </dt>
+          <dd className="mt-2 text-[15px] leading-[1.7] text-ink-2 md:text-base">
+            {it.a}
+            {it.more && (
+              <span className="mt-2 block">
+                <DocLink to={it.more.to}>{it.more.label} 자세히 보기</DocLink>
+              </span>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+/* 용어 사전 */
+export function Glossary({ items }: { items: [string, ReactNode][] }) {
+  return (
+    <dl className="divide-y divide-line overflow-hidden rounded-2xl ring-1 ring-line">
+      {items.map(([term, desc]) => (
+        <div key={term} className="grid gap-1 px-5 py-4 md:grid-cols-[180px_1fr] md:gap-6 md:px-6">
+          <dt className="text-[15px] font-bold text-ink md:text-base">{term}</dt>
+          <dd className="text-[15px] leading-[1.7] text-ink-2 md:text-base">{desc}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}

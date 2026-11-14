@@ -42,7 +42,15 @@ export const siteMeta = (id: SiteId) => SITES.find((s) => s.id === id)!
  * /adhaeyo/guide/ 가 목차, /adhaeyo/guide/<slug>/ 가 각 문서입니다.
  * 본문은 src/guide/docs.tsx, 여기는 주소와 문서 메타만 둡니다.
  */
-export type GuideSlug = "signup" | "about" | "register" | "review" | "policy"
+export type GuideSlug =
+  | "signup"
+  | "about"
+  | "faq"
+  | "register"
+  | "charge"
+  | "review"
+  | "performance"
+  | "policy"
 
 export type GuideMeta = {
   slug: GuideSlug
@@ -70,14 +78,29 @@ export const GUIDE_DOCS: GuideMeta[] = [
     description: "광고해요가 어떤 서비스인지, 영상광고와 배너광고는 어떻게 다른지 알려드려요.",
   },
   {
+    slug: "faq",
+    title: "자주 묻는 질문",
+    description: "가입, 단가, 심사, 중단, 환불, 성과, 세금계산서까지 광고주가 자주 묻는 질문을 모았어요.",
+  },
+  {
     slug: "register",
     title: "광고 등록 가이드",
-    description: "광고 등록 절차와 영상·배너광고 준비물, 랜딩페이지 URL 규칙을 확인하세요.",
+    description: "광고 등록 절차와 소재 규격, 광고 운영 설정(기간·예산·단가·타겟), 랜딩페이지 URL 규칙을 확인하세요.",
+  },
+  {
+    slug: "charge",
+    title: "광고비 충전과 결제",
+    description: "광고비를 충전하는 방법, 결제 수단과 증빙, 광고비가 쓰이는 순서와 환불을 안내합니다.",
   },
   {
     slug: "review",
     title: "광고 소재 심사 가이드",
     description: "광고 소재 심사 기준, 광고 금지 사항, 심의필 번호, 심사 프로세스를 안내합니다.",
+  },
+  {
+    slug: "performance",
+    title: "광고 성과 확인하기",
+    description: "광고 소재 및 성과 화면에서 광고 상태와 성과 지표를 확인하고 내려받는 방법을 알려드려요.",
   },
   {
     slug: "policy",
