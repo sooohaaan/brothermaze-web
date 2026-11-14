@@ -5,7 +5,7 @@ import path from 'node:path'
 
 import fs from 'node:fs'
 import siteConfiguration from './.figma/make/site.json'
-import { SITES } from './src/sites'
+import { GUIDE_DOCS, GUIDE_HOME, SITES, guidePath } from './src/sites'
 
 // Vite config — https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -65,7 +65,8 @@ function multiSiteHtml(): Plugin {
         /^([a-z]+:|\/\/|\/|#)/i.test(value) ? whole : ` ${attr}="${base}${value}"`,
     )
 
-  const rewrite = (html: string, meta: (typeof SITES)[number], base: string, urlBase: string) =>
+  type PageMeta = { title: string; description: string; ogImage: string }
+  const rewrite = (html: string, meta: PageMeta, base: string, urlBase: string) =>
     absolutize(html, urlBase)
       .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(meta.title)}</title>`)
       .replace(
@@ -103,7 +104,7 @@ function multiSiteHtml(): Plugin {
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const url = (req.url || '').split('?')[0]
-        if (!/^\/adhaeyo\/?$/.test(url)) return next()
+        if (!/^\/adhaeyo(\/guide(\/[a-z-]+)?)?\/?$/.test(url)) return next()
         try {
           const shell = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
           res.setHeader('Content-Type', 'text/html; charset=utf-8')
@@ -121,7 +122,17 @@ function multiSiteHtml(): Plugin {
       const html = fs.readFileSync(indexPath, 'utf-8')
       const origin = (html.match(/<meta property="og:image" content="([^"]*)"/)?.[1] ?? '')
         .replace(/[^/]*$/, '')
-      for (const meta of SITES) {
+      /* 광고해요 이용 가이드 — 목차와 문서마다 한 벌씩 */
+      const guidePages = [
+        GUIDE_HOME,
+        ...GUIDE_DOCS.map((d) => ({
+          path: guidePath(d.slug),
+          title: `${d.title} — ${GUIDE_HOME.title}`,
+          description: d.description,
+          ogImage: GUIDE_HOME.ogImage,
+        })),
+      ]
+      for (const meta of [...SITES, ...guidePages]) {
         if (!meta.path) continue
         const dir = path.join(outDir, meta.path)
         fs.mkdirSync(dir, { recursive: true })

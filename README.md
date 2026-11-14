@@ -9,6 +9,7 @@
 | --- | --- |
 | 보면소득 | `/` |
 | 광고해요 | `/adhaeyo/` |
+| 광고해요 이용 가이드 | `/adhaeyo/guide/` · `/adhaeyo/guide/<문서>/` |
 
 이전에 공유된 `/?site=adhaeyo` 링크도 계속 열립니다.
 
@@ -33,6 +34,8 @@ pnpm dev
 | `src/sites.ts` | 사이트별 제목·설명·og:image. 화면과 빌드가 같이 씁니다 |
 | `src/App.tsx` | 경로 분기, 헤더·푸터, 스크롤 등장 관찰자, 다운로드 QR |
 | `src/pages/BomeonPage.tsx` · `GwanggoPage.tsx` | 두 사이트의 본문 |
+| `src/pages/GuidePage.tsx` | 이용 가이드 목차·문서 화면 (노션 가이드를 옮긴 것) |
+| `src/guide/docs.tsx` · `blocks.tsx` | 가이드 본문과 본문용 블록(단계·콜아웃·표·캡처) |
 | `src/shared/ui.tsx` | `Section` `ChapterHead` `Button` `FAQ` `Coin` `Money` `SplitWords` |
 | `src/index.css` | 디자인 토큰과 모션 |
 | `src/assets/3d/` | 블렌더 렌더 (폰 레이어 + 금화·상품 스프라이트) |
