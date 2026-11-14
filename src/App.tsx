@@ -103,6 +103,8 @@ function readRoute(): Route {
   return { site: q === "adhaeyo" ? "adhaeyo" : "bomyeon" }
 }
 
+const GUIDE_URL = BASE + guidePath()
+
 function routeUrl({ site, doc }: Route) {
   return BASE + (site === "guide" ? guidePath(doc) : siteMeta(site).path)
 }
@@ -274,6 +276,7 @@ function Header({
           ["#value", "합리적인 광고"],
           ["#how", "광고하는 법"],
           ["#faq", "자주 묻는 질문"],
+          [GUIDE_URL, "이용 가이드"],
         ]
       : [
           ["#why", "왜 소득을 주나요"],
@@ -313,12 +316,21 @@ function Header({
         </a>
         <nav
           aria-label="페이지 안 이동"
-          className="hidden items-center gap-8 md:flex"
+          /* 메뉴가 5개라 태블릿 너비에서는 줄바꿈되어 lg 부터 보입니다. */
+          className="hidden items-center gap-6 whitespace-nowrap lg:flex xl:gap-8"
         >
           {links.map(([href, label]) => (
             <a
               key={href}
               href={href}
+              onClick={
+                href === GUIDE_URL
+                  ? (e) => {
+                      e.preventDefault()
+                      openGuide()
+                    }
+                  : undefined
+              }
               /* ink-2 → ink 는 한 단계 차이라 올려도 거의 티가 나지 않습니다.
                * 브랜드 색으로 바꿔 눌리는 것임이 분명히 보이게 합니다. */
               className="inline-flex min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700"
@@ -327,7 +339,7 @@ function Header({
             </a>
           ))}
         </nav>
-        <div className="flex items-center gap-4">
+        <div className="flex shrink-0 items-center gap-4 whitespace-nowrap">
           {site === "guide" ? (
             <>
               <button
@@ -352,7 +364,8 @@ function Header({
               <button
                 type="button"
                 onClick={() => go("bomyeon")}
-                className="hidden min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:inline-flex"
+                /* 메뉴가 보이는 lg 너비에서는 자리가 모자라 xl 부터 보입니다(푸터에도 있어요). */
+                className="hidden min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:inline-flex lg:hidden xl:inline-flex"
               >
                 보면소득 둘러보기
               </button>
@@ -425,7 +438,28 @@ function MobileCTA({ site }: { site: Site }) {
 }
 
 /* ── 푸터 — 현행 사이트의 사업자 정보 ─────────────────── */
-function Footer({ site, go }: { site: Site; go: (s: Site) => void }) {
+function Footer({
+  site,
+  go,
+  openGuide,
+}: {
+  site: Site
+  go: (s: Site) => void
+  openGuide: (d?: GuideSlug, at?: string) => void
+}) {
+  /* 광고해요 쪽에서는 이용 가이드와 서비스 운영 정책(약관의 일부)을 함께 둡니다. */
+  const guideLink = (slug: GuideSlug | undefined, label: string) => (
+    <a
+      href={BASE + guidePath(slug)}
+      onClick={(e) => {
+        e.preventDefault()
+        openGuide(slug)
+      }}
+      className="inline-flex min-h-11 items-center hover:text-ink"
+    >
+      {label}
+    </a>
+  )
   return (
     <footer className="border-t border-line bg-surface pt-12 pb-28 md:pb-12">
       <Container className="grid gap-8 md:grid-cols-[1fr_auto]">
@@ -461,6 +495,8 @@ function Footer({ site, go }: { site: Site; go: (s: Site) => void }) {
           >
             {site === "bomyeon" ? "광고해요" : "보면소득"}
           </button>
+          {site !== "bomyeon" && guideLink(undefined, "이용 가이드")}
+          {site !== "bomyeon" && guideLink("policy", "서비스 운영 정책")}
           <a
             href={LINKS.terms}
             target="_blank"
@@ -499,7 +535,7 @@ export default function App() {
       {site === "bomyeon" && <BomeonPage onSwitchToAd={() => go("adhaeyo")} />}
       {site === "adhaeyo" && <GwanggoPage />}
       {site === "guide" && <GuidePage slug={doc} open={openGuide} />}
-      <Footer site={site} go={go} />
+      <Footer site={site} go={go} openGuide={openGuide} />
       {!CAPTURE && site !== "guide" && <MobileCTA site={site} />}
     </div>
   )

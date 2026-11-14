@@ -462,6 +462,16 @@ function AdFAQ() {
                 {COMPANY.partnerEmail}
               </a>
             </p>
+            <p className="mt-2 text-base leading-[1.6] text-ink-2 2xl:text-[18px]">
+              더 많은 질문은{" "}
+              <a
+                href={import.meta.env.BASE_URL + guidePath("faq")}
+                className="font-semibold text-brand-700 underline underline-offset-4"
+              >
+                이용 가이드의 자주 묻는 질문
+              </a>
+              에서 볼 수 있어요.
+            </p>
           </header>
         </div>
         <FAQ items={ADHAEYO_FAQ} />

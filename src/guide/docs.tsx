@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import { ADHAEYO_FAQ, COMPANY } from "../content"
+import { ADHAEYO_FAQ, COMPANY, GUIDE_FAQ } from "../content"
 import { GUIDE_DOCS, type GuideSlug } from "../sites"
 import {
   B,
@@ -59,6 +59,8 @@ export type GuideDoc = {
   lead: string
   /* 시행일 — 정해지면 제목 아래에 표시합니다 (예: "2026년 12월 1일") */
   effective?: string
+  /* 마지막으로 내용을 고친 날 — 문서를 고치면 함께 바꿔 주세요 (YYYY-MM-DD) */
+  updated: string
   sections: GuideSection[]
 }
 
@@ -67,6 +69,7 @@ const meta = (slug: GuideSlug) => GUIDE_DOCS.find((d) => d.slug === slug)!
 /* ── 이용자 가입 및 광고 계정 만들기 ─────────────────────── */
 const signup: GuideDoc = {
   ...meta("signup"),
+  updated: "2026-11-14",
   group: "start",
   lead: "이메일로 가입하고, 개인·사업자 광고 계정을 만들어요.",
   sections: [
@@ -79,7 +82,7 @@ const signup: GuideDoc = {
             no={1}
             title={
               <>
-                광고해요(
+                광고해요 로그인 페이지(
                 <Ext href="https://www.bomyeon.com/signin">www.bomyeon.com</Ext>
                 )에서 이용자 가입 버튼을 눌러 가입해 주세요.
               </>
@@ -297,6 +300,7 @@ const signup: GuideDoc = {
 /* ── 광고해요 소개와 광고 상품 ─────────────────────────────────── */
 const about: GuideDoc = {
   ...meta("about"),
+  updated: "2026-11-14",
   group: "start",
   lead: "광고해요가 무엇이고, 어떤 광고 상품이 있는지 알아봐요.",
   sections: [
@@ -381,6 +385,7 @@ const about: GuideDoc = {
 /* ── 광고 등록 가이드 ──────────────────────────────────── */
 const register: GuideDoc = {
   ...meta("register"),
+  updated: "2026-11-14",
   group: "operate",
   lead: "등록 절차, 소재 규격, 운영 설정, 랜딩페이지 규칙을 확인해요.",
   sections: [
@@ -405,7 +410,7 @@ const register: GuideDoc = {
                 광고 집행을 위한 예산을 결제합니다. 결제하면 충전해 둔 광고비
                 잔액에서 예산이 바로 빠져나가고, 잔액이 모자라면 충전 안내가
                 나와요. 충전 방법은{" "}
-                <DocLink to="charge">광고비 충전과 결제</DocLink>를 참고해 주세요.
+                <DocLink to="charge" at="charge">광고비 충전하기</DocLink>를 참고해 주세요.
               </P>
             </Step>
             <Step no={4} title="광고 소재 심사">
@@ -558,7 +563,8 @@ const register: GuideDoc = {
           />
           <P>
             영상 길이별 최소 단가는 운영 정책의{" "}
-            <DocLink to="policy">서비스 이용 요금</DocLink>에 표로 정리돼 있어요.
+            <DocLink to="policy" at="pricing">서비스 이용 요금</DocLink>에 표로 정리돼 있어요. CPV·CPC 같은 용어는{" "}
+            <DocLink to="policy" at="terms">용어 정리</DocLink>에서 확인할 수 있어요.
           </P>
           <Callout>
             예산은 결제할 때 한꺼번에 빠져나가고, 광고를 취소하거나 중단하면 남은
@@ -606,7 +612,7 @@ const register: GuideDoc = {
             광고 소재 수정을 요청하거나 광고 집행을 제한할 수 있으며, 이미
             승인된 광고라도 사전 고지 없이 집행이 중단되거나 취소될 수 있습니다.
           </P>
-          <GoDoc to="review">광고해요 광고 소재 심사 가이드</GoDoc>
+          <GoDoc to="review" at="rules">광고해요 광고 소재 심사 가이드 · 광고 집행 준수 가이드</GoDoc>
         </>
       ),
     },
@@ -718,6 +724,7 @@ const RULES: { title: string; items: string[]; note?: ReactNode }[] = [
 /* ── 광고 소재 심사 가이드 ─────────────────────────────── */
 const review: GuideDoc = {
   ...meta("review"),
+  updated: "2026-11-14",
   group: "operate",
   lead: "심사 기준과 광고 금지 사항, 심사 프로세스를 확인해요.",
   sections: [
@@ -887,6 +894,7 @@ const TERMS: [string, ReactNode][] = [
   ["광고 예산", "광고 한 건에 쓰려고 정한 금액이에요. 결제하는 순간 광고비 잔액에서 한꺼번에 빠져나가요."],
   ["환급", "광고를 취소하거나 중단했을 때 남은 예산이 광고 계정의 “충전한 광고비”로 되돌아오는 것이에요. 위약금이 있으면 빼고 돌아와요."],
   ["환불", "충전한 광고비를 카드 결제 취소나 계좌 입금으로 돌려받는 것이에요. 환불 수수료 5%가 붙어요."],
+  ["보면소득 · 참여소득", "보면소득 앱 이용자가 받는 소득 이름이에요. 영상광고를 끝까지 보면 보면소득, 배너광고를 누르면 참여소득이 쌓여요. 콘솔 메뉴에서 영상 광고(보면소득), 배너 광고(참여소득)로 표시돼요."],
   ["CPV", "시청 완료당 비용. 영상광고는 끝까지(100%) 본 1회마다 과금돼요."],
   ["CPC", "클릭당 비용. 배너광고는 클릭 1회마다 과금돼요."],
   ["위약금", "심사 승인 뒤 광고를 중단할 때 시점에 따라 내는 금액이에요. 기준은 위약금 규정에 있어요."],
@@ -911,6 +919,7 @@ const CPV_ROWS: [string, string][] = [
 
 const policy: GuideDoc = {
   ...meta("policy"),
+  updated: "2026-11-14",
   group: "help",
   lead: "계정, 심사, 요금, 위약금, 환불, 세금계산서 규정을 담았어요.",
   sections: [
@@ -995,7 +1004,7 @@ const policy: GuideDoc = {
               </>,
             ]}
           />
-          <GoDoc to="signup">광고해요 이용자 가입 및 광고 계정 만들기</GoDoc>
+          <GoDoc to="signup" at="account">광고해요 광고 계정 만들기</GoDoc>
         </>
       ),
     },
@@ -1053,8 +1062,8 @@ const policy: GuideDoc = {
             ]}
           />
           <div className="grid gap-3 md:grid-cols-2">
-            <GoDoc to="register">광고 등록 가이드</GoDoc>
-            <GoDoc to="review">광고 소재 심사 가이드</GoDoc>
+            <GoDoc to="register" at="process">광고 등록 가이드</GoDoc>
+            <GoDoc to="review" at="screening">광고 소재 심사 가이드</GoDoc>
           </div>
         </>
       ),
@@ -1264,6 +1273,7 @@ const policy: GuideDoc = {
 /* 근거: 기존 광고해요 광고계정 웹 분석(2026-11-05, 광고해요-기획 폴더) */
 const charge: GuideDoc = {
   ...meta("charge"),
+  updated: "2026-11-14",
   group: "operate",
   lead: "충전 방법, 결제 수단과 증빙, 광고비가 쓰이는 순서를 알아봐요.",
   sections: [
@@ -1331,7 +1341,7 @@ const charge: GuideDoc = {
             />
             <P>
               세금계산서 발행 기준과 시기는 운영 정책의{" "}
-              <DocLink to="policy">세금계산서 발행</DocLink>을 확인해 주세요.
+              <DocLink to="policy" at="invoice">세금계산서 발행</DocLink>을 확인해 주세요.
             </P>
           </Step>
         </Steps>
@@ -1347,6 +1357,10 @@ const charge: GuideDoc = {
               "광고를 등록하고 [광고예산 결제하기]를 누르면, 정한 광고 예산 전체가 그 자리에서 잔액에서 빠져나가요.",
               "잔액이 예산보다 적으면 결제할 수 없고 충전 안내가 나와요.",
               "광고를 취소하거나 중단하면 남은 예산이 “충전한 광고비”로 되돌아와요(환급). 위약금이 있으면 빼고 돌아오며, 최대 5영업일이 걸려요.",
+              <>
+                환급과 환불의 차이는 운영 정책의{" "}
+                <DocLink to="policy" at="terms">용어 정리</DocLink>를 참고해 주세요.
+              </>,
             ]}
           />
           <H3>광고비 관리 내역 읽는 법</H3>
@@ -1380,7 +1394,7 @@ const charge: GuideDoc = {
               "기타 광고비는 환불되지 않아요.",
             ]}
           />
-          <GoDoc to="policy">운영 정책 · 광고비 환불 규정과 계산 예시</GoDoc>
+          <GoDoc to="policy" at="refund">운영 정책 · 광고비 환불 규정과 계산 예시</GoDoc>
         </>
       ),
     },
@@ -1391,6 +1405,7 @@ const charge: GuideDoc = {
 /* 근거: 기존 광고해요 광고계정 웹 분석(2026-11-05) — 목록 열과 상태값 */
 const performance: GuideDoc = {
   ...meta("performance"),
+  updated: "2026-11-14",
   group: "operate",
   lead: "광고 상태와 성과 지표를 확인하고 내려받는 방법을 알아봐요.",
   sections: [
@@ -1403,6 +1418,10 @@ const performance: GuideDoc = {
             왼쪽 메뉴의 <B>광고 소재 및 성과</B>에서 <B>영상 광고(보면소득)</B>{" "}
             또는 <B>배너 광고(참여소득)</B>를 눌러 주세요. 등록한 광고가 표로
             보이고, 한 줄이 광고 한 건이에요.
+          </P>
+          <P className="text-[15px] md:text-base">
+            괄호 안의 이름은 보면소득 앱에서 이용자가 받는 소득 이름이에요. 영상을
+            끝까지 보면 <B>보면소득</B>, 배너를 누르면 <B>참여소득</B>이 쌓여요.
           </P>
           <Callout>
             성과 데이터는 <B>매일 자정</B>에 한 번 업데이트돼요. 오늘의 성과는
@@ -1442,8 +1461,8 @@ const performance: GuideDoc = {
             ]}
           />
           <P>
-            심사 기준은 <DocLink to="review">광고 소재 심사 가이드</DocLink>, 중단
-            시 위약금은 <DocLink to="policy">운영 정책</DocLink>을 확인해 주세요.
+            심사 절차는 <DocLink to="review" at="flow">광고 소재 심사 프로세스</DocLink>, 중단
+            시 위약금은 <DocLink to="policy" at="penalty">운영 정책의 위약금 규정</DocLink>을 확인해 주세요.
           </P>
         </>
       ),
@@ -1485,7 +1504,7 @@ const performance: GuideDoc = {
           <P>
             광고해요는 외부 성과 측정 도구와의 연동을 지원하지 않아요. 연결 페이지
             URL에 UTM 파라미터를 넣으면 직접 유입을 측정할 수 있어요. 방법은{" "}
-            <DocLink to="register">광고 등록 가이드 · 랜딩페이지 URL</DocLink>을
+            <DocLink to="register" at="landing">광고 등록 가이드 · 랜딩페이지 URL</DocLink>을
             참고해 주세요.
           </P>
         </>
@@ -1495,14 +1514,15 @@ const performance: GuideDoc = {
 }
 
 /* ── 자주 묻는 질문 — 홈페이지 FAQ(content.ts)를 그대로 씁니다 ─── */
-const faqItem = (start: string, more?: { to: GuideSlug; label: string }) => {
-  const it = ADHAEYO_FAQ.find((f) => f.q.startsWith(start))
+const faqItem = (start: string, more?: { to: GuideSlug; at?: string; label: string }) => {
+  const it = [...ADHAEYO_FAQ, ...GUIDE_FAQ].find((f) => f.q.startsWith(start))
   if (!it) throw new Error(`FAQ 항목을 찾을 수 없습니다: ${start}`)
   return { ...it, more }
 }
 
 const faq: GuideDoc = {
   ...meta("faq"),
+  updated: "2026-11-14",
   group: "help",
   lead: "가입, 비용, 심사, 성과까지 자주 묻는 질문을 모았어요.",
   sections: [
@@ -1511,7 +1531,7 @@ const faq: GuideDoc = {
       title: "가입과 계정",
       body: (
         <FaqList
-          items={[faqItem("사업자가 아니어도", { to: "signup", label: "광고 계정 만들기" })]}
+          items={[faqItem("사업자가 아니어도", { to: "signup", at: "account", label: "광고 계정 만들기" })]}
         />
       ),
     },
@@ -1521,9 +1541,12 @@ const faq: GuideDoc = {
       body: (
         <FaqList
           items={[
-            faqItem("단가는", { to: "register", label: "광고 운영 설정" }),
-            faqItem("충전한 광고비는", { to: "charge", label: "광고비 충전과 결제" }),
-            faqItem("세금계산서를", { to: "policy", label: "세금계산서 발행" }),
+            faqItem("단가는", { to: "register", at: "settings", label: "광고 운영 설정" }),
+            faqItem("광고 예산은", { to: "register", at: "settings", label: "광고 운영 설정" }),
+            faqItem("광고비는 최소", { to: "charge", at: "charge", label: "광고비 충전하기" }),
+            faqItem("어떤 결제 수단", { to: "charge", at: "charge", label: "광고비 충전하기" }),
+            faqItem("충전한 광고비는", { to: "charge", at: "refund", label: "광고비 환불" }),
+            faqItem("세금계산서를", { to: "policy", at: "invoice", label: "세금계산서 발행" }),
           ]}
         />
       ),
@@ -1534,9 +1557,9 @@ const faq: GuideDoc = {
       body: (
         <FaqList
           items={[
-            faqItem("심사는", { to: "review", label: "광고 소재 심사 가이드" }),
-            faqItem("어떤 소재가", { to: "review", label: "광고 집행 준수 가이드" }),
-            faqItem("광고를 중간에", { to: "policy", label: "집행 중단 및 위약금 규정" }),
+            faqItem("심사는", { to: "review", at: "flow", label: "광고 소재 심사 프로세스" }),
+            faqItem("어떤 소재가", { to: "review", at: "rules", label: "광고 집행 준수 가이드" }),
+            faqItem("광고를 중간에", { to: "policy", at: "penalty", label: "집행 중단 및 위약금 규정" }),
           ]}
         />
       ),
@@ -1546,7 +1569,11 @@ const faq: GuideDoc = {
       title: "성과",
       body: (
         <FaqList
-          items={[faqItem("광고 효과는", { to: "performance", label: "광고 성과 확인하기" })]}
+          items={[
+            faqItem("광고 효과는", { to: "performance", at: "metrics", label: "성과 지표" }),
+            faqItem("성과는 언제", { to: "performance", at: "where", label: "성과 확인 위치" }),
+            faqItem("'집행 중단'과", { to: "performance", at: "status", label: "광고 상태 읽는 법" }),
+          ]}
         />
       ),
     },

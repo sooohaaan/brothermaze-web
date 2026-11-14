@@ -15,9 +15,6 @@ export const LINKS = {
   console: "https://www.bomyeon.com", // [확정] 광고해요 가입·로그인
   terms: "https://brothermaze.notion.site/40dfffd855fa45e799c3a1c0ebd0536c", // [확정] 현행 링크
   privacy: "https://brothermaze.notion.site/a076b4859fdf4d17b9e7c292196b5027", // [확정] 현행 링크
-  adGuide: "https://foil-phalange-ab4.notion.site/4de755ee7f37417dae3d9da870159a4a", // [확정] 광고해요 이용 가이드
-  adPolicy: "https://foil-phalange-ab4.notion.site/5180216ea86d4fb7a8c73fc2ee8ff271", // [확정] 서비스 운영정책
-  reviewGuide: "https://foil-phalange-ab4.notion.site/b936e588dd67400cb6c0565bc4dc92f9", // [확정] 소재 심사 가이드
 }
 
 export type AdLength = 15 | 30 | 60
@@ -144,5 +141,31 @@ export const ADHAEYO_FAQ = [
   {
     q: "세금계산서를 받을 수 있나요?",
     a: "회사 법인 계좌로 직접 이체한 광고비는 qna@brothermaze.com으로 요청하시면 광고 집행 다음 달 10영업일 안에 발행해 드립니다.",
+  },
+]
+
+/* 이용 가이드에만 보이는 FAQ — 광고해요 광고계정 웹 분석(2026-11-05) 기준.
+ * 홈페이지 FAQ(ADHAEYO_FAQ)와 함께 가이드의 자주 묻는 질문 화면과
+ * 검색엔진용 구조화 데이터(FAQPage)에 쓰입니다. */
+export const GUIDE_FAQ = [
+  {
+    q: "광고비는 최소 얼마부터 충전할 수 있나요?",
+    a: "최소 1만 원부터 1만 원 단위로 충전할 수 있어요. 부가가치세 10%가 별도로 붙어서, 10만 원을 충전하면 11만 원을 결제해요.",
+  },
+  {
+    q: "광고 예산은 최소 얼마로 정해야 하나요?",
+    a: "영상광고는 5만 원 이상, 배너광고는 1만 원 이상이며 1만 원 단위로 정해요. 예산은 결제할 때 광고비 잔액에서 한꺼번에 빠져나가요.",
+  },
+  {
+    q: "어떤 결제 수단을 쓸 수 있나요?",
+    a: "신용·체크카드, 가상계좌, 브라더메이즈 계좌로 직접 입금 중에서 고를 수 있어요. 계좌로 입금한 광고비는 입금 후 1영업일 안에 충전돼요.",
+  },
+  {
+    q: "성과는 언제 업데이트되나요?",
+    a: "성과 데이터는 매일 자정에 한 번 업데이트돼요. 오늘의 성과는 다음 날 정확하게 확인할 수 있어요.",
+  },
+  {
+    q: "'집행 중단'과 '광고 중단'은 무엇이 다른가요?",
+    a: "'집행 중단'은 광고주가 직접 [집행 중단]을 눌러 멈춘 광고이고, '광고 중단'은 운영자가 멈춘 광고예요. '광고 중단'을 누르면 중단 사유를 볼 수 있어요.",
   },
 ]
