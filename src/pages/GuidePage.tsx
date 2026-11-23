@@ -52,9 +52,9 @@ function Hub() {
           <p className="text-[15px] font-semibold text-ink-3">광고해요 이용 가이드</p>
           <h1 className="reveal-words mt-4 text-[32px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px] 2xl:text-[56px]">
             <SplitWords>
-              처음이어도 <span className="text-brand-600">쉽게</span>
+              처음이어도 쉽게
               <br />
-              광고해요 사용법
+              <span className="text-brand-600">광고해요</span> 사용법
             </SplitWords>
           </h1>
           <p className="mt-5 max-w-[560px] text-base leading-[1.6] text-ink-2 md:text-lg">
