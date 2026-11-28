@@ -70,7 +70,7 @@ export const GUIDE_DOCS: GuideMeta[] = [
   {
     slug: "about",
     title: "광고해요 소개와 광고 상품",
-    description: "광고해요가 어떤 서비스인지, 영상광고와 배너광고는 어떻게 다른지 알려드려요.",
+    description: "광고해요가 어떤 서비스인지, 영상 광고·배너 광고·구매 광고는 어떻게 다른지 알려드려요.",
   },
   {
     slug: "signup",
@@ -78,19 +78,19 @@ export const GUIDE_DOCS: GuideMeta[] = [
     description: "광고해요 이용자 가입부터 개인·사업자 광고 계정 생성과 심사까지 차례로 안내합니다.",
   },
   {
+    slug: "charge",
+    title: "광고비 충전과 결제",
+    description: "광고비를 충전하는 방법, 결제 수단, 광고비가 쓰이는 순서와 환불을 안내합니다.",
+  },
+  {
     slug: "register",
     title: "광고 등록 가이드",
-    description: "광고 등록 절차와 소재 규격, 광고 운영 설정(기간·예산·단가·타겟), 랜딩페이지 URL 규칙을 확인하세요.",
+    description: "광고 등록 절차와 소재 규격, 광고 운영 설정(기간·예산·단가·타겟), 연결 페이지 URL 규칙을 확인하세요.",
   },
   {
     slug: "review",
     title: "광고 소재 심사 가이드",
     description: "광고 소재 심사 기준, 광고 금지 사항, 심의필 번호, 심사 프로세스를 안내합니다.",
-  },
-  {
-    slug: "charge",
-    title: "광고비 충전과 결제",
-    description: "광고비를 충전하는 방법, 결제 수단과 증빙, 광고비가 쓰이는 순서와 환불을 안내합니다.",
   },
   {
     slug: "performance",
