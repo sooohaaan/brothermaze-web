@@ -142,16 +142,20 @@ export function Shot({
   return (
     <figure className="mt-1">
       <div className="rounded-[24px] bg-fill-2 p-4 ring-1 ring-line md:p-6">
-        <img
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          loading="lazy"
-          decoding="async"
-          className="mx-auto block h-auto w-full rounded-xl bg-white shadow-card"
-          style={{ maxWidth: max }}
-        />
+        {/* 휴대폰에서는 캡처가 작아 읽기 어려워서, 눌러서 원본 크기로 볼 수 있게 합니다. */}
+        <a href={src} target="_blank" rel="noopener" className="block" aria-label={`${alt} — 크게 보기 (새 탭)`}>
+          <img
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            loading="lazy"
+            decoding="async"
+            className="mx-auto block h-auto w-full rounded-xl bg-white shadow-card"
+            style={{ maxWidth: max }}
+          />
+        </a>
+        <p className="mt-2 text-center text-[13px] font-semibold text-ink-3 md:hidden">눌러서 크게 보기</p>
       </div>
       {caption && (
         <figcaption className="mt-3 text-center text-[14px] leading-[1.6] text-ink-3">

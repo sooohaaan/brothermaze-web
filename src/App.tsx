@@ -17,7 +17,7 @@ import GuidePage from "./pages/GuidePage"
 
 /* guide — 광고해요 서비스 이용 가이드(/adhaeyo/guide/) */
 type Site = SiteId | "guide"
-type Route = { site: Site; doc?: GuideSlug }
+type Route = { site: Site; doc?: GuideSlug; missing?: boolean }
 
 /* 화면을 바꿀 때 문서 메타도 함께 갱신합니다. */
 function setMeta(attr: "name" | "property", key: string, value: string) {
@@ -95,7 +95,8 @@ function readRoute(): Route {
   const g = path.match(/\/adhaeyo\/guide(?:\/([a-z-]+))?\/?$/)
   if (g) {
     const doc = GUIDE_SLUGS.find((s) => s === g[1])
-    return { site: "guide", doc }
+    /* 없는 문서 주소는 목차를 보여 주되, 찾는 문서가 없다고 알려 줍니다. */
+    return { site: "guide", doc, missing: !!g[1] && !doc }
   }
   if (/\/adhaeyo\/?$/.test(path)) return { site: "adhaeyo" }
   /* 이전에 공유된 ?site=adhaeyo 링크도 계속 열리도록 */
@@ -345,9 +346,10 @@ function Header({
               <button
                 type="button"
                 onClick={() => go("adhaeyo")}
-                className="hidden min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:inline-flex"
+                className="inline-flex min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700"
               >
-                광고해요 홈
+                <span className="sm:hidden">홈</span>
+                <span className="hidden sm:inline">광고해요 홈</span>
               </button>
               <a
                 href={LINKS.console}
@@ -369,6 +371,17 @@ function Header({
               >
                 보면소득 둘러보기
               </button>
+              <a
+                href={GUIDE_URL}
+                onClick={(e) => {
+                  e.preventDefault()
+                  openGuide()
+                }}
+                /* 메뉴가 숨는 lg 미만에서만 — lg 부터는 위 메뉴에 이용 가이드가 있어요. */
+                className="inline-flex min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 lg:hidden"
+              >
+                이용 가이드
+              </a>
               <a
                 href={LINKS.console}
                 className="hidden min-h-11 items-center text-[15px] font-semibold text-ink-2 transition-colors hover:text-brand-700 sm:inline-flex"
@@ -534,7 +547,7 @@ export default function App() {
       <Header site={site} go={go} openGuide={openGuide} />
       {site === "bomyeon" && <BomeonPage onSwitchToAd={() => go("adhaeyo")} />}
       {site === "adhaeyo" && <GwanggoPage />}
-      {site === "guide" && <GuidePage slug={doc} open={openGuide} />}
+      {site === "guide" && <GuidePage slug={doc} missing={route.missing} open={openGuide} />}
       <Footer site={site} go={go} openGuide={openGuide} />
       {!CAPTURE && site !== "guide" && <MobileCTA site={site} />}
     </div>

@@ -14,10 +14,12 @@ import { docHref } from "../guide/blocks"
 
 type Props = {
   slug?: GuideSlug
+  /** 주소의 문서가 없을 때 — 목차 위에 안내를 띄웁니다. */
+  missing?: boolean
   open: (slug?: GuideSlug, at?: string) => void
 }
 
-export default function GuidePage({ slug, open }: Props) {
+export default function GuidePage({ slug, missing, open }: Props) {
   /* 본문 안의 가이드 링크(data-doc)는 새로고침 없이 화면만 바꿉니다.
    * 새 탭으로 열기(⌘/Ctrl·가운데 클릭)는 브라우저에 맡깁니다. */
   const onClick = (e: MouseEvent) => {
@@ -37,18 +39,24 @@ export default function GuidePage({ slug, open }: Props) {
 
   return (
     <main id="main" onClick={onClick}>
-      {slug ? <DocView doc={docBySlug(slug)} /> : <Hub />}
+      {slug ? <DocView doc={docBySlug(slug)} /> : <Hub missing={missing} />}
+      {slug ? <ToTop /> : null}
       <Contact />
     </main>
   )
 }
 
 /* ── 목차 ─────────────────────────────────────────────── */
-function Hub() {
+function Hub({ missing }: { missing?: boolean }) {
   return (
     <>
       <section aria-label="이용 가이드 소개" className="bg-ground pt-12 pb-12 md:pt-20 md:pb-16">
         <Container>
+          {missing && (
+            <p role="status" className="mb-8 rounded-2xl bg-fill-2 px-5 py-4 text-[15px] leading-[1.6] font-semibold text-ink-2 ring-1 ring-line">
+              찾는 문서가 없어요. 주소가 바뀌었을 수 있어요. 아래 목록에서 문서를 골라 주세요.
+            </p>
+          )}
           <p className="text-[15px] font-semibold text-ink-3">광고해요 이용 가이드</p>
           <h1 className="reveal-words mt-4 text-[32px] leading-[1.3] font-bold tracking-[-0.01em] text-ink-strong md:text-[48px] 2xl:text-[56px]">
             <SplitWords>
@@ -237,6 +245,7 @@ function DocView({ doc }: { doc: GuideDoc }) {
 
         {/* 모바일 — 문서 목차를 접어서 보여줍니다. */}
         <MobileToc doc={doc} />
+        <MobileDocs doc={doc} />
 
         <div className="mt-12 grid gap-16 md:mt-16 md:gap-20">
           {doc.sections.map((s) => (
@@ -265,9 +274,20 @@ function DocView({ doc }: { doc: GuideDoc }) {
 }
 
 function Sidebar({ doc, active }: { doc: GuideDoc; active: string }) {
+  /* 목록이 길어 스크롤될 때, 지금 읽는 항목이 늘 보이게 합니다. */
+  const box = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = box.current?.querySelector<HTMLElement>('[aria-current="location"]') ??
+      box.current?.querySelector<HTMLElement>('[aria-current="page"]')
+    if (!el || !box.current) return
+    const b = box.current.getBoundingClientRect()
+    const r = el.getBoundingClientRect()
+    if (r.top < b.top || r.bottom > b.bottom)
+      box.current.scrollTop += r.top - b.top - b.height / 3
+  }, [active, doc.slug])
   return (
     <aside aria-label="가이드 목록" className="hidden lg:block">
-      <div className="sticky top-[96px] max-h-[calc(100vh-120px)] overflow-y-auto pr-2 pb-8">
+      <div ref={box} className="sticky top-[96px] max-h-[calc(100vh-120px)] overflow-y-auto pr-2 pb-8">
         <a
           href={docHref()}
           data-doc=""
@@ -353,6 +373,76 @@ function MobileToc({ doc }: { doc: GuideDoc }) {
         ))}
       </ol>
     </details>
+  )
+}
+
+/* 모바일 — 다른 가이드 문서로 가는 목록 (데스크톱은 왼쪽 목록) */
+function MobileDocs({ doc }: { doc: GuideDoc }) {
+  return (
+    <details className="group mt-3 rounded-2xl bg-fill-2 ring-1 ring-line lg:hidden">
+      <summary className="flex min-h-13 cursor-pointer list-none items-center justify-between px-5 text-[15px] font-bold text-ink [&::-webkit-details-marker]:hidden">
+        다른 가이드 보기
+        <svg aria-hidden viewBox="0 0 20 20" className="size-5 text-ink-3 transition-transform group-open:rotate-180" fill="none">
+          <path d="M5 7.5l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </summary>
+      <div className="grid gap-4 px-5 pb-4">
+        {GROUPS.map((g) => (
+          <div key={g.id}>
+            <p className="text-[13px] font-bold text-ink-3">{g.title}</p>
+            <ul className="mt-1 grid gap-0.5">
+              {DOCS.filter((d) => d.group === g.id).map((d) => (
+                <li key={d.slug}>
+                  <a
+                    href={docHref(d.slug)}
+                    data-doc={d.slug}
+                    aria-current={d.slug === doc.slug ? "page" : undefined}
+                    className={cx(
+                      "flex min-h-11 items-center text-[15px]",
+                      d.slug === doc.slug ? "font-bold text-brand-700" : "text-ink-2 hover:text-brand-700",
+                    )}
+                  >
+                    {d.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <a href={docHref()} data-doc="" className="flex min-h-11 items-center text-[15px] font-semibold text-ink-3 hover:text-brand-700">
+          이용 가이드 처음으로
+        </a>
+      </div>
+    </details>
+  )
+}
+
+/* 모바일 — 길게 내려 읽은 뒤 맨 위로 */
+function ToTop() {
+  const [on, setOn] = useState(false)
+  useEffect(() => {
+    const f = () => setOn(window.scrollY > 900)
+    f()
+    window.addEventListener("scroll", f, { passive: true })
+    return () => window.removeEventListener("scroll", f)
+  }, [])
+  return (
+    <button
+      type="button"
+      aria-label="맨 위로"
+      tabIndex={on ? 0 : -1}
+      aria-hidden={!on}
+      onClick={() => window.scrollTo({ top: 0 })}
+      className={cx(
+        "fixed right-4 z-30 grid size-12 place-items-center rounded-full bg-surface text-ink shadow-float ring-1 ring-line transition-opacity lg:hidden",
+        on ? "opacity-100" : "pointer-events-none opacity-0",
+      )}
+      style={{ bottom: "max(16px, env(safe-area-inset-bottom))" }}
+    >
+      <svg aria-hidden viewBox="0 0 20 20" className="size-5" fill="none">
+        <path d="M5 12.5l5-5 5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </button>
   )
 }
 
